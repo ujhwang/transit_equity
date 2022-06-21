@@ -95,7 +95,7 @@ body {
     height: 9%;
     font-size: 12px;
     font-weight: 200;
-    color: white;
+    color: #d1d1d1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -466,7 +466,7 @@ body {
 <div id='plot-wrapper'>
   <div id='gapSummary'>
     <div id='gapTitle'>
-      <p> Transit Inequity: Demand-Supply Gap<sup>*</sup> </p>
+      <p> Transit Inequity: demand-supply gap<sup>*</sup> </p>
     </div>
     <div id='gapSmallText'>
       <p> Current </p>
@@ -673,8 +673,8 @@ body {
       .attr("y", function(d, i) {
           return legend_y - rect_width*(i%3);
       })
-      .attr("width", rect_width)
-      .attr("height", rect_width)
+      .attr("width", rect_width - 1.5)
+      .attr("height", rect_width - 1.5)
       .style("fill", function(d){return d});
 
   var arrowPoints = [[0, 0], [0, 10], [10, 5]];
@@ -832,32 +832,31 @@ body {
 
   function ready(access_equity_csv, gap_gini_csv) {
 
-    console.log(gap_gini_csv)
     // display gap & gini value
     function valueDisplay(access_field, demand_field) {
       gapValueBefore.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d.gap});
+          .map((d)=>{return d.gap})[0].toFixed(2);
 
       gapValueAfter.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d.gap});
+          .map((d)=>{return d.gap})[0].toFixed(2);
 
       giniBeforeLow.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.low']});
+          .map((d)=>{return d['gini.low']})[0].toFixed(2);
 
       giniAfterLow.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.low']});
+          .map((d)=>{return d['gini.low']})[0].toFixed(2);
 
       giniBeforeMid.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.mid']});
+          .map((d)=>{return d['gini.mid']})[0].toFixed(2);
 
       giniAfterMid.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.mid']});
+          .map((d)=>{return d['gini.mid']})[0].toFixed(2);
 
       giniBeforeHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.high']});
+          .map((d)=>{return d['gini.high']})[0].toFixed(2);
 
       giniAfterHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.high']});
+          .map((d)=>{return d['gini.high']})[0].toFixed(2);
     }
 
     valueDisplay(access_field, demand_field)
@@ -1340,7 +1339,7 @@ body {
           .text("ODMTS / Current");
 
       let angle = Math.atan(plot_h/plot_w)*180/Math.PI
-      console.log(angle)
+
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
           .attr('transform', 'translate('+ x_lorenz(0.25) + ',' + y_lorenz(0.25+0.03) + ')rotate(-' + angle + ')')
