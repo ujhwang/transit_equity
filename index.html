@@ -423,22 +423,26 @@ body {
       padding: 0;
       margin: 0;
   }
-  .titleMap{
+  .mapTitleLeft{
       position: absolute;
-      align-items: center;
-      right: 0px;
+      text-align: right;
+      right: calc(42% + 300px);
       top: 100px;
-      width: 82%;
       height: 50px;
-      margin-right: 30px;
-      margin-left: 30px;
-      margin-top: 10px;
       color: white;
       font-size: 24px;
       font-weight: 500;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      z-index: 1;
+  }
+  .mapTitleRight{
+      position: absolute;
+      text-align: left;
+      left: calc(58% + 300px);
+      top: 100px;
+      height: 50px;
+      color: white;
+      font-size: 24px;
+      font-weight: 500;
       z-index: 1;
   }
   sup {
@@ -459,10 +463,8 @@ body {
         <p class="logo-text">Center for Spatial Planning Analytics and Visualization</p>
     </a>
 </div>
-<div class="titleMap">
-  <p>Conventional Public Transit System </p>
-  <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p>
-</div>
+<div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
+<div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
 <div id='plot-wrapper'>
   <div id='gapSummary'>
     <div id='gapTitle'>
