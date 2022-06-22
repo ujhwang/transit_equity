@@ -53,7 +53,7 @@ body {
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 90px
+    height: 90px;
     background-color: black;
     opacity: 0.25;
     z-index: 1;
@@ -259,7 +259,7 @@ body {
 .session_demand {
     position: absolute;
     left: 25px;
-    top: 200px;
+    top: 140px;
     width: 190px;
     height: 110px;
     color: white;
@@ -268,7 +268,7 @@ body {
 }
 .session_unit {
     position: absolute;
-    top: 200px;
+    top: 190px;
     width: 190px;
     height: 110px;
     color: white;
@@ -277,7 +277,16 @@ body {
   }
 .session_meas {
     position: absolute;
-    top: 100px;
+    top: 90px;
+    width: 230px;
+    height: 110px;
+    color: white;
+    border-radius: 10px;
+    z-index: 3;
+  }
+  .session_trip {
+    position: absolute;
+    top: 495px;
     width: 230px;
     height: 110px;
     color: white;
@@ -354,7 +363,7 @@ body {
   .sliderContainerAbsolute {
       position: absolute;
       left: 0%;
-      top: 440px;
+      top: 410px;
       width: 260px;
       height: 80px;
       z-index: 1;
@@ -371,7 +380,7 @@ body {
   .sliderContainerRelative {
     position: absolute;
     left: 0%;
-    top: 440px;
+    top: 410px;
     width: 260px;
     height: 80px;
   }
@@ -516,7 +525,7 @@ body {
 <div id="map_aft"></div>
 <div class='session_demand'>
     <div class="session_title">
-    <p style="font-size: 21px; font-weight: 600;">Transit demand type</p>
+    <p style="font-size: 18px; font-weight: 600;">Transit demand type</p>
     </div>
     <div class='row' id='demand'>
     <input id='dep' type='radio' name='toggle_dem' onclick="legend_dep()" value='dep' checked='checked'>
@@ -536,7 +545,7 @@ body {
 </div>
 <div class="session_unit">
     <div class="session_title">
-    <p style="font-size: 21px; font-weight: 600;">Unit type</p>
+    <p style="font-size: 18px; font-weight: 600;">Unit type</p>
     </div>
     <div class='row' id='unit'>
     <input id='act' type='radio' name='toggle_unit' value='act' checked='checked'>
@@ -546,7 +555,7 @@ body {
 </div>
 <div class='session_meas'>
     <div class="session_title">
-        <p style="font-size: 21px; font-weight: 600;">Accesibility Type</p>
+        <p style="font-size: 18px; font-weight: 600;">Accesibility Type</p>
     </div>
     <div class='row' id='filters_meas'>
         <input id='abs' type='radio' name='toggle_meas' onclick="getSlider_abs()" value='abs' checked='checked'>
@@ -580,7 +589,16 @@ body {
             <span style="float:right"> 3 times </span> </p>
     </div>
 </div>
-
+<div class="session_trip">
+  <div class="session_title">
+  <p style="font-size: 18px; font-weight: 600;">Trip type</p>
+  </div>
+  <div class='row' id='trip'>
+  <input id='com' type='radio' name='toggle_trip' value='com' checked='checked'>
+  <label for='com'>Commuting</label>
+  <input id='non' type='radio' name='toggle_trip' value='non'>
+  <label for='non'>Non-commuting</label>
+</div>
 
 <script>
 
@@ -625,6 +643,9 @@ body {
   let sliderValue_rel = document.getElementById("sliderValue_rel");
   sliderValue_rel.innerHTML = slider_rel.value; // Display the default slider value
   let slider_filter_rel = slider_rel.value;
+
+  // variabel for the highlghting function
+  let hoveredStateId = null;
 
   // Create the map with token !토큰이 달라지면 폴리곤 및 다른 정보가 사라짐
   mapboxgl.accessToken = 'pk.eyJ1IjoidWh3YW5nMyIsImEiOiJja3d0bGh4cG8wemxtMm5xcTJ1anc4ajlxIn0.GPUcPfwoUXy6pItqRUvifw';
@@ -753,7 +774,8 @@ body {
   let demand_filter = 'dep'
   let time_filter = '45'
   let unit_filter = 'act'
-  let label = "abs_45_dep_act"
+  let trip_filter = 'com'
+  let label = "abs_com_45_dep_act"
   let label_biv = ""
   let label_cho = ""
   let color_cho = ""
@@ -1375,14 +1397,14 @@ body {
     map_bef.on('load', () => {
       // Add a custom vector tileset source
 
-    map_bef.addSource('before_0615', {type: 'vector', url: "mapbox://lsj97.before_0615"});
+    map_bef.addSource('bef_emp_0619', {type: 'vector', url: "mapbox://lsj97.bef_emp_0619"});
 
     map_bef.addLayer(
     {
         'id': 'bef_base',
         'type': 'fill',
-        'source': 'before_0615',
-        'source-layer': 'before_0615',
+        'source': 'bef_emp_0619',
+        'source-layer': 'before_0619',
         'paint': {
         'fill-color': [
             'match', ['get', label],
@@ -1407,8 +1429,8 @@ body {
     {
         'id': 'bef_over',
         'type': 'fill',
-        'source': 'before_0615',
-        'source-layer': 'before_0615',
+        'source': 'bef_emp_0619',
+        'source-layer': 'before_0619',
         'paint': {
         'fill-color': [
             'match', ['get', label],
@@ -1430,20 +1452,37 @@ body {
       );
 
       map_bef.addLayer(
+    {
+      'id': 'bef_hover',
+      'type': 'fill',
+      'source': 'bef_emp_0619',
+      'source-layer': 'empty_0619',
+      'paint': {
+        'fill-outline-color': '#000000',
+        'fill-color': '#000000',
+        'fill-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          0.5,
+          0
+        ]
+        },
+      },
+    );
+
+      map_bef.addLayer(
       {
-        'id': 'bef_hover',
+        'id': 'bef_high',
         'type': 'fill',
-        'source': 'before_0615',
-        'source-layer': 'before_0615',
+        'source': 'bef_emp_0619',
+        'source-layer': 'empty_0619',
         'paint': {
           'fill-outline-color': '#000000',
           'fill-color': '#000000',
-          'fill-opacity': 0.5
+          'fill-opacity': 0
           },
-          'filter': ['in', 'geo.id', ]
         },
       );
-
 
   //   demand type
     document.getElementById('demand').addEventListener('change', (event) => {
@@ -1451,7 +1490,7 @@ body {
 
         demand_filter = demand_target;
 
-        label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -1497,7 +1536,7 @@ body {
 
         meas_filter = meas_target;
 
-        label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -1543,7 +1582,7 @@ body {
 
         unit_filter = unit_target;
 
-        label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -1583,6 +1622,50 @@ body {
         );
     });
 
+    //   trip type
+  document.getElementById('trip').addEventListener('change', (event_trip) => {
+      const trip_target = event_trip.target.value;
+
+      trip_filter = trip_target;
+
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+
+  map_bef.setPaintProperty(
+      'bef_base',
+      'fill-color', [
+          "match", ["get", label],
+                  'A1', color_3class_14['A1'],
+                  'A2', color_3class_14['A2'],
+                  'A3', color_3class_14['A3'],
+                  'B1', color_3class_14['B1'],
+                  'B2', color_3class_14['B2'],
+                  'B3', color_3class_14['B3'],
+                  'C1', color_3class_14['C1'],
+                  'C2', color_3class_14['C2'],
+                  'C3', color_3class_14['C3'],
+                  'black'
+              ]
+      );
+  map_bef.setPaintProperty(
+      'bef_over',
+      'fill-color', [
+          "match", ["get", label],
+                  'A1', color_3class_14['A1'],
+                  'A2', color_3class_14['A2'],
+                  'A3', color_3class_14['A3'],
+                  'B1', color_3class_14['B1'],
+                  'B2', color_3class_14['B2'],
+                  'B3', color_3class_14['B3'],
+                  'C1', color_3class_14['C1'],
+                  'C2', color_3class_14['C2'],
+                  'C3', color_3class_14['C3'],
+                  'black'
+              ]
+      );
+  });
+
+  // slider
+
     slider_abs.addEventListener('input', (abs) => {
       sliderValue_abs.innerHTML = abs.target.value;
 
@@ -1590,7 +1673,7 @@ body {
 
       time_filter = slider_filter_abs;
 
-      label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -1637,7 +1720,7 @@ body {
 
       time_filter = slider_filter_rel;
 
-      label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -1728,21 +1811,67 @@ body {
 
   });
 
-  map_bef.on('mousemove', 'bef_base', (e) => {
-      map_bef.getCanvas().style.cursor = 'pointer';
+    // highlighting group
+    map_bef.on('mousemove', 'bef_hover', (e) => {
+    let geo_id =  e.features[0].properties['geo.id']
+    console.log(geo_id)
+    if (e.features.length > 0) {
+      if (hoveredStateId !== null) {
+        map_bef.setFeatureState(
+        { 
+          source: 'bef_emp_0619',
+          sourceLayer: 'empty_0619',
+          id: hoveredStateId 
+        },
+        { 
+          hover: false
+        }
+        );
+      }
+        hoveredStateId = e.features[0].id;
+        map_bef.setFeatureState(
+        { 
+          source: 'bef_emp_0619',
+          sourceLayer: 'empty_0619',
+          id: hoveredStateId 
+        },
+        {
+          hover: true
+        }
+      );
+      map_aft.setPaintProperty(
+        'aft_high',
+        'fill-opacity', [
+          "match", ["get", 'geo.id'],
+          geo_id, 0.5,
+          0
+        ]
+      )
+    }
 
-      map_bef.setFilter('bef_hover', ['in', 'geo.id', e.features[0].properties['geo.id']]);
-      map_aft.setFilter('aft_hover', ['in', 'geo.id', e.features[0].properties['geo.id']]);
+    console.log(e.features[0].properties['geo.id'])
+  });
 
-    });
-
-    map_bef.on('mouseleave', 'bef_base', (e) => {
-      map_bef.getCanvas().style.cursor = '';
-
-      map_bef.setFilter('bef_hover', ['in', 'geo.id', ]);
-      map_aft.setFilter('aft_hover', ['in', 'geo.id', ]);
-
-    });
+  map_bef.on('mouseleave', 'bef_hover', () => {
+    if (hoveredStateId !== null) {
+      map_bef.setFeatureState(
+        { 
+          source: 'bef_emp_0619',
+          sourceLayer: 'empty_0619',
+          id: hoveredStateId 
+        },
+        {
+          hover: false
+        }
+      );
+      }
+      hoveredStateId = null;
+      map_aft.setPaintProperty(
+        'aft_high',
+        'fill-opacity',
+          0
+      )
+  });
 
     map_bef.on('click', 'bef_base', (es) => {
       label_cho = label
@@ -1883,14 +2012,14 @@ body {
         // map the base block group data
     map_aft.on('load', () => {
       // Add a custom vector tileset source
-      map_aft.addSource('after_0615', {type: 'vector', url: "mapbox://lsj97.after_0615"});
+      map_aft.addSource('aft_emp_0619', {type: 'vector', url: "mapbox://lsj97.aft_emp_0619"});
 
       map_aft.addLayer(
         {
           'id': 'aft_base',
           'type': 'fill',
-          'source': 'after_0615',
-          'source-layer': 'after_0615',
+          'source': 'aft_emp_0619',
+          'source-layer': 'after_0619',
           'paint': {
             'fill-color': [
                 'match', ['get', label],
@@ -1916,8 +2045,8 @@ body {
       {
         'id': 'aft_over',
         'type': 'fill',
-        'source': 'after_0615',
-        'source-layer': 'after_0615',
+        'source': 'aft_emp_0619',
+        'source-layer': 'after_0619',
         'paint': {
         'fill-color': [
             'match', ['get', label],
@@ -1939,17 +2068,35 @@ body {
       );
 
       map_aft.addLayer(
+    {
+      'id': 'aft_hover',
+      'type': 'fill',
+      'source': 'aft_emp_0619',
+      'source-layer': 'empty_0619',
+      'paint': {
+        'fill-outline-color': '#000000',
+        'fill-color': '#000000',
+        'fill-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          0.5,
+          0
+        ]
+        },
+      },
+    );
+
+      map_aft.addLayer(
       {
-        'id': 'aft_hover',
+        'id': 'aft_high',
         'type': 'fill',
-        'source': 'after_0615',
-        'source-layer': 'after_0615',
+        'source': 'aft_emp_0619',
+        'source-layer': 'empty_0619',
         'paint': {
           'fill-outline-color': '#000000',
           'fill-color': '#000000',
-          'fill-opacity': 0.5
+          'fill-opacity': 0
           },
-          'filter': ['in', 'geo.id', ]
         },
       );
 
@@ -1959,7 +2106,7 @@ body {
 
       demand_filter = demand_target;
 
-      label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -2006,7 +2153,7 @@ body {
 
         meas_filter = meas_target;
 
-        label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -2052,7 +2199,7 @@ body {
 
         unit_filter = unit_target;
 
-        label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -2092,6 +2239,49 @@ body {
         );
     });
 
+      //   trip type
+  document.getElementById('trip').addEventListener('change', (event_trip) => {
+      const trip_target = event_trip.target.value;
+
+      trip_filter = trip_target;
+
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+
+  map_aft.setPaintProperty(
+      'aft_base',
+      'fill-color', [
+          "match", ["get", label],
+                  'A1', color_3class_14['A1'],
+                  'A2', color_3class_14['A2'],
+                  'A3', color_3class_14['A3'],
+                  'B1', color_3class_14['B1'],
+                  'B2', color_3class_14['B2'],
+                  'B3', color_3class_14['B3'],
+                  'C1', color_3class_14['C1'],
+                  'C2', color_3class_14['C2'],
+                  'C3', color_3class_14['C3'],
+                  'black'
+              ]
+      );
+  map_aft.setPaintProperty(
+      'aft_over',
+      'fill-color', [
+          "match", ["get", label],
+                  'A1', color_3class_14['A1'],
+                  'A2', color_3class_14['A2'],
+                  'A3', color_3class_14['A3'],
+                  'B1', color_3class_14['B1'],
+                  'B2', color_3class_14['B2'],
+                  'B3', color_3class_14['B3'],
+                  'C1', color_3class_14['C1'],
+                  'C2', color_3class_14['C2'],
+                  'C3', color_3class_14['C3'],
+                  'black'
+              ]
+      );
+  });
+
+  // slider
     slider_abs.addEventListener('input', (abs) => {
       sliderValue_abs.innerHTML = abs.target.value;
 
@@ -2099,7 +2289,7 @@ body {
 
       time_filter = slider_filter_abs;
 
-      label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -2146,7 +2336,7 @@ body {
 
       time_filter = slider_filter_rel;
 
-      label = meas_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -2186,21 +2376,67 @@ body {
         );
     });
 
-    map_aft.on('mousemove', 'aft_base', (e) => {
-      map_aft.getCanvas().style.cursor = 'pointer';
+    //highlighting
+    map_aft.on('mousemove', 'aft_hover', (e) => {
+    let geo_id =  e.features[0].properties['geo.id']
+    console.log(geo_id)
+    if (e.features.length > 0) {
+      if (hoveredStateId !== null) {
+        map_aft.setFeatureState(
+        { 
+          source: 'aft_emp_0619',
+          sourceLayer: 'empty_0619',
+          id: hoveredStateId 
+        },
+        { 
+          hover: false
+        }
+        );
+      }
+        hoveredStateId = e.features[0].id;
+        map_aft.setFeatureState(
+        { 
+          source: 'aft_emp_0619',
+          sourceLayer: 'empty_0619',
+          id: hoveredStateId 
+        },
+        {
+          hover: true
+        }
+      );
+      map_bef.setPaintProperty(
+        'bef_high',
+        'fill-opacity', [
+          "match", ["get", 'geo.id'],
+          geo_id, 0.5,
+          0
+        ]
+      )
+    }
 
-      map_bef.setFilter('bef_hover', ['in', 'geo.id', e.features[0].properties['geo.id']]);
-      map_aft.setFilter('aft_hover', ['in', 'geo.id', e.features[0].properties['geo.id']]);
+    console.log(e.features[0].properties['geo.id'])
+  });
 
-    });
-
-    map_aft.on('mouseleave', 'aft_base', (e) => {
-      map_aft.getCanvas().style.cursor = '';
-
-      map_bef.setFilter('bef_hover', ['in', 'geo.id', ]);
-      map_aft.setFilter('aft_hover', ['in', 'geo.id', ]);
-
-    });
+  map_aft.on('mouseleave', 'aft_hover', () => {
+    if (hoveredStateId !== null) {
+      map_aft.setFeatureState(
+        { 
+          source: 'aft_emp_0619',
+          sourceLayer: 'empty_0619',
+          id: hoveredStateId 
+        },
+        {
+          hover: false
+        }
+      );
+      }
+      hoveredStateId = null;
+      map_bef.setPaintProperty(
+        'bef_high',
+        'fill-opacity',
+          0
+      )
+  });
 
     map_aft.on('click', 'aft_base', (er) => {
       label_cho = label
