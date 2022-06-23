@@ -268,7 +268,7 @@ body {
 }
 .session_unit {
     position: absolute;
-    top: 190px;
+    top: 170px;
     width: 190px;
     height: 110px;
     color: white;
@@ -286,7 +286,7 @@ body {
   }
   .session_trip {
     position: absolute;
-    top: 495px;
+    top: 480px;
     width: 230px;
     height: 110px;
     color: white;
@@ -307,6 +307,7 @@ body {
     position: relative;
     cursor: pointer;
     padding-right: 18px;
+    font-size: 13px;
   }
   label:nth-child(1) {
     padding-right: 1;
@@ -338,7 +339,7 @@ body {
     width: 9px;
     height: 9px;
     left: 1.8px;
-    top: 9px;
+    top: 6px;
     margin: -2px 10px;
     margin-left: 0;
     border-radius: 50%;
@@ -351,7 +352,7 @@ body {
     width: 9px;
     height: 9px;
     left: 1.8px;
-    top: 32px;
+    top: 24px;
     margin: -2px 10px;
     margin-left: 0;
     border-radius: 50%;
@@ -363,8 +364,8 @@ body {
   .sliderContainerAbsolute {
       position: absolute;
       left: 0%;
-      top: 410px;
-      width: 260px;
+      top: 380px;
+      width: 220px;
       height: 80px;
       z-index: 1;
   }
@@ -380,8 +381,8 @@ body {
   .sliderContainerRelative {
     position: absolute;
     left: 0%;
-    top: 410px;
-    width: 260px;
+    top: 380px;
+    width: 220px;
     height: 80px;
   }
   .sliderContentRelative {
@@ -525,7 +526,7 @@ body {
 <div id="map_aft"></div>
 <div class='session_demand'>
     <div class="session_title">
-    <p style="font-size: 18px; font-weight: 600;">Transit demand type</p>
+    <p style="font-size: 16px; font-weight: 600;">Transit demand type</p>
     </div>
     <div class='row' id='demand'>
     <input id='dep' type='radio' name='toggle_dem' onclick="legend_dep()" value='dep' checked='checked'>
@@ -545,7 +546,7 @@ body {
 </div>
 <div class="session_unit">
     <div class="session_title">
-    <p style="font-size: 18px; font-weight: 600;">Unit type</p>
+    <p style="font-size: 16px; font-weight: 600;">Unit type</p>
     </div>
     <div class='row' id='unit'>
     <input id='act' type='radio' name='toggle_unit' value='act' checked='checked'>
@@ -555,7 +556,7 @@ body {
 </div>
 <div class='session_meas'>
     <div class="session_title">
-        <p style="font-size: 18px; font-weight: 600;">Accesibility Type</p>
+        <p style="font-size: 16px; font-weight: 600;">Accesibility Type</p>
     </div>
     <div class='row' id='filters_meas'>
         <input id='abs' type='radio' name='toggle_meas' onclick="getSlider_abs()" value='abs' checked='checked'>
@@ -572,7 +573,7 @@ body {
 </div>
 <div class="sliderContainerAbsolute">
     <div class='sliderContentAbsolute'>
-        <p style="margin-bottom:7px; font-size:17px; font-weight: 300;">
+        <p style="margin-bottom:7px; font-size:16px; font-weight: 300;">
             Accessible within <b><span id="sliderValue_abs"></b> </span> minutes
         </p>
         <input id='myRange_abs' class="slider" type="range" min="30" max="75" value="45" step="3">
@@ -582,7 +583,7 @@ body {
 </div>
 <div class="sliderContainerRelative">
     <div class='sliderContentRelative'>
-        <p style="margin-bottom:7px; font-size:17px; font-weight: 300;">
+        <p style="margin-bottom:7px; font-size:16px; font-weight: 300;">
             Accessible within <b><span id="sliderValue_rel"></b> </span> X driving time </p>
         <input id='myRange_rel' class="slider" type="range" min="1" max="3" value="2" step="0.2">
         <p style="text-align:left; margin-bottom: 0em;"> Equal
@@ -591,7 +592,7 @@ body {
 </div>
 <div class="session_trip">
   <div class="session_title">
-  <p style="font-size: 18px; font-weight: 600;">Trip type</p>
+  <p style="font-size: 16px; font-weight: 600;">Trip type</p>
   </div>
   <div class='row' id='trip'>
   <input id='com' type='radio' name='toggle_trip' value='com' checked='checked'>
@@ -1419,8 +1420,8 @@ body {
                     'C3', color_3class_14['C3'],
                     'black'
                 ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
+        'fill-opacity': 0.7,
+        'fill-outline-color': 'rgba(0,0,0,0.1)'
           }
         },
       );
@@ -1469,20 +1470,6 @@ body {
         },
       },
     );
-
-      map_bef.addLayer(
-      {
-        'id': 'bef_high',
-        'type': 'fill',
-        'source': 'bef_emp_0619',
-        'source-layer': 'empty_0619',
-        'paint': {
-          'fill-outline-color': '#000000',
-          'fill-color': '#000000',
-          'fill-opacity': 0
-          },
-        },
-      );
 
   //   demand type
     document.getElementById('demand').addEventListener('change', (event) => {
@@ -1839,14 +1826,6 @@ body {
           hover: true
         }
       );
-      map_aft.setPaintProperty(
-        'aft_high',
-        'fill-opacity', [
-          "match", ["get", 'geo.id'],
-          geo_id, 0.5,
-          0
-        ]
-      )
     }
 
     console.log(e.features[0].properties['geo.id'])
@@ -1866,11 +1845,6 @@ body {
       );
       }
       hoveredStateId = null;
-      map_aft.setPaintProperty(
-        'aft_high',
-        'fill-opacity',
-          0
-      )
   });
 
     map_bef.on('click', 'bef_base', (es) => {
@@ -2085,21 +2059,6 @@ body {
         },
       },
     );
-
-      map_aft.addLayer(
-      {
-        'id': 'aft_high',
-        'type': 'fill',
-        'source': 'aft_emp_0619',
-        'source-layer': 'empty_0619',
-        'paint': {
-          'fill-outline-color': '#000000',
-          'fill-color': '#000000',
-          'fill-opacity': 0
-          },
-        },
-      );
-
 
     document.getElementById('demand').addEventListener('change', (event) => {
       const demand_target = event.target.value;
@@ -2404,14 +2363,6 @@ body {
           hover: true
         }
       );
-      map_bef.setPaintProperty(
-        'bef_high',
-        'fill-opacity', [
-          "match", ["get", 'geo.id'],
-          geo_id, 0.5,
-          0
-        ]
-      )
     }
 
     console.log(e.features[0].properties['geo.id'])
@@ -2431,11 +2382,6 @@ body {
       );
       }
       hoveredStateId = null;
-      map_bef.setPaintProperty(
-        'bef_high',
-        'fill-opacity',
-          0
-      )
   });
 
     map_aft.on('click', 'aft_base', (er) => {
