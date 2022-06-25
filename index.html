@@ -159,8 +159,8 @@
     justify-content: space-between;
   }
   #giniValue {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     font-size: 30px;
     font-weight: 600;
     color: white;
@@ -319,7 +319,7 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 10px;
+    height: 7px;
     border-radius: 5px;
     background: #9c9c9c;
     outline: none;
@@ -426,9 +426,9 @@
           <p style="color: #e34b4b;"> <span id="giniBeforeHigh"></b> </span> </p>
         </div>
         <div id="giniValue">
-          <p style="font-size: 14px; font-weight: 300; text-align: center;"> Low-demand </p>
-          <p style="font-size: 14px; font-weight: 300; text-align: center;"> Mid-demand </p>
-          <p style="font-size: 14px; font-weight: 300; text-align: center;"> High-demand </p>
+          <p style="font-size: 13px; font-weight: 300; text-align: center;"> Low-demand neighborhoods </p>
+          <p style="font-size: 13px; font-weight: 300; text-align: center;"> Mid-demand neighborhoods </p>
+          <p style="font-size: 13px; font-weight: 300; text-align: center;"> High-demand neighborhoods </p>
         </div>
         <div id="giniValue">
           <p style="color: #fffde6;"> <span id="giniAfterLow"></b> </span> </p>
@@ -541,8 +541,7 @@
 
   // color
   // const color_3class = ["#ffffff", "#8896bf", "#193583", "#89a08c", "#FFEAEA", "#8a85ad", "#1d4a22", "#8b8f7a", "#ffd8d8"]
-  // const color_3class = ["#fffde6", "#c59afc", "#6e20d4", "#f7adad", "#fffde6", "#c59afc", "#e34b4b", "#f7adad", "#fffde6"]
-  const color_3class = ["#fffde6", "#f7adad", "#e34b4b", "#c59afc", "#fffde6", "#f7adad", "#6e20d4", "#c59afc", "#fffde6"]
+  const color_3class = ["#faf8e8", "#f7adad", "#e34b4b", "#c59afc", "#faf8e8", "#f7adad", "#6e20d4", "#c59afc", "#faf8e8"]
   const color_3class_14 = {
       'A1': color_3class[0],
       'A2': color_3class[1],
@@ -795,6 +794,7 @@
 
     // display gap & gini value
     function valueDisplay(access_field, demand_field) {
+
       gapValueBefore.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
           .map((d)=>{return d.gap})[0].toFixed(2);
 
@@ -802,22 +802,22 @@
           .map((d)=>{return d.gap})[0].toFixed(2);
 
       giniBeforeLow.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.low']})[0].toFixed(2);
+          .map((d)=>{return d['gini.low']})[0];
 
       giniAfterLow.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.low']})[0].toFixed(2);
+          .map((d)=>{return d['gini.low']})[0];
 
       giniBeforeMid.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.mid']})[0].toFixed(2);
+          .map((d)=>{return d['gini.mid']})[0];
 
       giniAfterMid.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.mid']})[0].toFixed(2);
+          .map((d)=>{return d['gini.mid']})[0];
 
       giniBeforeHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.high']})[0].toFixed(2);
+          .map((d)=>{return d['gini.high']})[0];
 
       giniAfterHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-          .map((d)=>{return d['gini.high']})[0].toFixed(2);
+          .map((d)=>{return d['gini.high']})[0];
     }
 
     valueDisplay(access_field, demand_field)
@@ -1267,7 +1267,7 @@
           .attr("font-size", "12px")
           .attr("font-weight", "200")
           .attr("text-anchor", "left")
-          .text("Low-demand neighborhoods");
+          .text("Low-demand NBHDs");
 
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
@@ -1277,7 +1277,7 @@
           .attr("font-size", "12px")
           .attr("font-weight", "200")
           .attr("text-anchor", "left")
-          .text("Mid-demand neighborhoods");
+          .text("Mid-demand NBHDs");
 
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
@@ -1287,7 +1287,7 @@
           .attr("font-size", "12px")
           .attr("font-weight", "200")
           .attr("text-anchor", "left")
-          .text("High-demand neighborhoods");
+          .text("High-demand NBHDs");
 
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
@@ -1685,8 +1685,6 @@
 
     d3.select('body').on('click', function(){
 
-    console.log(clicked)
-
     if ((clicked % 2) === 1) {
 
       map_bef.setPaintProperty(
@@ -1737,7 +1735,7 @@
     // highlighting group
     map_bef.on('mousemove', 'bef_hover', (e) => {
     let geo_id =  e.features[0].properties['geo.id']
-    console.log(geo_id)
+
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
         map_bef.setFeatureState(
@@ -1764,7 +1762,6 @@
       );
     }
 
-    console.log(e.features[0].properties['geo.id'])
   });
 
   map_bef.on('mouseleave', 'bef_hover', () => {
@@ -1804,7 +1801,6 @@
         )
       }
 
-      console.log(clicked)
 
       if (color_cho === (rect_cho['_parents']['8']['__data__'])) {
         d3.select(rect_elements[8])
@@ -2007,7 +2003,7 @@
       redrawLorenz();
       valueUpdate();
 
-      console.log(label)
+
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
@@ -2274,7 +2270,7 @@
     //highlighting
     map_aft.on('mousemove', 'aft_hover', (e) => {
     let geo_id =  e.features[0].properties['geo.id']
-    console.log(geo_id)
+
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
         map_aft.setFeatureState(
@@ -2301,7 +2297,7 @@
       );
     }
 
-    console.log(e.features[0].properties['geo.id'])
+
   });
 
   map_aft.on('mouseleave', 'aft_hover', () => {
@@ -2341,7 +2337,6 @@
         )
       }
 
-      console.log(clicked)
       if (color_cho === (rect_cho['_parents']['8']['__data__'])) {
         d3.select(rect_elements[8])
           .style('stroke', 'black')
@@ -2486,8 +2481,8 @@
         'source': 'main_road_3counties',
         'source-layer': 'main_road_3counties',
         'paint': {
-          'line-color': 'rgba(20,20,20,0.7)',
-          'line-width': 1.5
+          'line-color': 'rgba(40,40,40,0.7)',
+          'line-width': 1.2
           }
         },
       );
@@ -2495,12 +2490,12 @@
       map_bef.addLayer(
         {
           'id': 'atl_boundary',
-          'type': 'fill',
+          'type': 'line',
           'source': 'atl_boundary',
           'source-layer': 'atl_boundary',
           'paint': {
-            'fill-color':'rgba(0,0,0,0)',
-            'fill-outline-color': 'rgba(200,200,200,0.5)'
+            'line-color': 'rgba(255,255,255,1)',
+            'line-width': 1.4
           }
         },
       );
@@ -2518,8 +2513,8 @@
         'source': 'main_road_3counties',
         'source-layer': 'main_road_3counties',
         'paint': {
-          'line-color': 'rgba(20,20,20,0.7)',
-          'line-width': 1.5
+          'line-color': 'rgba(40,40,40,0.7)',
+          'line-width': 1.2
           }
         },
       );
@@ -2527,12 +2522,12 @@
       map_aft.addLayer(
         {
           'id': 'atl_boundary',
-          'type': 'fill',
+          'type': 'line',
           'source': 'atl_boundary',
           'source-layer': 'atl_boundary',
           'paint': {
-            'fill-color':'rgba(0,0,0,0)',
-            'fill-outline-color': 'rgba(200,200,200,0.5)'
+            'line-color': 'rgba(255,255,255,1)',
+            'line-width': 1.4
           }
         },
       );
@@ -2594,9 +2589,7 @@
   };
 
   function xAxisScatterChange(xAxisNameScatter, demandUnit) {
-    if (demandUnit=='pct') {prefix = 'Proportion of '} else {prefix = 'Number of '}
-    scatterPlotXAxis
-      .text(prefix + xAxisNameScatter);
+    if (demandUnit=='pct') {prefix = 'Proportion of '} else {prefix = 'Number of '};
   };
 
 
