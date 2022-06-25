@@ -20,16 +20,16 @@
 
 <style>
 
-*{
+  *{
     font-family: 'Source Sans Pro', sans-serif;
     margin: 0;
-}
-body {
+  }
+  body {
     margin: 0;
     padding: 0;
     background-color: #424141;
-}
-#map_bef {
+  }
+  #map_bef {
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -38,8 +38,8 @@ body {
     height: 100%;
     z-index: 0;
     cursor: pointer;
-}
-#map_aft {
+  }
+  #map_aft {
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -47,8 +47,8 @@ body {
     width: 100%;
     z-index: 0;
     cursor: pointer;
-}
-#navbar {
+  }
+  #navbar {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -57,12 +57,12 @@ body {
     background-color: black;
     opacity: 0.25;
     z-index: 1;
-}
-#plot-wrapper {
+  }
+  #plot-wrapper {
     background: rgba(0,0,0,0.5);
     position: absolute;
     right: calc(42% - 170px);
-    top:12%;
+    top:100px;
     bottom: 2%;
     padding: 10px;
     width: 340px;
@@ -71,44 +71,44 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    }
-#gapSummary {
+  }
+  #gapSummary {
     height: 9%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
-#scatterPlot {
+  }
+  #scatterPlot {
     height: 31%;
-}
-#giniSummary {
+  }
+  #giniSummary {
     height: 20%;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
-#lorenzCurve {
-    height: 31%;
-}
-#footNote {
-    height: 9%;
+  }
+  #lorenzCurve {
+    height: 32%;
+  }
+  #footNote {
+    height: 8%;
     font-size: 12px;
     font-weight: 200;
     color: #d1d1d1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-#gapTitle {
+  }
+  #gapTitle {
     align-items: center;
     font-size: 20px;
     font-weight: 300;
     color: white;
     text-align: center;
     height: 40%;
-}
-#gapSmallText {
+  }
+  #gapSmallText {
     align-items: center;
     padding-left: 15px;
     padding-right: 15px;
@@ -119,8 +119,8 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-#gapValue {
+  }
+  #gapValue {
     align-items: center;
     padding-left: 15px;
     padding-right: 15px;
@@ -131,16 +131,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-#giniTitle {
+  }
+  #giniTitle {
     align-items: center;
     font-size: 20px;
     font-weight: 300;
     color: white;
     text-align: center;
     height: 20%;
-}
-#giniSmallText {
+  }
+  #giniSmallText {
     align-items: center;
     padding-left: 15px;
     padding-right: 15px;
@@ -151,14 +151,14 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-#giniValue-wrapper {
+  }
+  #giniValue-wrapper {
     height: 65%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-#giniValue {
+  }
+  #giniValue {
     padding-left: 15px;
     padding-right: 15px;
     font-size: 30px;
@@ -167,9 +167,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
+  }
 
-.logo-wrapper {
+  .logo-wrapper {
     position: absolute;
     top: 30px;
     right: 10px;
@@ -181,73 +181,15 @@ body {
     flex-direction: row;
     justify-content: space-between;
     z-index: 1;
-}
-.logo-text {
+  }
+  .logo-text {
     color: white;
     font-size: 12;
     font-family: 'Heebo', san-serif;
     font-weight: 600;
     z-index: 1;
-}
-.legend-box{
-    position: absolute;
-    left: 20px;
-    top: 200px;
-    width: 260px;
-    height: 230px;
-    color: white;
-    font-weight: 500;
-    background-color: black;
-    opacity: 0.3;
-    border-radius: 10px;
-    z-index: 1;
-}
-.legend-wrapper{
-    position: absolute;
-    left: 20px;
-    top: 200px;
-    width: 260px;
-    height: 230px;
-    color: white;
-    font-weight: 500;
-    border-radius: 10px;
-    z-index: 1;
-}
-.legendTitle{
-    position: absolute;
-    left: 10px;
-    top: 7px;
-    font-size:14px;
-    z-index: 1;
-}
-.legendBoxes{
-    position: absolute;
-    left: 10px;
-    top: 100px;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-}
-.legendBox{
-    margin-top: 4px;
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    background-color: black;
-    z-index: 1;
-}
-.legendText{
-    position: absolute;
-    left: 25px;
-    top: 100px;
-    margin-left: 10px;
-    color: white;
-    font-weight: 300;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-}
-.titleMain{
+  }
+  .titleMain{
     position: absolute;
     left: 30px;
     top: 20px;
@@ -255,48 +197,45 @@ body {
     font-weight: 800;
     color: white;
     z-index: 1;
-}
-.session_demand {
-    position: absolute;
-    left: 25px;
-    top: 140px;
-    width: 190px;
-    height: 110px;
-    color: white;
-    border-radius: 10px;
-    z-index: 3;
-}
-.session_unit {
-    position: absolute;
-    top: 170px;
-    width: 190px;
-    height: 110px;
-    color: white;
-    border-radius: 10px;
-    z-index: 3;
   }
-.session_meas {
+
+  #filter-wrapper {
     position: absolute;
-    top: 90px;
-    width: 230px;
-    height: 110px;
+    left: 20px;
+    top: 100px;
+    bottom: 2%;
+    font-weight: 500;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .session_demand {
     color: white;
-    border-radius: 10px;
-    z-index: 3;
+    font-size: 16px;
+  }
+  .session_unit {
+    color: white;
+    font-size: 16px;
+  }
+  .session_meas {
+    color: white;
+    font-size: 16px;
+  }
+  .sliderContainer {
+    color: white;
   }
   .session_trip {
-    position: absolute;
-    top: 480px;
-    width: 230px;
-    height: 110px;
     color: white;
-    border-radius: 10px;
-    z-index: 3;
+    font-size: 16px;
+  }
+  #legend-wrapper{
+    height:35%;
+    width: 230px;
   }
   .row {
-    padding: 4px;
+    padding: 5px;
     display: flex;
-    margin-bottom: 120px;
     flex-direction: column;
     justify-content: space-between;
   }
@@ -307,7 +246,8 @@ body {
     position: relative;
     cursor: pointer;
     padding-right: 18px;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 300;
   }
   label:nth-child(1) {
     padding-right: 1;
@@ -339,7 +279,7 @@ body {
     width: 9px;
     height: 9px;
     left: 1.8px;
-    top: 6px;
+    top: 7px;
     margin: -2px 10px;
     margin-left: 0;
     border-radius: 50%;
@@ -352,47 +292,28 @@ body {
     width: 9px;
     height: 9px;
     left: 1.8px;
-    top: 24px;
+    top: 27px;
     margin: -2px 10px;
     margin-left: 0;
     border-radius: 50%;
     transition: all 0.4s;
   }
   input[type="radio"]:checked + label::after {
-    background: #04AA6D;
-  }
-  .sliderContainerAbsolute {
-      position: absolute;
-      left: 0%;
-      top: 380px;
-      width: 220px;
-      height: 80px;
-      z-index: 1;
+    background: #ffffff;
   }
   .sliderContentAbsolute {
+    position: absolute;
+    width: 230px;
+    font-size: 16px;
     font-weight: 300;
-    font-size: 13px;
     color: white;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-  }
-  .sliderContainerRelative {
-    position: absolute;
-    left: 0%;
-    top: 380px;
-    width: 220px;
-    height: 80px;
   }
   .sliderContentRelative {
-    font-weight: 300;
-    font-size: 13px;
-    color: white;
     position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
+    width: 230px;
+    font-size: 16px;
+    font-weight: 300;
+    color: white;
   }
   .slider {
     -webkit-appearance: none;
@@ -400,21 +321,21 @@ body {
     width: 100%;
     height: 10px;
     border-radius: 5px;
-    background: #d3d3d3;
+    background: #9c9c9c;
     outline: none;
-    opacity: 0.6;
+    opacity: 1;
   }
   .slider:hover {
     opacity: 1;
   }
   .slider::-webkit-slider-thumb {
-      -webkit-appearance: none; /* Override default look */
-      appearance: none;
-      width: 20px; /* Set a specific slider handle width */
-      height: 20px; /* Slider handle height */
-      border-radius: 50%;
-      background: #04AA6D; /* Green background */
-      cursor: pointer; /* Cursor on hover */
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    border-radius: 50%;
+    background: #ffffff; /* Green background */
+    cursor: pointer; /* Cursor on hover */
   }
   .fraction{
     top: 5px;
@@ -463,151 +384,164 @@ body {
 
 
 <body>
-<div id="navbar"></div>
-<div class="titleMain">
-    <a href="." style="text-decoration:none; color:white;">Atlanta Public Transit Equity Explorer</a>
-</div>
-<div class="logo-wrapper">
-    <a href="https://gatech.edu/"><img src="https://www.gatech.edu/sites/all/themes/gt/images/gt-logo-oneline-white.svg" alt="" width="150" height="30"></a>
-    <a href="https://cspav.gatech.edu/" style="margin-left:10px; font-size:12px; text-decoration:none">
-        <p class="logo-text">Center for Spatial Planning Analytics and Visualization</p>
-    </a>
-</div>
-<div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
-<div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
-<div id='plot-wrapper'>
-  <div id='gapSummary'>
-    <div id='gapTitle'>
-      <p> Transit Inequity: demand-supply gap<sup>*</sup> </p>
-    </div>
-    <div id='gapSmallText'>
-      <p> Current </p>
-      <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
-    </div>
-    <div id='gapValue'>
-      <p> <span id="gapValueBefore"></b> </span> </p>
-      <p> <span id="gapValueAfter"></b> </span> </p>
-    </div>
+  <div id="navbar"></div>
+  <div class="titleMain">
+      <a href="." style="text-decoration:none; color:white;">Atlanta Public Transit Equity Explorer</a>
   </div>
-  <div id='scatterPlot'></div>
-  <div id='giniSummary'>
-    <div id="giniTitle">
-      <p>Transit Inequality<sup>**</sup> by Level of Demand</p>
-    </div>
-    <div id="giniSmallText">
-      <p> Current </p>
-      <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
-    </div>
-    <div id="giniValue-wrapper">
-      <div id="giniValue">
-        <p style="color: #fffde6;"> <span id="giniBeforeLow"></b> </span> </p>
-        <p style="color: #f7adad;"> <span id="giniBeforeMid"></b> </span> </p>
-        <p style="color: #e34b4b;"> <span id="giniBeforeHigh"></b> </span> </p>
+  <div class="logo-wrapper">
+      <a href="https://gatech.edu/"><img src="https://www.gatech.edu/sites/all/themes/gt/images/gt-logo-oneline-white.svg" alt="" width="150" height="30"></a>
+      <a href="https://cspav.gatech.edu/" style="margin-left:10px; font-size:12px; text-decoration:none">
+          <p class="logo-text">Center for Spatial Planning Analytics and Visualization</p>
+      </a>
+  </div>
+  <div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
+  <div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
+  <div id='plot-wrapper'>
+    <div id='gapSummary'>
+      <div id='gapTitle'>
+        <p> Transit Inequity: demand-supply gap<sup>*</sup> </p>
       </div>
-      <div id="giniValue">
-        <p style="font-size: 14px; font-weight: 300; text-align: center;"> Low Demand </p>
-        <p style="font-size: 14px; font-weight: 300; text-align: center;"> Mid Demand </p>
-        <p style="font-size: 14px; font-weight: 300; text-align: center;"> High Demand </p>
+      <div id='gapSmallText'>
+        <p> Current </p>
+        <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
       </div>
-      <div id="giniValue">
-        <p style="color: #fffde6;"> <span id="giniAfterLow"></b> </span> </p>
-        <p style="color: #f7adad;"> <span id="giniAfterMid"></b> </span> </p>
-        <p style="color: #e34b4b;"> <span id="giniAfterHigh"></b> </span> </p>
+      <div id='gapValue'>
+        <p> <span id="gapValueBefore"></b> </span> </p>
+        <p> <span id="gapValueAfter"></b> </span> </p>
       </div>
     </div>
+    <div id='scatterPlot'></div>
+    <div id='giniSummary'>
+      <div id="giniTitle">
+        <p>Transit Inequality<sup>**</sup> by Level of Demand</p>
+      </div>
+      <div id="giniSmallText">
+        <p> Current </p>
+        <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
+      </div>
+      <div id="giniValue-wrapper">
+        <div id="giniValue">
+          <p style="color: #fffde6;"> <span id="giniBeforeLow"></b> </span> </p>
+          <p style="color: #f7adad;"> <span id="giniBeforeMid"></b> </span> </p>
+          <p style="color: #e34b4b;"> <span id="giniBeforeHigh"></b> </span> </p>
+        </div>
+        <div id="giniValue">
+          <p style="font-size: 14px; font-weight: 300; text-align: center;"> Low-demand </p>
+          <p style="font-size: 14px; font-weight: 300; text-align: center;"> Mid-demand </p>
+          <p style="font-size: 14px; font-weight: 300; text-align: center;"> High-demand </p>
+        </div>
+        <div id="giniValue">
+          <p style="color: #fffde6;"> <span id="giniAfterLow"></b> </span> </p>
+          <p style="color: #f7adad;"> <span id="giniAfterMid"></b> </span> </p>
+          <p style="color: #e34b4b;"> <span id="giniAfterHigh"></b> </span> </p>
+        </div>
+      </div>
+    </div>
+    <div id='lorenzCurve'></div>
+    <div id="footNote">
+      <p> * The gap index ranges from 0 to 1; a value of 1 represents total inequity </p>
+      <p> ** The values are Gini indices where a high value means inequality; lorenz curves in the plot also show inequality based on how far it is from the line of equality </p>
+    </div>
   </div>
-  <div id='lorenzCurve'></div>
-  <div id="footNote">
-    <p> * The gap index ranges from 0 to 1; a value of 1 represents total inequity </p>
-    <p> ** The values are Gini indices where a high value means inequality; lorenz curves in the plot also show inequality based on how far it is from the line of equality </p>
-  </div>
-</div>
-<div id="map_bef"> </div>
-<div id="map_aft"></div>
-<div class='session_demand'>
-    <div class="session_title">
-    <p style="font-size: 16px; font-weight: 600;">Transit demand type</p>
+  <div id="map_bef"> </div>
+  <div id="map_aft"></div>
+  <div id="filter-wrapper">
+    <div class='session_demand'>
+      <div class="session_title">
+        <p>Transit demand type</p>
+      </div>
+      <div class='row' id='demand'>
+        <input id='dep' type='radio' name='toggle_dem' onclick="legend_dep()" value='dep' checked='checked'>
+        <label for='dep'>Transit-dependent population</label>
+        <input id='min' type='radio' name='toggle_dem' onclick="legend_min()" value='min'>
+        <label for='min'>Minority population</label>
+        <input id='pov' type='radio' name='toggle_dem' onclick="legend_pov()" value='pov'>
+        <label for='pov'>Population below poverty level</label>
+        <input id='emp' type='radio' name='toggle_dem' onclick="legend_emp()" value='emp'>
+        <label for='emp'>Unemployed population</label>
+        <input id='dis' type='radio' name='toggle_dem' onclick="legend_dis()" value='dis'>
+        <label for='dis'>Disabled population</label>
+        <input id='eld' type='radio' name='toggle_dem' onclick="legend_eld()" value='eld'>
+        <label for='eld'>Elderly population</label>
+        <input id='chi' type='radio' name='toggle_dem' onclick="legend_chi()" value='chi'>
+        <label for='chi'>Children below 14</label>
+      </div>
     </div>
-    <div class='row' id='demand'>
-    <input id='dep' type='radio' name='toggle_dem' onclick="legend_dep()" value='dep' checked='checked'>
-    <label for='dep'>Transit-dependent</label>
-    <input id='min' type='radio' name='toggle_dem' onclick="legend_min()" value='min'>
-    <label for='min'>Minority</label>
-    <input id='pov' type='radio' name='toggle_dem' onclick="legend_pov()" value='pov'>
-    <label for='pov'>Poverty</label>
-    <input id='emp' type='radio' name='toggle_dem' onclick="legend_emp()" value='emp'>
-    <label for='emp'>Unemployed</label>
-    <input id='dis' type='radio' name='toggle_dem' onclick="legend_dis()" value='dis'>
-    <label for='dis'>Disabled</label>
-    <input id='eld' type='radio' name='toggle_dem' onclick="legend_eld()" value='eld'>
-    <label for='eld'>Elderly</label>
-    <input id='chi' type='radio' name='toggle_dem' onclick="legend_chi()" value='chi'>
-    <label for='chi'>Children</label>
-</div>
-<div class="session_unit">
-    <div class="session_title">
-    <p style="font-size: 16px; font-weight: 600;">Unit type</p>
+    <div class="session_unit">
+      <div class="session_title">
+        <p>Transit demand unit</p>
+      </div>
+      <div class='row' id='unit'>
+        <input id='act' type='radio' name='toggle_unit' onclick="unit_num()" value='act' checked='checked'>
+        <label for='act'>Number of people</label>
+        <input id='pct' type='radio' name='toggle_unit' onclick="unit_pct()" value='pct'>
+        <label for='pct'>Percentage (%)</label>
+      </div>
     </div>
-    <div class='row' id='unit'>
-    <input id='act' type='radio' name='toggle_unit' value='act' checked='checked'>
-    <label for='act'>Actual number</label>
-    <input id='pct' type='radio' name='toggle_unit' value='pct'>
-    <label for='pct'>Percentage (%)</label>
-</div>
-<div class='session_meas'>
-    <div class="session_title">
-        <p style="font-size: 16px; font-weight: 600;">Accesibility Type</p>
+    <div class="session_trip">
+      <div class="session_title">
+        <p>Trip type</p>
+      </div>
+      <div class='row' id='trip'>
+        <input id='com' type='radio' name='toggle_trip' value='com' checked='checked'>
+        <label for='com'>Commuting trip</label>
+        <input id='non' type='radio' name='toggle_trip' value='non'>
+        <label for='non'>Non-commuting trip</label>
+      </div>
     </div>
-    <div class='row' id='filters_meas'>
+    <div class='session_meas'>
+      <div class="session_title">
+        <p>Accesibility Type</p>
+      </div>
+      <div class='row' id='filters_meas'>
         <input id='abs' type='radio' name='toggle_meas' onclick="getSlider_abs()" value='abs' checked='checked'>
-        <label for='abs'>Public Transit Time</label>
+        <label for='abs'>Travel Time by Public Transit</label>
         <input id='rel' type='radio' name='toggle_meas' onclick="getSlider_rel()" value='rel'>
         <label id= 'filter_rel' for='rel'>
-        <div class="fraction">
-            <p class="num">Public Transit Time</p>
-            <p class="dem">Driving Time</p>
-        </div>
+          <div class="fraction">
+            <p class="num">Travel Time by Public Transit</p>
+            <p class="dem">Travel Time by Driving</p>
+          </div>
         </label>
+      </div>
     </div>
-</div>
-</div>
-<div class="sliderContainerAbsolute">
-    <div class='sliderContentAbsolute'>
-        <p style="margin-bottom:7px; font-size:16px; font-weight: 300;">
-            Accessible within <b><span id="sliderValue_abs"></b> </span> minutes
+    <div class="sliderContainer">
+      <div class='sliderContentAbsolute'>
+        <p style="margin-bottom:7px;">
+          Accessible within <span style="font-weight:600" id="sliderValue_abs"> </span> minutes
         </p>
         <input id='myRange_abs' class="slider" type="range" min="30" max="75" value="45" step="3">
-        <p style="text-align:left; margin-bottom: 0em;"> 30 minutes
+        <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> 30 minutes
         <span style="float:right"> 75 minutes </span> </p>
-    </div>
-</div>
-<div class="sliderContainerRelative">
-    <div class='sliderContentRelative'>
-        <p style="margin-bottom:7px; font-size:16px; font-weight: 300;">
-            Accessible within <b><span id="sliderValue_rel"></b> </span> X driving time </p>
+      </div>
+      <div class='sliderContentRelative'>
+        <p style="margin-bottom:7px;">
+          Accessible within <span style="font-weight:600" id="sliderValue_rel"> </span> X driving time
+        </p>
         <input id='myRange_rel' class="slider" type="range" min="1" max="3" value="2" step="0.2">
-        <p style="text-align:left; margin-bottom: 0em;"> Equal
-            <span style="float:right"> 3 times </span> </p>
+        <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> Equal
+          <span style="float:right"> 3 times </span>
+        </p>
+      </div>
     </div>
-</div>
-<div class="session_trip">
-  <div class="session_title">
-  <p style="font-size: 16px; font-weight: 600;">Trip type</p>
+    <div id="legend-wrapper"></div>
   </div>
-  <div class='row' id='trip'>
-  <input id='com' type='radio' name='toggle_trip' value='com' checked='checked'>
-  <label for='com'>Commuting</label>
-  <input id='non' type='radio' name='toggle_trip' value='non'>
-  <label for='non'>Non-commuting</label>
-</div>
 
 <script>
+
+  let clicked = 0
+  let demandUnit = 'num'
+  let xAxisNameLegend = 'Transit-dependent'
+  let prefix = 'Number of '
+  let xAxisNameScatter = 'Transit-dependent Population'
+
 
   // default (Absolute measure) - only the slider_abs shown
   document.getElementsByClassName("sliderContentRelative")[0].style.visibility = "hidden";
 
   // color
   // const color_3class = ["#ffffff", "#8896bf", "#193583", "#89a08c", "#FFEAEA", "#8a85ad", "#1d4a22", "#8b8f7a", "#ffd8d8"]
+  // const color_3class = ["#fffde6", "#c59afc", "#6e20d4", "#f7adad", "#fffde6", "#c59afc", "#e34b4b", "#f7adad", "#fffde6"]
   const color_3class = ["#fffde6", "#f7adad", "#e34b4b", "#c59afc", "#fffde6", "#f7adad", "#6e20d4", "#c59afc", "#fffde6"]
   const color_3class_14 = {
       'A1': color_3class[0],
@@ -620,14 +554,12 @@ body {
       'C2': color_3class[7],
       'C3': color_3class[8],
   };
-  var clicked = 0
-  console.log(clicked)
 
   window.onresize = function () {
       setWindowSize();
   }
   function setWindowSize() {
-      var width = (window.innerWidth - 1) /2;
+      width = (window.innerWidth - 1) /2;
       d3.select("#map_bef").style("width", width*1.15 + "px")
       d3.select("#map_aft").style("width", width*0.85 + "px")
   }
@@ -667,24 +599,22 @@ body {
       minZoom: 3,
   });
 
-  var container = map_bef.getCanvasContainer();
-
-  var svg = d3
-      .select(container)
+  const svg = d3.select('#legend-wrapper')
       .append("svg")
+      .attr('id', 'legend')
       .attr("width", "100%")
       .attr("height", "100%")
-      .style("position", "absolute")
       .style("z-index", 1);
 
-  var margin = 100;
-  var rect_width = 30;
-  var legend_w = rect_width * 3;
-  var legend_x = margin + legend_w/2; //the center for rotation
-  var legend_y = window.innerHeight - margin - legend_w/2; //the center for rotation
+  divHeight = document.getElementById('legend-wrapper').clientHeight;
+  margin = {left: 50, bottom: 50};
+  rect_width = 30;
+  legend_w = rect_width * 3;
+  legend_x = margin.left + legend_w/2; //the center for rotation
+  legend_y = divHeight - margin.bottom - legend_w/2; //the center for rotation
 
   // create bivariate color scheme
-  var legend = svg.selectAll("#legend")
+  legend = svg.selectAll("#legend")
       .data(color_3class)
       .enter()
       .append("g")
@@ -692,20 +622,20 @@ body {
 
   legend.append("rect")
       .attr("x", function(d, i) {
-          return rect_width*(i-(i%3))/3 + margin;
+          return rect_width*(i%3) + margin.left;
       })
       .attr("y", function(d, i) {
-          return legend_y - rect_width*(i%3);
+          return legend_y - rect_width*(i-(i%3))/3;
       })
       .attr("width", rect_width - 1.5)
       .attr("height", rect_width - 1.5)
       .style("fill", function(d){return d});
 
-  var arrowPoints = [[0, 0], [0, 10], [10, 5]];
-  var line_start = [legend_x-60, legend_y+35]; //the numbers are tested to be bottom of legend.
-  var line_end = [legend_x-60, legend_y+35-120];
+  arrowPoints = [[0, 0], [0, 10], [10, 5]];
+  line_start = [legend_x-60, legend_y+35]; //the numbers are tested to be bottom of legend.
+  line_end = [legend_x-60, legend_y+35-120];
 
-  var legend_arrow = legend.append('defs')
+  legend.append('defs')
       .append('marker')
       .attr('id', 'arrow')
       .attr('viewBox', [0, 0, 10, 10])
@@ -719,45 +649,50 @@ body {
       .attr('stroke', 'white')
       .attr('fill', 'white');
 
-  var legend_y_text = svg.append('text')
-      .attr('x', line_start[0]-70)
+  svg.append('text')
+      .attr('x', line_start[0]-60)
       .attr('y', line_start[1]-40)
       .attr('transform', 'translate(-60, -25) rotate(90,' + line_start[0] + ',' + line_start[1] + ')')
       .attr('fill', 'white')
-      .text('Transit-dependent');
-
-  legend_x_text = svg.append('text')
-      .attr('x', line_start[0]+12)
-      .attr('y', line_start[1]+10)
-      .attr('transform', 'translate(17, 17) rotate(0,' + line_start[0] + ',' + line_start[1] + ')')
-      .attr('fill', 'white')
+      .attr('font-size', '13px')
       .text('Accessibility');
 
-  svg.append('text')
-      .attr('x', line_start[0]-35)
-      .attr('y', line_start[1]+14)
+  const legend_x_text = svg.append('text')
+      .attr('x', line_start[0]+50)
+      .attr('y', line_start[1]+10)
+      .style("text-anchor", "middle")
+      .attr('transform', 'translate(17, 17) rotate(0,' + line_start[0] + ',' + line_start[1] + ')')
       .attr('fill', 'white')
-      .text('Low');
+      .attr('font-size', '13px')
+      .text('Transit-dependent');
+
+
   svg.append('text')
       .attr('x', line_end[0]+131)
       .attr('y', line_end[1]+134)
       .attr('fill', 'white')
+      .attr('font-size', '12px')
+      .attr('font-weight', '200')
       .text('High');
 
-  var y_downbound = svg.append('text')
-      .attr('x', line_start[0]+15)
-      .attr('y', line_start[1]+2)
+  svg.append('text')
+      .attr('x', line_start[0]-25)
+      .attr('y', line_start[1]+5)
       .attr('fill', 'white')
+      .attr('font-size', '12px')
+      .attr('font-weight', '200')
       .text('Low')
-      .attr('transform', 'translate(0, 10) rotate(90,' + line_start[0] + ',' + line_start[1] + ')');
-  var y_upbound = svg.append('text')
-      .attr('x', line_end[0]-157)
-      .attr('y', line_end[1]+122)
-      .attr('fill', 'white')
-      .text('High')
-      .attr('transform', 'translate(0, 10) rotate(90,' + line_start[0] + ',' + line_start[1] + ')');
+      .attr('transform', 'translate(0, 10) rotate(-45,' + line_start[0] + ',' + line_start[1] + ')');
 
-  var y_line = svg.append('path')
+  svg.append('text')
+      .attr('x', line_end[0]-10)
+      .attr('y', line_end[1])
+      .attr('fill', 'white')
+      .attr('font-weight', '200')
+      .attr('font-size', '12px')
+      .text('High')
+
+  svg.append('path')
       .attr('d', d3.line()([line_start, line_end]))
       .attr('stroke', 'white')
       .attr('marker-end', 'url(#arrow)')
@@ -812,8 +747,8 @@ body {
           legend['_groups']['0'][i+5]['__data__'] = 'C'+i;
   }
 
-  var rect_cho = legend.selectAll('rect')
-  var rect_cho_clicked = legend.selectAll('rect')
+  rect_cho = legend.selectAll('rect')
+  rect_cho_clicked = legend.selectAll('rect')
 
   rect_elements = rect_cho.nodes();
 
@@ -823,18 +758,19 @@ body {
         .style('stroke', 'black')
         .style('stroke-width', '3px')
         .style('stroke-linecap', 'round');
-  })
+    })
     .on('mouseout', function() {
       d3.select(this)
         .style('stroke', 'none');
-    })
+    });
+
   rect_cho_clicked
     .on('click', function() {
       d3.select(this)
         .style('stroke', 'black')
         .style('stroke-width', '3px')
         .style('stroke-linecap', 'round');
-  })
+    });
 
   let access_field = 'abs.com.mor.45min'
   let demand_field = 'dep'
@@ -925,11 +861,11 @@ body {
         access_after: val_acc_after[i]
       }))
 
-      var x_demand = d3.scaleLinear()
+      x_demand = d3.scaleLinear()
           .domain([0,d3.max(scatter_data, function(d){return d.demand})])
           .range([0,plot_w]);
 
-      var y_access = d3.scaleLinear()
+      y_access = d3.scaleLinear()
           .domain([0, 1])
           .range([plot_h, 0]);
 
@@ -947,11 +883,11 @@ body {
           .style("color", "white")
           .attr('font-weight', '100');
 
-      scatterPlot.append("g")
+      const scatterPlotXAxis = scatterPlot.append("g")
           .attr('id', 'scatterRedraw')
           .append('text')
           .attr("transform", "translate(" + plot_w/2 + " ," + (plot_h + 35) + ")")
-          .text("The Chosen Type of Transit Demand")
+          .text(prefix + xAxisNameScatter)
           .attr("text-anchor", "middle")
           .style("fill", "white")
           .attr('font-weight', '300')
@@ -1007,7 +943,7 @@ body {
       //     .text("Transit Demand & Accessibility by Neighborhood");
 
       // add legend
-      var scatterPlotLegend = scatterPlot.append("g")
+      scatterPlotLegend = scatterPlot.append("g")
           .attr("id", "plotLegend");
 
       scatterPlotLegend.append("circle")
@@ -1065,8 +1001,8 @@ body {
 
     // functions for manipulating data for lorenz curve
     function MultiplyArrays(a, b) {
-      var c = [];
-      for (var i = 0; i < Math.max(a.length, b.length); i++) {
+      c = [];
+      for (i = 0; i < Math.max(a.length, b.length); i++) {
         c.push((a[i] || 0) * (b[i] || 0));
       }
       return c;
@@ -1106,11 +1042,11 @@ body {
           .attr("transform",
               "translate(" + panel_margin.left + "," + panel_margin.top + ")");
 
-    var x_lorenz = d3.scaleLinear()
+    x_lorenz = d3.scaleLinear()
         .domain([0,1])
         .range([0,plot_w]);
 
-    var y_lorenz = d3.scaleLinear()
+    y_lorenz = d3.scaleLinear()
         .domain([0, 1])
         .range([plot_h, 0]);
 
@@ -1259,12 +1195,12 @@ body {
       //     .text("Transit Inequality by Transit Demand Groups");
 
       // add legend
-      var lorenzCurveLegend = lorenzCurve.append("g")
+      lorenzCurveLegend = lorenzCurve.append("g")
           .attr("id", "plotLegend");
 
       lorenzCurveLegend.append("path")
           .attr('id', 'lorenzRedraw')
-          .datum([{'x':0.05, 'y':0.98}, {'x': 0.2, 'y':0.98}])
+          .datum([{'x':0.05, 'y':1}, {'x': 0.2, 'y':1}])
           .attr("fill", "none")
           .attr("stroke", lorenzColor[0])
           .attr("stroke-width", 1*1.5)
@@ -1284,7 +1220,7 @@ body {
 
       lorenzCurve.append("path")
           .attr('id', 'lorenzRedraw')
-          .datum([{'x':0.05, 'y':0.82}, {'x': 0.2, 'y':0.82}])
+          .datum([{'x':0.05, 'y':0.8}, {'x': 0.2, 'y':0.8}])
           .attr("fill", "none")
           .attr("stroke", lorenzColor[2])
           .attr("stroke-width", 2*1.5)
@@ -1294,7 +1230,7 @@ body {
 
       lorenzCurve.append("path")
           .attr('id', 'lorenzRedraw')
-          .datum([{'x':0.05, 'y':0.74}, {'x': 0.12, 'y':0.74}])
+          .datum([{'x':0.05, 'y':0.7}, {'x': 0.12, 'y':0.7}])
           .attr("fill", "none")
           .attr("stroke", '#bfbfbf')
           .attr("stroke-width", 1.5)
@@ -1304,7 +1240,7 @@ body {
 
       lorenzCurve.append("path")
           .attr('id', 'lorenzRedraw')
-          .datum([{'x':0.12, 'y':0.74}, {'x': 0.2, 'y':0.74}])
+          .datum([{'x':0.12, 'y':0.7}, {'x': 0.2, 'y':0.7}])
           .attr("fill", "none")
           .attr("stroke", '#bfbfbf')
           .attr("stroke-width", 1.5)
@@ -1315,7 +1251,7 @@ body {
 
       lorenzCurve.append("path")
           .attr('id', 'lorenzRedraw')
-          .datum([{'x':0.115, 'y':0.70}, {'x': 0.125, 'y':0.78}])
+          .datum([{'x':0.115, 'y':0.66}, {'x': 0.125, 'y':0.74}])
           .attr("fill", "none")
           .attr("stroke", '#bfbfbf')
           .attr("stroke-width", 1.5)
@@ -1326,12 +1262,12 @@ body {
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
           .attr("x", x_lorenz(0.2+0.03))
-          .attr("y", y_lorenz(0.98-0.02))
+          .attr("y", y_lorenz(1-0.02))
           .attr("fill", "white")
           .attr("font-size", "12px")
           .attr("font-weight", "200")
           .attr("text-anchor", "left")
-          .text("Low Demand Neighborhoods");
+          .text("Low-demand neighborhoods");
 
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
@@ -1341,22 +1277,22 @@ body {
           .attr("font-size", "12px")
           .attr("font-weight", "200")
           .attr("text-anchor", "left")
-          .text("Mid Demand Neighborhoods");
+          .text("Mid-demand neighborhoods");
 
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
           .attr("x", x_lorenz(0.2+0.03))
-          .attr("y", y_lorenz(0.82-0.02))
+          .attr("y", y_lorenz(0.8-0.02))
           .attr("fill", "white")
           .attr("font-size", "12px")
           .attr("font-weight", "200")
           .attr("text-anchor", "left")
-          .text("High Demand Neighborhoods");
+          .text("High-demand neighborhoods");
 
       lorenzCurveLegend.append("text")
           .attr('id', 'lorenzRedraw')
           .attr("x", x_lorenz(0.2+0.03))
-          .attr("y", y_lorenz(0.74-0.02))
+          .attr("y", y_lorenz(0.7-0.02))
           .attr("fill", "white")
           .attr("font-size", "12px")
           .attr("font-weight", "200")
@@ -1805,22 +1741,22 @@ body {
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
         map_bef.setFeatureState(
-        { 
+        {
           source: 'bef_emp_0619',
           sourceLayer: 'empty_0619',
-          id: hoveredStateId 
+          id: hoveredStateId
         },
-        { 
+        {
           hover: false
         }
         );
       }
         hoveredStateId = e.features[0].id;
         map_bef.setFeatureState(
-        { 
+        {
           source: 'bef_emp_0619',
           sourceLayer: 'empty_0619',
-          id: hoveredStateId 
+          id: hoveredStateId
         },
         {
           hover: true
@@ -1834,10 +1770,10 @@ body {
   map_bef.on('mouseleave', 'bef_hover', () => {
     if (hoveredStateId !== null) {
       map_bef.setFeatureState(
-        { 
+        {
           source: 'bef_emp_0619',
           sourceLayer: 'empty_0619',
-          id: hoveredStateId 
+          id: hoveredStateId
         },
         {
           hover: false
@@ -2342,22 +2278,22 @@ body {
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
         map_aft.setFeatureState(
-        { 
+        {
           source: 'aft_emp_0619',
           sourceLayer: 'empty_0619',
-          id: hoveredStateId 
+          id: hoveredStateId
         },
-        { 
+        {
           hover: false
         }
         );
       }
         hoveredStateId = e.features[0].id;
         map_aft.setFeatureState(
-        { 
+        {
           source: 'aft_emp_0619',
           sourceLayer: 'empty_0619',
-          id: hoveredStateId 
+          id: hoveredStateId
         },
         {
           hover: true
@@ -2371,10 +2307,10 @@ body {
   map_aft.on('mouseleave', 'aft_hover', () => {
     if (hoveredStateId !== null) {
       map_aft.setFeatureState(
-        { 
+        {
           source: 'aft_emp_0619',
           sourceLayer: 'empty_0619',
-          id: hoveredStateId 
+          id: hoveredStateId
         },
         {
           hover: false
@@ -2614,14 +2550,14 @@ body {
 
   function coordinate() {
 
-  var disable = false;
+  disable = false;
 
   map_bef.on('move', function() {
     if (!disable) {
-      var center = map_bef.getCenter();
-      var zoom = map_bef.getZoom();
-      var pitch = map_bef.getPitch();
-      var bearing = map_bef.getBearing();
+      center = map_bef.getCenter();
+      zoom = map_bef.getZoom();
+      pitch = map_bef.getPitch();
+      bearing = map_bef.getBearing();
 
       disable = true;
       map_aft.setCenter(center);
@@ -2634,10 +2570,10 @@ body {
 
   map_aft.on('move', function() {
     if (!disable) {
-      var center = map_aft.getCenter();
-      var zoom = map_aft.getZoom();
-      var pitch = map_aft.getPitch();
-      var bearing = map_aft.getBearing();
+      center = map_aft.getCenter();
+      zoom = map_aft.getZoom();
+      pitch = map_aft.getPitch();
+      bearing = map_aft.getBearing();
 
       disable = true;
       map_bef.setCenter(center);
@@ -2651,89 +2587,81 @@ body {
 
   coordinate();
 
+  function xAxisLegendChange(xAxisNameLegend, demandUnit) {
+    if (demandUnit=='pct') {unit = ' (%)'} else {unit = ''}
+    legend_x_text
+      .text(xAxisNameLegend + unit);
+  };
+
+  function xAxisScatterChange(xAxisNameScatter, demandUnit) {
+    if (demandUnit=='pct') {prefix = 'Proportion of '} else {prefix = 'Number of '}
+    scatterPlotXAxis
+      .text(prefix + xAxisNameScatter);
+  };
+
+
   function legend_dep() {
-  legend_y_text
-      .text('Transit-dependent')
-      .attr('x', line_start[0]-70);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Transit-dependent'
+    xAxisNameScatter = 'Transit-dependent Population'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
 
   function legend_min() {
-  legend_y_text
-      .text('Minority')
-      .attr('x', line_start[0]-40);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Minority'
+    xAxisNameScatter = 'Minority Population'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
 
   function legend_pov() {
-  legend_y_text
-      .text('Poverty')
-      .attr('x', line_start[0]-40);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Poverty'
+    xAxisNameScatter = 'Population below Poverty Level'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
 
   function legend_emp() {
-  legend_y_text
-      .text('Unemployed')
-      .attr('x', line_start[0]-55);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Unemployed'
+    xAxisNameScatter = 'Unemployed Population'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
 
   function legend_eld() {
-  legend_y_text
-      .text('Elderly')
-      .attr('x', line_start[0]-40);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Elderly'
+    xAxisNameScatter = 'Elderly (70-) Population'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
 
   function legend_dis() {
-  legend_y_text
-      .text('Disabled')
-      .attr('x', line_start[0]-45);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Disabled'
+    xAxisNameScatter = 'Disabled Population'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
 
   function legend_chi() {
-  legend_y_text
-      .text('Children')
-      .attr('x', line_start[0]-45);
-  y_line
-      .attr('d', d3.line()([line_start, line_end]))
-  y_downbound
-      .text('Low');
-  y_upbound
-      .text('High');
+    xAxisNameLegend = 'Children'
+    xAxisNameScatter = 'Children below 14'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
   };
+
+  function unit_num() {
+    demandUnit = 'num'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
+  };
+
+  function unit_pct() {
+    demandUnit = 'pct'
+    xAxisLegendChange(xAxisNameLegend, demandUnit)
+    xAxisScatterChange(xAxisNameScatter, demandUnit)
+  };
+
+
 
 
 </script>
