@@ -547,11 +547,11 @@
 
   // color
   // const color_3class = ["#ffffff", "#8896bf", "#193583", "#89a08c", "#FFEAEA", "#8a85ad", "#1d4a22", "#8b8f7a", "#ffd8d8"]
-  const color_3class = ["#faf8e8", "#f7adad", "#e34b4b", "#c59afc", "#faf9e8", "#f7acad", "#6e20d4", "#c59bfc", "#fafae8"]
+  const color_3class = ["#fffacf", "#e69191", "#b55353", "#a780d9", "#fffbcf", "#e69291", "#663d9c", "#a781d9", "#fffccf"]
 
   const color_3class_darker = []
   color_3class.forEach((item, i) => {
-    color_3class_darker.push(d3.hsv(item).darker(3).formatHex())
+    color_3class_darker.push(d3.hsv(item).darker(4).formatHex())
   });
 
 
@@ -779,13 +779,6 @@
         }
       );
 
-      console.log(label_biv)
-
-      // let inputColor = []
-      // label_biv.foreach((item) => {
-      //   inputColor.push(color_3class_14[item])
-      // })
-
       map_bef.setPaintProperty(
           'bef_over',
           'fill-color', ["match",["get", label],
@@ -828,7 +821,7 @@
   rect_cho
     .on('mouseover', function() {
       if (legendRectClicked == 0) {
-        console.log(this)
+
         d3.select(this)
           .style('stroke', 'black')
           .style('stroke-width', '3px')
@@ -845,7 +838,7 @@
   );
 
   legend.on('click', function(d) {
-    console.log(d)
+
     label_biv = d
 
     rect_cho
@@ -1821,108 +1814,109 @@
 
     d3.select('body').on('click', function(){
 
-    if ((clicked % 2) === 1) {
+      if ((clicked % 2) === 1) {
 
-      map_bef.setPaintProperty(
-      'bef_over',
-      'fill-color', [
-          "match", ["get", label],
-                  'A1', color_3class_14['A1'],
-                  'A2', color_3class_14['A2'],
-                  'A3', color_3class_14['A3'],
-                  'B1', color_3class_14['B1'],
-                  'B2', color_3class_14['B2'],
-                  'B3', color_3class_14['B3'],
-                  'C1', color_3class_14['C1'],
-                  'C2', color_3class_14['C2'],
-                  'C3', color_3class_14['C3'],
-                  'black'
-              ]
-      );
-      map_aft.setPaintProperty(
-      'aft_over',
-      'fill-color', [
-          "match", ["get", label],
-                  'A1', color_3class_14['A1'],
-                  'A2', color_3class_14['A2'],
-                  'A3', color_3class_14['A3'],
-                  'B1', color_3class_14['B1'],
-                  'B2', color_3class_14['B2'],
-                  'B3', color_3class_14['B3'],
-                  'C1', color_3class_14['C1'],
-                  'C2', color_3class_14['C2'],
-                  'C3', color_3class_14['C3'],
-                  'black'
-              ]
-      );
+        map_bef.setPaintProperty(
+        'bef_over',
+        'fill-color', [
+            "match", ["get", label],
+                    'A1', color_3class_14['A1'],
+                    'A2', color_3class_14['A2'],
+                    'A3', color_3class_14['A3'],
+                    'B1', color_3class_14['B1'],
+                    'B2', color_3class_14['B2'],
+                    'B3', color_3class_14['B3'],
+                    'C1', color_3class_14['C1'],
+                    'C2', color_3class_14['C2'],
+                    'C3', color_3class_14['C3'],
+                    'black'
+                ]
+        );
+        map_aft.setPaintProperty(
+        'aft_over',
+        'fill-color', [
+            "match", ["get", label],
+                    'A1', color_3class_14['A1'],
+                    'A2', color_3class_14['A2'],
+                    'A3', color_3class_14['A3'],
+                    'B1', color_3class_14['B1'],
+                    'B2', color_3class_14['B2'],
+                    'B3', color_3class_14['B3'],
+                    'C1', color_3class_14['C1'],
+                    'C2', color_3class_14['C2'],
+                    'C3', color_3class_14['C3'],
+                    'black'
+                ]
+        );
 
-      rect_cho
-        .style('stroke', 'none');
+        rect_cho
+          .style('stroke', 'none');
 
-      rect_cho
-        .style("fill", (d) => d);
+        rect_cho
+          .style("fill", (d) => d);
 
-      dotsLegendRowColumn
-        .attr('r', 7)
-        .style('stroke', 'white')
-        .style('stroke-width', '1.5');
+        dotsLegendRowColumn
+          .attr('r', 7)
+          .style('stroke', 'white')
+          .style('stroke-width', '1.5');
 
-      legendRectClicked = 0;
-      legendDotClicked = 0;
+        legendRectClicked = 0;
+        legendDotClicked = 0;
 
-    }
+      }
 
-    clicked = clicked + 1;
+      clicked = clicked + 1;
 
-  });
+    });
 
     // highlighting group
     map_bef.on('mousemove', 'bef_hover', (e) => {
-    let geo_id =  e.features[0].properties['geo.id']
 
-    if (e.features.length > 0) {
-      if (hoveredStateId !== null) {
-        map_bef.setFeatureState(
-        {
-          source: 'bef_emp_0619',
-          sourceLayer: 'empty_0619',
-          id: hoveredStateId
-        },
-        {
-          hover: false
+      let geo_id =  e.features[0].properties['geo.id']
+
+      if (e.features.length > 0) {
+        if (hoveredStateId !== null) {
+          map_bef.setFeatureState(
+          {
+            source: 'bef_emp_0619',
+            sourceLayer: 'empty_0619',
+            id: hoveredStateId
+          },
+          {
+            hover: false
+          }
+          );
         }
+          hoveredStateId = e.features[0].id;
+          map_bef.setFeatureState(
+          {
+            source: 'bef_emp_0619',
+            sourceLayer: 'empty_0619',
+            id: hoveredStateId
+          },
+          {
+            hover: true
+          }
         );
       }
-        hoveredStateId = e.features[0].id;
+
+    });
+
+    map_bef.on('mouseleave', 'bef_hover', () => {
+      if (hoveredStateId !== null) {
         map_bef.setFeatureState(
-        {
-          source: 'bef_emp_0619',
-          sourceLayer: 'empty_0619',
-          id: hoveredStateId
-        },
-        {
-          hover: true
+          {
+            source: 'bef_emp_0619',
+            sourceLayer: 'empty_0619',
+            id: hoveredStateId
+          },
+          {
+            hover: false
+          }
+        );
         }
-      );
-    }
-
-  });
-
-  map_bef.on('mouseleave', 'bef_hover', () => {
-    if (hoveredStateId !== null) {
-      map_bef.setFeatureState(
-        {
-          source: 'bef_emp_0619',
-          sourceLayer: 'empty_0619',
-          id: hoveredStateId
-        },
-        {
-          hover: false
-        }
-      );
-      }
-      hoveredStateId = null;
-  });
+        hoveredStateId = null;
+    });
 
     map_bef.on('click', 'bef_base', (es) => {
 
@@ -1947,118 +1941,17 @@
         )
       }
 
-      if (color_cho === (rect_cho['_parents']['8']['__data__'])) {
-        d3.select(rect_elements[8])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 8; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['7']['__data__'])) {
-        d3.select(rect_elements[7])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 7; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 8; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['6']['__data__'])) {
-        d3.select(rect_elements[6])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 6; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 7; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['5']['__data__'])) {
-        d3.select(rect_elements[5])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 5; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 6; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['4']['__data__'])) {
-        d3.select(rect_elements[4])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 4; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 5; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['3']['__data__'])) {
-        d3.select(rect_elements[3])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 3; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 4; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['2']['__data__'])) {
-        d3.select(rect_elements[2])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 2; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 3; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['1']['__data__'])) {
-        d3.select(rect_elements[1])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 1; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 2; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['0']['__data__'])) {
-        d3.select(rect_elements[0])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 1; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-    });
+      rect_cho
+        .style("fill", (d) => {
+          if (Object.keys(color_3class_14)[color_3class.indexOf(d)] != color_cho) {
+            return color_3class_darker[color_3class.indexOf(d)]
+          } else {
+          return color_3class[color_3class.indexOf(d)]
+          }
+        })
 
-    }) //map.on.load ends here
+    });
+  }) //map.on.load ends here
 
         // map the base block group data
     map_aft.on('load', () => {
@@ -2412,187 +2305,86 @@
         );
     });
 
-    //highlighting
-    map_aft.on('mousemove', 'aft_hover', (e) => {
-    let geo_id =  e.features[0].properties['geo.id']
+      //highlighting
+      map_aft.on('mousemove', 'aft_hover', (e) => {
+        let geo_id =  e.features[0].properties['geo.id']
 
-    if (e.features.length > 0) {
-      if (hoveredStateId !== null) {
-        map_aft.setFeatureState(
-        {
-          source: 'aft_emp_0619',
-          sourceLayer: 'empty_0619',
-          id: hoveredStateId
-        },
-        {
-          hover: false
+        if (e.features.length > 0) {
+          if (hoveredStateId !== null) {
+            map_aft.setFeatureState(
+            {
+              source: 'aft_emp_0619',
+              sourceLayer: 'empty_0619',
+              id: hoveredStateId
+            },
+            {
+              hover: false
+            }
+            );
+          }
+            hoveredStateId = e.features[0].id;
+            map_aft.setFeatureState(
+            {
+              source: 'aft_emp_0619',
+              sourceLayer: 'empty_0619',
+              id: hoveredStateId
+            },
+            {
+              hover: true
+            }
+          );
         }
-        );
-      }
-        hoveredStateId = e.features[0].id;
-        map_aft.setFeatureState(
-        {
-          source: 'aft_emp_0619',
-          sourceLayer: 'empty_0619',
-          id: hoveredStateId
-        },
-        {
-          hover: true
-        }
-      );
-    }
 
 
-  });
+      });
 
-  map_aft.on('mouseleave', 'aft_hover', () => {
-    if (hoveredStateId !== null) {
-      map_aft.setFeatureState(
-        {
-          source: 'aft_emp_0619',
-          sourceLayer: 'empty_0619',
-          id: hoveredStateId
-        },
-        {
-          hover: false
-        }
-      );
-      }
-      hoveredStateId = null;
-  });
+      map_aft.on('mouseleave', 'aft_hover', () => {
+        if (hoveredStateId !== null) {
+          map_aft.setFeatureState(
+            {
+              source: 'aft_emp_0619',
+              sourceLayer: 'empty_0619',
+              id: hoveredStateId
+            },
+            {
+              hover: false
+            }
+          );
+          }
+          hoveredStateId = null;
+      });
 
-    map_aft.on('click', 'aft_base', (er) => {
-      label_cho = label
-      color_cho = er.features['0']['properties'][label]
+      map_aft.on('click', 'aft_base', (er) => {
+        label_cho = label
+        color_cho = er.features['0']['properties'][label]
 
-      if ((clicked % 2) === 0) {
-        map_bef.setPaintProperty(
-            'bef_over',
-            'fill-color', ["match",["get", label_cho],
-                    color_cho, color_3class_14[color_cho],
-                    'black'
-            ]
-        )
-        map_aft.setPaintProperty(
-            'aft_over',
-            'fill-color', ["match",["get", label_cho],
-                    color_cho, color_3class_14[color_cho],
-                    'black'
-            ]
-        )
-      }
+        if ((clicked % 2) === 0) {
+          map_bef.setPaintProperty(
+              'bef_over',
+              'fill-color', ["match",["get", label_cho],
+                      color_cho, color_3class_14[color_cho],
+                      'black'
+              ]
+          )
+          map_aft.setPaintProperty(
+              'aft_over',
+              'fill-color', ["match",["get", label_cho],
+                      color_cho, color_3class_14[color_cho],
+                      'black'
+              ]
+          )
+        }
 
-      if (color_cho === (rect_cho['_parents']['8']['__data__'])) {
-        d3.select(rect_elements[8])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 8; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['7']['__data__'])) {
-        d3.select(rect_elements[7])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 7; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 8; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['6']['__data__'])) {
-        d3.select(rect_elements[6])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 6; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 7; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['5']['__data__'])) {
-        d3.select(rect_elements[5])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 5; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 6; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['4']['__data__'])) {
-        d3.select(rect_elements[4])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 4; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 5; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['3']['__data__'])) {
-        d3.select(rect_elements[3])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 3; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 4; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['2']['__data__'])) {
-        d3.select(rect_elements[2])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 2; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 3; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['1']['__data__'])) {
-        d3.select(rect_elements[1])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 0; i < 1; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-        for (let i = 2; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-      else if (color_cho === (rect_cho['_parents']['0']['__data__'])) {
-        d3.select(rect_elements[0])
-          .style('stroke', 'black')
-          .style('stroke-width', '3px');
-        for (let i = 1; i < 9; i++) {
-          d3.select(rect_elements[i])
-            .style('stroke', 'none');
-        }
-      }
-    })
+        rect_cho
+          .style("fill", (d) => {
+            if (Object.keys(color_3class_14)[color_3class.indexOf(d)] != color_cho) {
+              return color_3class_darker[color_3class.indexOf(d)]
+            } else {
+            return color_3class[color_3class.indexOf(d)]
+            }
+          })
 
+      })
     });
 
       // add additional maps (atlanta boundary & main road)
