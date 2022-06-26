@@ -15,6 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -211,10 +212,17 @@
     justify-content: space-between;
   }
   .session_demand {
+    width: 205px;
     color: white;
     font-size: 16px;
   }
   .session_unit {
+    width: 150px;
+    color: white;
+    font-size: 16px;
+  }
+  .session_trip {
+    width: 160px;
     color: white;
     font-size: 16px;
   }
@@ -225,16 +233,14 @@
   .sliderContainer {
     color: white;
   }
-  .session_trip {
-    color: white;
-    font-size: 16px;
-  }
+
   #legend-wrapper{
     height:35%;
     width: 230px;
   }
   .row {
-    padding: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -541,7 +547,14 @@
 
   // color
   // const color_3class = ["#ffffff", "#8896bf", "#193583", "#89a08c", "#FFEAEA", "#8a85ad", "#1d4a22", "#8b8f7a", "#ffd8d8"]
-  const color_3class = ["#faf8e8", "#f7adad", "#e34b4b", "#c59afc", "#faf8e8", "#f7adad", "#6e20d4", "#c59afc", "#faf8e8"]
+  const color_3class = ["#faf8e8", "#f7adad", "#e34b4b", "#c59afc", "#faf9e8", "#f7acad", "#6e20d4", "#c59bfc", "#fafae8"]
+
+  const color_3class_darker = []
+  color_3class.forEach((item, i) => {
+    color_3class_darker.push(d3.hsv(item).darker(3).formatHex())
+  });
+
+
   const color_3class_14 = {
       'A1': color_3class[0],
       'A2': color_3class[1],
@@ -606,8 +619,8 @@
       .style("z-index", 1);
 
   divHeight = document.getElementById('legend-wrapper').clientHeight;
-  margin = {left: 50, bottom: 50};
-  rect_width = 33;
+  margin = {left: 45, bottom: 45};
+  rect_width = 35;
   legend_w = rect_width * 3;
   legend_x = margin.left + legend_w/2; //the center for rotation
   legend_y = divHeight - margin.bottom - legend_w/2; //the center for rotation
@@ -631,8 +644,9 @@
       .style("fill", function(d){return d});
 
   arrowPoints = [[0, 0], [0, 10], [10, 5]];
-  line_start = [legend_x-63, legend_y+35]; //the numbers are tested to be bottom of legend.
-  line_end = [legend_x-63, legend_y+35-125];
+  line_length = 135
+  line_start = [margin.left-15, divHeight-margin.bottom-15]; //the numbers are tested to be bottom of legend.
+  line_end = [margin.left-15, divHeight-margin.bottom-15-line_length];
 
   legend.append('defs')
       .append('marker')
@@ -666,8 +680,8 @@
 
 
   svg.append('text')
-      .attr('x', line_end[0]+137)
-      .attr('y', line_end[1]+138)
+      .attr('x', line_start[0]+line_length+10)
+      .attr('y', line_start[1]+13)
       .attr('fill', 'white')
       .attr('font-size', '13px')
       .attr('font-weight', '300')
@@ -704,46 +718,162 @@
       .attr('fill', 'white')
       .attr('transform', 'translate(0, 10) rotate(90,' + line_start[0] + ',' + line_start[1] + ')');
 
-  const legendRowColumn = [{'id':'demLow', 'x':line_start[0]+10+(rect_width+1.5)*(1/2+0), 'y':line_start[1]+10, 'color':color_3class[0]},
-                             {'id':'demMid', 'x':line_start[0]+10+(rect_width+1.5)*(1/2+1), 'y':line_start[1]+10, 'color':color_3class[1]},
-                             {'id':'demHigh', 'x':line_start[0]+10+(rect_width+1.5)*(1/2+2), 'y':line_start[1]+10, 'color':color_3class[2]},
+  const legendRowColumn = [{'id':'demLow', 'x':line_start[0]+12+(rect_width+1.5)*(1/2+0), 'y':line_start[1]+10, 'color':color_3class[0]},
+                             {'id':'demMid', 'x':line_start[0]+12+(rect_width+1.5)*(1/2+1), 'y':line_start[1]+10, 'color':color_3class[1]},
+                             {'id':'demHigh', 'x':line_start[0]+12+(rect_width+1.5)*(1/2+2), 'y':line_start[1]+10, 'color':color_3class[2]},
                              {'id':'accLow', 'x':line_start[0], 'y':line_start[1]-(rect_width+1.5)*(1/2+0), 'color':color_3class[0]},
                              {'id':'accMid', 'x':line_start[0], 'y':line_start[1]-(rect_width+1.5)*(1/2+1), 'color':color_3class[3]},
                              {'id':'accHigh', 'x':line_start[0], 'y':line_start[1]-(rect_width+1.5)*(1/2+2), 'color':color_3class[6]}]
 
-  const dotsLegendRowColumn = svg.append("g")
-      .selectAll('dot')
-      .data(legendRowColumn)
-      .enter()
-      .append("circle")
-      .attr("cx", (d) => d.x)
-      .attr("cy", (d) => d.y)
-      .attr("r", 6)
-      .style("fill", (d) => d.color)
-      .style('stroke', 'white')
-      .style('stroke-width', '1.5');
+  const legendRowColumnVal = {'demLow':['A1','B1','C1'], 'demMid':['A2','B2','C2'], 'demHigh':['A3','B3','C3'],
+                              'accLow':['A1','A2','A3'], 'accMid':['B1','B2','B3'], 'accHigh':['C1','C2','C3']}
 
-  const selectedDot = svg.append("circle")
-      .style("opacity", 0);
+  legendDotClicked = 0
 
-  dotsLegendRowColumn.on('click', (d) => {
-    selectedDot
-        .attr("cx", d.x)
-        .attr("cy", d.y)
-        .attr("r", 8)
-        .style("opacity", 1)
-        .style("fill", d.color)
+  dotsLegendRowColumn = svg.selectAll('#legend')
+    .data(legendRowColumn)
+    .enter()
+    .append("circle")
+    .attr("cx", (d) => d.x)
+    .attr("cy", (d) => d.y)
+    .attr("r", 7)
+    .style("fill", (d) => d.color)
+    .style('stroke', 'white')
+    .style('stroke-width', '1.5')
+    .on('click', function() {
+      d3.select(this)
+        .attr("r", 11)
         .style("stroke", 'black')
         .style('stroke-width', '4');
+    })
+    .on('mouseover', function() {
+      if (legendDotClicked == 0) {
+        d3.select(this)
+          .attr("r", 11)
+          .style("stroke", 'black')
+          .style('stroke-width', '4')
+      }
+    })
+    .on('mouseout', function() {
+      if (legendDotClicked == 0) {
+        d3.select(this)
+          .attr("r", 7)
+          .style('stroke', 'white')
+          .style('stroke-width', '1.5');
+      }
+    })
 
-    let selectedDotId = d.id
+  dotsLegendRowColumn
+    .on('click', function(d) {
+
+      let selectedDotId = d.id
+      let label_biv = legendRowColumnVal[selectedDotId]
+
+      rect_cho
+        .style("fill", (d) => {
+          if (!label_biv.includes(Object.keys(color_3class_14)[color_3class.indexOf(d)])) {
+            return color_3class_darker[color_3class.indexOf(d)]
+          } else {
+          return color_3class[color_3class.indexOf(d)]
+          }
+        }
+      );
+
+      console.log(label_biv)
+
+      // let inputColor = []
+      // label_biv.foreach((item) => {
+      //   inputColor.push(color_3class_14[item])
+      // })
+
+      map_bef.setPaintProperty(
+          'bef_over',
+          'fill-color', ["match",["get", label],
+                  label_biv[0], color_3class_14[label_biv[0]],
+                  label_biv[1], color_3class_14[label_biv[1]],
+                  label_biv[2], color_3class_14[label_biv[2]],
+                  'black'
+          ]
+      )
+      map_aft.setPaintProperty(
+          'aft_over',
+          'fill-color', ["match",["get", label],
+                  label_biv[0], color_3class_14[label_biv[0]],
+                  label_biv[1], color_3class_14[label_biv[1]],
+                  label_biv[2], color_3class_14[label_biv[2]],
+                  'black'
+          ]
+      )
+
+      legendDotClicked = 1;
+    });
+
+
+
+  // print the specified color due to the clicked label
+  for (let i = 1; i < 4; i++) {
+          legend['_groups']['0'][i-1]['__data__'] = 'A'+i;
+  }
+  for (let i = 1; i < 4; i++) {
+          legend['_groups']['0'][i+2]['__data__'] = 'B'+i;
+  }
+  for (let i = 1; i < 4; i++) {
+          legend['_groups']['0'][i+5]['__data__'] = 'C'+i;
+  }
+  rect_cho = legend.selectAll('rect')
+  rect_elements = rect_cho.nodes();
+
+  legendRectClicked = 0
+
+  rect_cho
+    .on('mouseover', function() {
+      if (legendRectClicked == 0) {
+        console.log(this)
+        d3.select(this)
+          .style('stroke', 'black')
+          .style('stroke-width', '3px')
+          .style('stroke-linecap', 'round')
+          .style('opacity', 1);
+        }
+      })
+    .on('mouseout', function() {
+      if (legendRectClicked == 0) {
+        d3.select(this)
+          .style('stroke', 'none');
+      }
+    }
+  );
+
+  legend.on('click', function(d) {
+    console.log(d)
+    label_biv = d
+
+    rect_cho
+      .style("fill", (d) => {
+        if (Object.keys(color_3class_14)[color_3class.indexOf(d)] != label_biv) {
+          return color_3class_darker[color_3class.indexOf(d)]
+        } else {
+        return color_3class[color_3class.indexOf(d)]
+        }
+      }
+    );
+
+    map_bef.setPaintProperty(
+        'bef_over',
+        'fill-color', ["match",["get", label],
+                label_biv, color_3class_14[label_biv],
+                'black'
+        ]
+    )
+    map_aft.setPaintProperty(
+        'aft_over',
+        'fill-color', ["match",["get", label],
+                label_biv, color_3class_14[label_biv],
+                'black'
+        ]
+    )
+    legendRectClicked = 1
   });
-
-  d3.select('#map_bef').on('click', function(){
-    selectedDot
-      .style("opacity", 0);
-  });
-
 
 
   let meas_filter = 'abs'
@@ -776,41 +906,6 @@
       sliderValue_rel.innerHTML = 2;
   }
 
-  // print the specified color due to the clicked label
-  for (let i = 1; i < 4; i++) {
-          legend['_groups']['0'][i-1]['__data__'] = 'A'+i;
-  }
-  for (let i = 1; i < 4; i++) {
-          legend['_groups']['0'][i+2]['__data__'] = 'B'+i;
-  }
-  for (let i = 1; i < 4; i++) {
-          legend['_groups']['0'][i+5]['__data__'] = 'C'+i;
-  }
-
-  rect_cho = legend.selectAll('rect')
-  rect_cho_clicked = legend.selectAll('rect')
-
-  rect_elements = rect_cho.nodes();
-
-  rect_cho
-    .on('mouseover', function() {
-      d3.select(this)
-        .style('stroke', 'black')
-        .style('stroke-width', '3px')
-        .style('stroke-linecap', 'round');
-    })
-    .on('mouseout', function() {
-      d3.select(this)
-        .style('stroke', 'none');
-    });
-
-  rect_cho_clicked
-    .on('click', function() {
-      d3.select(this)
-        .style('stroke', 'black')
-        .style('stroke-width', '3px')
-        .style('stroke-linecap', 'round');
-    });
 
   let access_field = 'abs.com.mor.45min'
   let demand_field = 'dep'
@@ -1762,14 +1857,22 @@
       );
 
       rect_cho
-      .style('stroke', 'none');
+        .style('stroke', 'none');
 
-      rect_cho_clicked
-      .style('stroke', 'none');
+      rect_cho
+        .style("fill", (d) => d);
+
+      dotsLegendRowColumn
+        .attr('r', 7)
+        .style('stroke', 'white')
+        .style('stroke-width', '1.5');
+
+      legendRectClicked = 0;
+      legendDotClicked = 0;
 
     }
 
-    clicked = clicked + 1
+    clicked = clicked + 1;
 
   });
 
@@ -1822,7 +1925,9 @@
   });
 
     map_bef.on('click', 'bef_base', (es) => {
+
       label_cho = label
+
       color_cho = es.features['0']['properties'][label]
 
       if ((clicked % 2) === 0) {
@@ -1841,7 +1946,6 @@
             ]
         )
       }
-
 
       if (color_cho === (rect_cho['_parents']['8']['__data__'])) {
         d3.select(rect_elements[8])
@@ -2489,24 +2593,6 @@
       }
     })
 
-    });
-
-    legend.on("click", function(d) {
-        label_biv = d
-        map_bef.setPaintProperty(
-            'bef_over',
-            'fill-color', ["match",["get", label],
-                    label_biv, color_3class_14[label_biv],
-                    'black'
-            ]
-        )
-        map_aft.setPaintProperty(
-            'aft_over',
-            'fill-color', ["match",["get", label],
-                    label_biv, color_3class_14[label_biv],
-                    'black'
-            ]
-        )
     });
 
       // add additional maps (atlanta boundary & main road)
