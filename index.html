@@ -539,7 +539,7 @@
 
   let clicked = 0
   let demandUnit = 'num'
-  let xAxisNameLegend = 'No-vehicle pop.'
+  let xAxisNameLegend = 'pop. without vehicles'
   let prefix = 'Number of '
   let xAxisNameScatter = 'Population without Vehicles'
 
@@ -621,7 +621,7 @@
       .style("z-index", 1);
 
   divHeight = document.getElementById('legend-wrapper').clientHeight;
-  margin = {left: 45, bottom: 45};
+  margin = {left: 45, bottom: 60};
   rect_width = 35;
   legend_w = rect_width * 3;
   legend_x = margin.left + legend_w/2; //the center for rotation
@@ -646,7 +646,7 @@
       .style("fill", function(d){return d});
 
   arrowPoints = [[0, 0], [0, 10], [10, 5]];
-  line_length = 135
+  line_length = 125
   line_start = [margin.left-15, divHeight-margin.bottom-15]; //the numbers are tested to be bottom of legend.
   line_end = [margin.left-15, divHeight-margin.bottom-15-line_length];
 
@@ -667,9 +667,10 @@
   svg.append('text')
       .attr('x', line_start[0])
       .attr('y', line_start[1])
-      .attr('transform', 'translate(-25, -90) rotate(90,' + line_start[0] + ',' + line_start[1] + ')')
+      .attr('transform', 'translate(-15, -55) rotate(270,' + line_start[0] + ',' + line_start[1] + ')')
       .attr('fill', 'white')
       .attr('font-size', '14px')
+      .style("text-anchor", "middle")
       .text('Accessibility');
 
   const legend_x_text = svg.append('text')
@@ -678,7 +679,15 @@
       .style("text-anchor", "middle")
       .attr('fill', 'white')
       .attr('font-size', '14px')
-      .text('No-vehicle pop.');
+      .text('Transit demand');
+
+  const legend_x_text_sub = svg.append('text')
+      .attr('x', line_start[0]+65)
+      .attr('y', line_start[1]+55)
+      .style("text-anchor", "middle")
+      .attr('fill', 'white')
+      .attr('font-size', '14px')
+      .text('(pop. without vehicles)');
 
 
   svg.append('text')
@@ -2504,9 +2513,9 @@
   coordinate();
 
   function xAxisLegendChange(xAxisNameLegend, demandUnit) {
-    if (demandUnit=='pct') {unit = ' (%)'} else {unit = ''}
-    legend_x_text
-      .text(xAxisNameLegend + unit);
+    if (demandUnit=='pct') {unit = '% of '} else {unit = ''}
+    legend_x_text_sub
+      .text('(' + unit + xAxisNameLegend + ')');
   };
 
   function xAxisScatterChange(xAxisNameScatter, demandUnit) {
@@ -2515,7 +2524,7 @@
 
 
   function legend_dep() {
-    xAxisNameLegend = 'No-vehicle pop.'
+    xAxisNameLegend = 'pop. without vehicles'
     xAxisNameScatter = 'Population without Vehicles'
     xAxisLegendChange(xAxisNameLegend, demandUnit)
     xAxisScatterChange(xAxisNameScatter, demandUnit)
