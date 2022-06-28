@@ -792,27 +792,35 @@
 
       map_bef.setPaintProperty(
           'bef_over',
-          'fill-color', ["match",["get", label],
+          'fill-color', [
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                   label_biv[0], color_3class_14[label_biv[0]],
                   label_biv[1], color_3class_14[label_biv[1]],
                   label_biv[2], color_3class_14[label_biv[2]],
                   'black'
-          ]
+                ]
       )
       map_aft.setPaintProperty(
           'aft_over',
-          'fill-color', ["match",["get", label],
+          'fill-color', [
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                   label_biv[0], color_3class_14[label_biv[0]],
                   label_biv[1], color_3class_14[label_biv[1]],
                   label_biv[2], color_3class_14[label_biv[2]],
                   'black'
-          ]
+                ]
       )
 
       legendDotClicked = 1;
     });
-
-
 
   // print the specified color due to the clicked label
   for (let i = 1; i < 4; i++) {
@@ -864,30 +872,39 @@
 
     map_bef.setPaintProperty(
         'bef_over',
-        'fill-color', ["match",["get", label],
-                label_biv, color_3class_14[label_biv],
-                'black'
-        ]
+        'fill-color', [
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
+                    label_biv, color_3class_14[label_biv],
+                    'black'
+                ]
     )
     map_aft.setPaintProperty(
         'aft_over',
-        'fill-color', ["match",["get", label],
-                label_biv, color_3class_14[label_biv],
-                'black'
-        ]
+        'fill-color', [
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
+                    label_biv, color_3class_14[label_biv],
+                    'black'
+                ]
     )
     legendRectClicked = 1
   });
 
-
-  let meas_filter = 'abs'
-  let demand_filter = 'dep'
-  let time_filter = '45'
-  let unit_filter = 'act'
-  let trip_filter = 'com'
-  let label = "abs_com_45_dep_act"
+  let meas_filter = 'abs';
+  let demand_filter = 'dep';
+  let time_filter = '45';
+  let unit_filter = 'act';
+  let trip_filter = 'com';
+  let supply_label = 'abs_com_45';
+  let demand_label = 'dep_act';
   let label_biv = ""
-  let label_cho = ""
   let color_cho = ""
 
   // show the absolute slider while hiding the relative one - by clicking the radio button
@@ -1474,17 +1491,21 @@
     map_bef.on('load', () => {
       // Add a custom vector tileset source
 
-    map_bef.addSource('bef_emp_0619', {type: 'vector', url: "mapbox://lsj97.bef_emp_0619"});
+    map_bef.addSource('before_0629', {type: 'vector', url: "mapbox://lsj97.before_0629"});
 
     map_bef.addLayer(
     {
         'id': 'bef_base',
         'type': 'fill',
-        'source': 'bef_emp_0619',
-        'source-layer': 'before_0619',
+        'source': 'before_0629',
+        'source-layer': 'before_0629',
         'paint': {
         'fill-color': [
-            'match', ['get', label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1506,24 +1527,28 @@
     {
         'id': 'bef_over',
         'type': 'fill',
-        'source': 'bef_emp_0619',
-        'source-layer': 'before_0619',
+        'source': 'before_0629',
+        'source-layer': 'before_0629',
         'paint': {
         'fill-color': [
-            'match', ['get', label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
+            'fill-opacity': 0.7,
+            'fill-outline-color': 'rgba(0,0,0,0.1)'
           }
         },
       );
@@ -1532,8 +1557,8 @@
     {
       'id': 'bef_hover',
       'type': 'fill',
-      'source': 'bef_emp_0619',
-      'source-layer': 'empty_0619',
+      'source': 'before_0629',
+      'source-layer': 'before_0629',
       'paint': {
         'fill-outline-color': '#000000',
         'fill-color': '#000000',
@@ -1553,7 +1578,8 @@
 
         demand_filter = demand_target;
 
-        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+        demand_label = demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -1562,7 +1588,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1573,12 +1603,16 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1589,7 +1623,7 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     });
 
@@ -1599,7 +1633,8 @@
 
         meas_filter = meas_target;
 
-        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+        demand_label = demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -1608,7 +1643,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1619,12 +1658,16 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1635,7 +1678,7 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     });
 
@@ -1645,7 +1688,8 @@
 
         unit_filter = unit_target;
 
-        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+        demand_label = demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -1654,7 +1698,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1665,12 +1713,16 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1681,7 +1733,7 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     });
 
@@ -1691,39 +1743,48 @@
 
       trip_filter = trip_target;
 
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
   map_bef.setPaintProperty(
       'bef_base',
       'fill-color', [
-          "match", ["get", label],
-                  'A1', color_3class_14['A1'],
-                  'A2', color_3class_14['A2'],
-                  'A3', color_3class_14['A3'],
-                  'B1', color_3class_14['B1'],
-                  'B2', color_3class_14['B2'],
-                  'B3', color_3class_14['B3'],
-                  'C1', color_3class_14['C1'],
-                  'C2', color_3class_14['C2'],
-                  'C3', color_3class_14['C3'],
-                  'black'
-              ]
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
+                    'A1', color_3class_14['A1'],
+                    'A2', color_3class_14['A2'],
+                    'A3', color_3class_14['A3'],
+                    'B1', color_3class_14['B1'],
+                    'B2', color_3class_14['B2'],
+                    'B3', color_3class_14['B3'],
+                    'C1', color_3class_14['C1'],
+                    'C2', color_3class_14['C2'],
+                    'C3', color_3class_14['C3'],
+                    'black'
+                ],
       );
   map_bef.setPaintProperty(
       'bef_over',
       'fill-color', [
-          "match", ["get", label],
-                  'A1', color_3class_14['A1'],
-                  'A2', color_3class_14['A2'],
-                  'A3', color_3class_14['A3'],
-                  'B1', color_3class_14['B1'],
-                  'B2', color_3class_14['B2'],
-                  'B3', color_3class_14['B3'],
-                  'C1', color_3class_14['C1'],
-                  'C2', color_3class_14['C2'],
-                  'C3', color_3class_14['C3'],
-                  'black'
-              ]
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
+                    'A1', color_3class_14['A1'],
+                    'A2', color_3class_14['A2'],
+                    'A3', color_3class_14['A3'],
+                    'B1', color_3class_14['B1'],
+                    'B2', color_3class_14['B2'],
+                    'B3', color_3class_14['B3'],
+                    'C1', color_3class_14['C1'],
+                    'C2', color_3class_14['C2'],
+                    'C3', color_3class_14['C3'],
+                    'black'
+                ],
       );
   });
 
@@ -1736,7 +1797,8 @@
 
       time_filter = slider_filter_abs;
 
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -1745,7 +1807,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1756,12 +1822,16 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1772,7 +1842,7 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     });
 
@@ -1783,7 +1853,8 @@
 
       time_filter = slider_filter_rel;
 
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -1792,7 +1863,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1803,12 +1878,16 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1819,7 +1898,7 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
     });
 
@@ -1830,7 +1909,11 @@
         map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1841,12 +1924,16 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
         map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            "match", ["get", label],
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1857,7 +1944,7 @@
                     'C2', color_3class_14['C2'],
                     'C3', color_3class_14['C3'],
                     'black'
-                ]
+                ],
         );
 
         rect_cho
@@ -1889,8 +1976,8 @@
         if (hoveredStateId !== null) {
           map_bef.setFeatureState(
           {
-            source: 'bef_emp_0619',
-            sourceLayer: 'empty_0619',
+            source: 'before_0629',
+            sourceLayer: 'before_0629',
             id: hoveredStateId
           },
           {
@@ -1901,8 +1988,8 @@
           hoveredStateId = e.features[0].id;
           map_bef.setFeatureState(
           {
-            source: 'bef_emp_0619',
-            sourceLayer: 'empty_0619',
+            source: 'before_0629',
+            sourceLayer: 'before_0629',
             id: hoveredStateId
           },
           {
@@ -1917,8 +2004,8 @@
       if (hoveredStateId !== null) {
         map_bef.setFeatureState(
           {
-            source: 'bef_emp_0619',
-            sourceLayer: 'empty_0619',
+            source: 'before_0629',
+            sourceLayer: 'before_0629',
             id: hoveredStateId
           },
           {
@@ -1931,24 +2018,32 @@
 
     map_bef.on('click', 'bef_base', (es) => {
 
-      label_cho = label
-
-      color_cho = es.features['0']['properties'][label]
+      color_cho = es.features['0']['properties'][supply_label] + es.features['0']['properties'][demand_label]
 
       if ((clicked % 2) === 0) {
         map_bef.setPaintProperty(
             'bef_over',
-            'fill-color', ["match",["get", label_cho],
+            'fill-color', [
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     color_cho, color_3class_14[color_cho],
                     'black'
-            ]
+                ]
         )
         map_aft.setPaintProperty(
             'aft_over',
-            'fill-color', ["match",["get", label_cho],
+            'fill-color', [
+            'match', 
+                ['concat',
+                    ['get', supply_label],
+                    ['get', demand_label],
+                ],   
                     color_cho, color_3class_14[color_cho],
                     'black'
-            ]
+                ]
         )
       }
 
@@ -1967,30 +2062,34 @@
         // map the base block group data
     map_aft.on('load', () => {
       // Add a custom vector tileset source
-      map_aft.addSource('aft_emp_0619', {type: 'vector', url: "mapbox://lsj97.aft_emp_0619"});
+      map_aft.addSource('after_0629', {type: 'vector', url: "mapbox://lsj97.after_0629"});
 
       map_aft.addLayer(
         {
           'id': 'aft_base',
           'type': 'fill',
-          'source': 'aft_emp_0619',
-          'source-layer': 'after_0619',
+          'source': 'after_0629',
+          'source-layer': 'after_0629',
           'paint': {
-            'fill-color': [
-                'match', ['get', label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                    ],
-                    'fill-opacity': 0.7,
-                    'fill-outline-color': 'rgba(0,0,0,0.1)'
+          'fill-color': [
+          'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
+            'fill-opacity': 0.7,
+            'fill-outline-color': 'rgba(0,0,0,0.1)'
           }
         },
       );
@@ -2000,24 +2099,28 @@
       {
         'id': 'aft_over',
         'type': 'fill',
-        'source': 'aft_emp_0619',
-        'source-layer': 'after_0619',
+        'source': 'after_0629',
+        'source-layer': 'after_0629',
         'paint': {
         'fill-color': [
-            'match', ['get', label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
+        'fill-opacity': 0.7,
+        'fill-outline-color': 'rgba(0,0,0,0.1)'
           }
         },
       );
@@ -2026,8 +2129,8 @@
     {
       'id': 'aft_hover',
       'type': 'fill',
-      'source': 'aft_emp_0619',
-      'source-layer': 'empty_0619',
+      'source': 'after_0629',
+      'source-layer': 'after_0629',
       'paint': {
         'fill-outline-color': '#000000',
         'fill-color': '#000000',
@@ -2046,7 +2149,8 @@
 
       demand_filter = demand_target;
 
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -2056,34 +2160,42 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         )
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         )
     });
 
@@ -2093,7 +2205,8 @@
 
         meas_filter = meas_target;
 
-        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+        demand_label = demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -2102,34 +2215,42 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     });
 
@@ -2139,7 +2260,8 @@
 
         unit_filter = unit_target;
 
-        label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+        supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+        demand_label = demand_filter + '_' + unit_filter;
 
         redrawScatterPlot();
         redrawLorenz();
@@ -2148,34 +2270,42 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     });
 
@@ -2184,40 +2314,49 @@
       const trip_target = event_trip.target.value;
 
       trip_filter = trip_target;
-
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
   map_aft.setPaintProperty(
       'aft_base',
       'fill-color', [
-          "match", ["get", label],
-                  'A1', color_3class_14['A1'],
-                  'A2', color_3class_14['A2'],
-                  'A3', color_3class_14['A3'],
-                  'B1', color_3class_14['B1'],
-                  'B2', color_3class_14['B2'],
-                  'B3', color_3class_14['B3'],
-                  'C1', color_3class_14['C1'],
-                  'C2', color_3class_14['C2'],
-                  'C3', color_3class_14['C3'],
-                  'black'
-              ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
       );
   map_aft.setPaintProperty(
       'aft_over',
       'fill-color', [
-          "match", ["get", label],
-                  'A1', color_3class_14['A1'],
-                  'A2', color_3class_14['A2'],
-                  'A3', color_3class_14['A3'],
-                  'B1', color_3class_14['B1'],
-                  'B2', color_3class_14['B2'],
-                  'B3', color_3class_14['B3'],
-                  'C1', color_3class_14['C1'],
-                  'C2', color_3class_14['C2'],
-                  'C3', color_3class_14['C3'],
-                  'black'
-              ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
       );
   });
 
@@ -2229,7 +2368,8 @@
 
       time_filter = slider_filter_abs;
 
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -2238,34 +2378,42 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     });
 
@@ -2276,7 +2424,8 @@
 
       time_filter = slider_filter_rel;
 
-      label = meas_filter + '_' + trip_filter + '_' + time_filter + '_' + demand_filter + '_' + unit_filter;
+      supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
+      demand_label = demand_filter + '_' + unit_filter;
 
       redrawScatterPlot();
       redrawLorenz();
@@ -2285,34 +2434,42 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            "match", ["get", label],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ]
+        'match', 
+            ['concat',
+                ['get', supply_label],
+                ['get', demand_label],
+            ],   
+                'A1', color_3class_14['A1'],
+                'A2', color_3class_14['A2'],
+                'A3', color_3class_14['A3'],
+                'B1', color_3class_14['B1'],
+                'B2', color_3class_14['B2'],
+                'B3', color_3class_14['B3'],
+                'C1', color_3class_14['C1'],
+                'C2', color_3class_14['C2'],
+                'C3', color_3class_14['C3'],
+                'black'
+            ],
         );
     });
 
@@ -2324,8 +2481,8 @@
           if (hoveredStateId !== null) {
             map_aft.setFeatureState(
             {
-              source: 'aft_emp_0619',
-              sourceLayer: 'empty_0619',
+              source: 'after_0629',
+              sourceLayer: 'after_0629',
               id: hoveredStateId
             },
             {
@@ -2336,8 +2493,8 @@
             hoveredStateId = e.features[0].id;
             map_aft.setFeatureState(
             {
-              source: 'aft_emp_0619',
-              sourceLayer: 'empty_0619',
+              source: 'after_0629',
+              sourceLayer: 'after_0629',
               id: hoveredStateId
             },
             {
@@ -2353,8 +2510,8 @@
         if (hoveredStateId !== null) {
           map_aft.setFeatureState(
             {
-              source: 'aft_emp_0619',
-              sourceLayer: 'empty_0619',
+              source: 'after_0629',
+              sourceLayer: 'after_0629',
               id: hoveredStateId
             },
             {
@@ -2366,25 +2523,35 @@
       });
 
       map_aft.on('click', 'aft_base', (er) => {
-        label_cho = label
-        color_cho = er.features['0']['properties'][label]
+
+        color_cho = er.features['0']['properties'][supply_label] + er.features['0']['properties'][demand_label]
 
         if ((clicked % 2) === 0) {
           map_bef.setPaintProperty(
               'bef_over',
-              'fill-color', ["match",["get", label_cho],
-                      color_cho, color_3class_14[color_cho],
-                      'black'
-              ]
+              'fill-color', [
+                'match', 
+                    ['concat',
+                        ['get', supply_label],
+                        ['get', demand_label],
+                    ],   
+                        color_cho, color_3class_14[color_cho],
+                        'black'
+                    ]
           )
           map_aft.setPaintProperty(
               'aft_over',
-              'fill-color', ["match",["get", label_cho],
-                      color_cho, color_3class_14[color_cho],
-                      'black'
-              ]
+              'fill-color', [
+                'match', 
+                    ['concat',
+                        ['get', supply_label],
+                        ['get', demand_label],
+                    ],   
+                        color_cho, color_3class_14[color_cho],
+                        'black'
+                    ]
           )
-        }
+        }    
 
         rect_cho
           .style("fill", (d) => {
