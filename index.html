@@ -411,7 +411,8 @@
       'opsz' 48
   }
   .material-symbols-outlined:hover {
-      background: #b0a11c;
+      background: #ffd752;
+      color: #000000;
       border-radius: 50%;
   }
   .overlay {
@@ -457,7 +458,7 @@
       color: white;
   }
   .popup .close:hover {
-      color: #b0a11c;
+      color: #ffd752;
   }
   .popup .content {
       margin-top: 10px;
@@ -485,15 +486,8 @@
   <div id='plot-wrapper'>
     <div id='gapSummary'>
       <div id='gapTitle'>
-        <p> Transit Inequity: demand-supply gap<a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a>
+        <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a>
         </p>
-      </div>
-      <div id="popup1" class="overlay">
-          <div class="popup">
-              <h2>What is demand-supply gap?</h2>
-              <a class="close" href="#">&times;</a>
-              <div class="content"> The gap index ranges from 0 to 1; a value of 1 represents total inequity </div>
-          </div>
       </div>
       <div id='gapSmallText'>
         <p> Current </p>
@@ -507,16 +501,7 @@
     <div id='scatterPlot'></div>
     <div id='giniSummary'>
       <div id="giniTitle">
-        <p>Transit Inequality by Level of Demand<a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
-      </div>
-      <div id="popup2" class="overlay">
-          <div class="popup" style="top: 50%;">
-              <h2>How is Transit Inequality measured?</h2>
-              <a class="close" href="#">&times;</a>
-              <div class="content">
-                The values are Gini indices where a high value means inequality; lorenz curves in the plot also show inequality based on how far it is from the line of equality
-              </div>
-          </div>
+        <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
       </div>
       <div id="giniSmallText">
         <p> Current </p>
@@ -627,16 +612,43 @@
       <div class="legendInfo">
         <a class="button" href="#popup3"><span class="material-symbols-outlined">Help</span></a>
       </div>
-      <div id="popup3" class="overlay">
-          <div class="popup" style="top: 70%; left: 12%;">
-              <h2>How does the legend work?</h2>
-              <a class="close" href="#">&times;</a>
-              <div class="content">
-                test
-              </div>
+    </div>
+  </div>
+  <div id="popup1" class="overlay">
+      <div class="popup">
+          <h2>What is demand-supply gap?</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <ul>
+              <li>The gap index ranges from 0 to 1</li>
+              <li>a value of 1 represents total inequity</li>
+            </ul>
           </div>
       </div>
-    </div>
+  </div>
+  <div id="popup2" class="overlay">
+      <div class="popup" style="top: 50%;">
+          <h2>How is Transit Inequality measured?</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <ul>
+              <li>The values are Gini indices where a high value means inequality</li>
+              <li>lorenz curves in the plot also show inequality based on how far it is from the line of equality</li>
+            </ul>
+          </div>
+      </div>
+  </div>
+  <div id="popup3" class="overlay">
+      <div class="popup" style="top: 70%; left: 12%;">
+          <h2>How does the legend work?</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <ul>
+              <li>test1</li>
+              <li>test2</li>
+            </ul>
+          </div>
+      </div>
   </div>
 
 <script>
