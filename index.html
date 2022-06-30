@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -74,13 +75,13 @@
     justify-content: space-between;
   }
   #gapSummary {
-    height: 9%;
+    height: 11%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
   #scatterPlot {
-    height: 31%;
+    height: 33%;
   }
   #giniSummary {
     height: 20%;
@@ -90,9 +91,9 @@
     justify-content: space-around;
   }
   #lorenzCurve {
-    height: 32%;
+    height: 33%;
   }
-  #footNote {
+  /* #footNote {
     height: 8%;
     font-size: 12px;
     font-weight: 200;
@@ -100,7 +101,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
+  } */
   #gapTitle {
     align-items: center;
     font-size: 20px;
@@ -210,6 +211,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-shadow: 2px 2px 4px #000000;
   }
   .session_demand {
     width: 205px;
@@ -237,6 +239,11 @@
   #legend-wrapper{
     height:35%;
     width: 230px;
+  }
+  .legendInfo {
+    position: absolute;
+    bottom: 25px;
+    right: 60px;
   }
   .row {
     padding-left: 5px;
@@ -387,6 +394,77 @@
   sup {
       vertical-align: baseline;
   }
+  .button {
+      color: #fff;
+      text-decoration: none;
+      z-index: 6;
+      font-family: monospace;
+  }
+  .material-symbols-outlined {
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease-out;
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 300,
+      'GRAD' 0,
+      'opsz' 48
+  }
+  .material-symbols-outlined:hover {
+      background: #b0a11c;
+      border-radius: 50%;
+  }
+  .overlay {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      transition: opacity 500ms;
+      visibility: hidden;
+      opacity: 0;
+      z-index: 6
+  }
+  .overlay:target {
+      visibility: visible;
+      opacity: 1;
+  }
+  .popup {
+      top: 10%;
+      left: calc(58% + 200px);
+      padding: 20px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 2px solid white;
+      border-radius: 10px;
+      width: 25%;
+      position: relative;
+      transition: all 5s ease-in-out;
+      z-index: 6;
+      flex-direction: row;
+      justify-content: space-around;
+
+  }
+  .popup .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      transition: all 200ms;
+      font-size: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+  }
+  .popup .close:hover {
+      color: #b0a11c;
+  }
+  .popup .content {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      overflow: auto;
+  }
+
 
 </style>
 
@@ -407,7 +485,15 @@
   <div id='plot-wrapper'>
     <div id='gapSummary'>
       <div id='gapTitle'>
-        <p> Transit Inequity: demand-supply gap<sup>*</sup> </p>
+        <p> Transit Inequity: demand-supply gap<a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a>
+        </p>
+      </div>
+      <div id="popup1" class="overlay">
+          <div class="popup">
+              <h2>What is demand-supply gap?</h2>
+              <a class="close" href="#">&times;</a>
+              <div class="content"> The gap index ranges from 0 to 1; a value of 1 represents total inequity </div>
+          </div>
       </div>
       <div id='gapSmallText'>
         <p> Current </p>
@@ -421,7 +507,16 @@
     <div id='scatterPlot'></div>
     <div id='giniSummary'>
       <div id="giniTitle">
-        <p>Transit Inequality<sup>**</sup> by Level of Demand</p>
+        <p>Transit Inequality by Level of Demand<a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
+      </div>
+      <div id="popup2" class="overlay">
+          <div class="popup" style="top: 50%;">
+              <h2>How is Transit Inequality measured?</h2>
+              <a class="close" href="#">&times;</a>
+              <div class="content">
+                The values are Gini indices where a high value means inequality; lorenz curves in the plot also show inequality based on how far it is from the line of equality
+              </div>
+          </div>
       </div>
       <div id="giniSmallText">
         <p> Current </p>
@@ -446,10 +541,6 @@
       </div>
     </div>
     <div id='lorenzCurve'></div>
-    <div id="footNote">
-      <p> * The gap index ranges from 0 to 1; a value of 1 represents total inequity </p>
-      <p> ** The values are Gini indices where a high value means inequality; lorenz curves in the plot also show inequality based on how far it is from the line of equality </p>
-    </div>
   </div>
   <div id="map_bef"> </div>
   <div id="map_aft"></div>
@@ -532,7 +623,20 @@
         </p>
       </div>
     </div>
-    <div id="legend-wrapper"></div>
+    <div id="legend-wrapper">
+      <div class="legendInfo">
+        <a class="button" href="#popup3"><span class="material-symbols-outlined">Help</span></a>
+      </div>
+      <div id="popup3" class="overlay">
+          <div class="popup" style="top: 70%; left: 12%;">
+              <h2>How does the legend work?</h2>
+              <a class="close" href="#">&times;</a>
+              <div class="content">
+                test
+              </div>
+          </div>
+      </div>
+    </div>
   </div>
 
 <script>
@@ -793,11 +897,11 @@
       map_bef.setPaintProperty(
           'bef_over',
           'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                   label_biv[0], color_3class_14[label_biv[0]],
                   label_biv[1], color_3class_14[label_biv[1]],
                   label_biv[2], color_3class_14[label_biv[2]],
@@ -807,11 +911,11 @@
       map_aft.setPaintProperty(
           'aft_over',
           'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                   label_biv[0], color_3class_14[label_biv[0]],
                   label_biv[1], color_3class_14[label_biv[1]],
                   label_biv[2], color_3class_14[label_biv[2]],
@@ -873,11 +977,11 @@
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     label_biv, color_3class_14[label_biv],
                     'black'
                 ]
@@ -885,11 +989,11 @@
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     label_biv, color_3class_14[label_biv],
                     'black'
                 ]
@@ -1501,11 +1605,11 @@
         'source-layer': 'before_0629',
         'paint': {
         'fill-color': [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1531,11 +1635,11 @@
         'source-layer': 'before_0629',
         'paint': {
         'fill-color': [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -1588,11 +1692,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1608,11 +1712,11 @@
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1643,11 +1747,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1663,11 +1767,11 @@
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1698,11 +1802,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1718,11 +1822,11 @@
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1749,11 +1853,11 @@
   map_bef.setPaintProperty(
       'bef_base',
       'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1769,11 +1873,11 @@
   map_bef.setPaintProperty(
       'bef_over',
       'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1807,11 +1911,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1827,11 +1931,11 @@
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1863,11 +1967,11 @@
     map_bef.setPaintProperty(
         'bef_base',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1883,11 +1987,11 @@
     map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1909,11 +2013,11 @@
         map_bef.setPaintProperty(
         'bef_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -1929,11 +2033,11 @@
         map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     'A1', color_3class_14['A1'],
                     'A2', color_3class_14['A2'],
                     'A3', color_3class_14['A3'],
@@ -2024,11 +2128,11 @@
         map_bef.setPaintProperty(
             'bef_over',
             'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     color_cho, color_3class_14[color_cho],
                     'black'
                 ]
@@ -2036,11 +2140,11 @@
         map_aft.setPaintProperty(
             'aft_over',
             'fill-color', [
-            'match', 
+            'match',
                 ['concat',
                     ['get', supply_label],
                     ['get', demand_label],
-                ],   
+                ],
                     color_cho, color_3class_14[color_cho],
                     'black'
                 ]
@@ -2072,11 +2176,11 @@
           'source-layer': 'after_0629',
           'paint': {
           'fill-color': [
-          'match', 
+          'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2103,11 +2207,11 @@
         'source-layer': 'after_0629',
         'paint': {
         'fill-color': [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2160,11 +2264,11 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2180,11 +2284,11 @@
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2215,11 +2319,11 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2235,11 +2339,11 @@
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2270,11 +2374,11 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2290,11 +2394,11 @@
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2314,18 +2418,18 @@
       const trip_target = event_trip.target.value;
 
       trip_filter = trip_target;
-      
+
       supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
       demand_label = demand_filter + '_' + unit_filter;
 
   map_aft.setPaintProperty(
       'aft_base',
       'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2341,11 +2445,11 @@
   map_aft.setPaintProperty(
       'aft_over',
       'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2378,11 +2482,11 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2398,11 +2502,11 @@
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2434,11 +2538,11 @@
     map_aft.setPaintProperty(
         'aft_base',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2454,11 +2558,11 @@
     map_aft.setPaintProperty(
         'aft_over',
         'fill-color', [
-        'match', 
+        'match',
             ['concat',
                 ['get', supply_label],
                 ['get', demand_label],
-            ],   
+            ],
                 'A1', color_3class_14['A1'],
                 'A2', color_3class_14['A2'],
                 'A3', color_3class_14['A3'],
@@ -2530,11 +2634,11 @@
           map_bef.setPaintProperty(
               'bef_over',
               'fill-color', [
-                'match', 
+                'match',
                     ['concat',
                         ['get', supply_label],
                         ['get', demand_label],
-                    ],   
+                    ],
                         color_cho, color_3class_14[color_cho],
                         'black'
                     ]
@@ -2542,16 +2646,16 @@
           map_aft.setPaintProperty(
               'aft_over',
               'fill-color', [
-                'match', 
+                'match',
                     ['concat',
                         ['get', supply_label],
                         ['get', demand_label],
-                    ],   
+                    ],
                         color_cho, color_3class_14[color_cho],
                         'black'
                     ]
           )
-        }    
+        }
 
         rect_cho
           .style("fill", (d) => {
