@@ -200,7 +200,6 @@
     color: white;
     z-index: 1;
   }
-
   #filter-wrapper {
     position: absolute;
     left: 20px;
@@ -235,7 +234,6 @@
   .sliderContainer {
     color: white;
   }
-
   #legend-wrapper{
     height:35%;
     width: 230px;
@@ -433,13 +431,13 @@
   }
   .popup {
       top: 10%;
-      left: calc(58% + 200px);
-      padding: 20px;
+      left: calc(58% + 180px);
+      padding: 10px;
       color: white;
       background-color: rgba(0, 0, 0, 0.5);
       border: 2px solid white;
       border-radius: 10px;
-      width: 25%;
+      width: 29%;
       position: relative;
       transition: all 5s ease-in-out;
       z-index: 6;
@@ -461,8 +459,13 @@
   }
   .popup .content {
       margin-top: 10px;
+      margin-right: 10px;
       margin-bottom: 20px;
       overflow: auto;
+      line-height: 1.5;
+  }
+  ul {
+    padding-left: 30px;
   }
 
 
@@ -615,38 +618,98 @@
   </div>
   <div id="popup1" class="overlay">
       <div class="popup">
-          <h2>What is demand-supply gap?</h2>
+          <h2>How is the 'Transit Inequality' measured?</h2>
           <a class="close" href="#">&times;</a>
           <div class="content">
             <ul>
-              <li>The gap index ranges from 0 to 1</li>
-              <li>a value of 1 represents total inequity</li>
+              <li>The numeric values are Gap indices that summarize the overall gap between transit supply (i.e., accessibility) and demand, which is measured by:
+                <p class="cmath"> $$ \sum_{i=1}^n(\mid ServiceSupply_{i}^{percentile}\mid - \mid ServiceDemand_{i}^{percentile}\mid) \over n $$</p></li>
+              <li>The Gap index ranges from 0 to 1, where a value of 1 represents total inequity.</li>
+              <li>The scatterplot shows how the transit service supply is distributed with respect to the transit demand variable.</li>
             </ul>
           </div>
+      </div>
+      <div id='plot-wrapper'>
+        <div id='gapSummary'>
+          <div id='gapTitle'>
+            <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a>
+            </p>
+          </div>
+          <div id='gapSmallText'>
+            <p> Current </p>
+            <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
+          </div>
+          <div id='gapValue'>
+            <p> <span id="gapValueBefore2"></b> </span> </p>
+            <p> <span id="gapValueAfter2"></b> </span> </p>
+          </div>
+        </div>
+        <div id='scatterPlot'></div>
+        <div id='giniSummary'></div>
+        <div id="lorenzCurve" style="visibility:hidden"></div>
       </div>
   </div>
   <div id="popup2" class="overlay">
       <div class="popup" style="top: 50%;">
-          <h2>How is Transit Inequality measured?</h2>
+          <h2>How is the 'Transit Inequality' measured?</h2>
           <a class="close" href="#">&times;</a>
           <div class="content">
             <ul>
-              <li>The values are Gini indices where a high value means inequality</li>
-              <li>lorenz curves in the plot also show inequality based on how far it is from the line of equality</li>
+              <li>The numeric values are Gini indices which represent the degree of inequality among neighborhoods with low/mid/high transit demand, respectively. </li>
+              <li>A high value of Gini index means the distribution is far from equal. </li>
+              <li>The plot is showing Lorenz curves which also indicate the degree of inequality based on how far it is from the line of equality.</li>
             </ul>
           </div>
       </div>
+      <div id='plot-wrapper'>
+        <div id='gapSummary'></div>
+        <div id='scatterPlot' style="visibility:hidden"></div>
+        <div id='giniSummary'>
+          <div id="giniTitle">
+            <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
+          </div>
+          <div id="giniSmallText">
+            <p> Current </p>
+            <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
+          </div>
+          <div id="giniValue-wrapper">
+            <div id="giniValue">
+              <p style="color: #fffde6;"> <span id="giniBeforeLow2"></b> </span> </p>
+              <p style="color: #f7adad;"> <span id="giniBeforeMid2"></b> </span> </p>
+              <p style="color: #e34b4b;"> <span id="giniBeforeHigh2"></b> </span> </p>
+            </div>
+            <div id="giniValue">
+              <p style="font-size: 13px; font-weight: 300; text-align: center;"> Low-demand neighborhoods </p>
+              <p style="font-size: 13px; font-weight: 300; text-align: center;"> Mid-demand neighborhoods </p>
+              <p style="font-size: 13px; font-weight: 300; text-align: center;"> High-demand neighborhoods </p>
+            </div>
+            <div id="giniValue">
+              <p style="color: #fffde6;"> <span id="giniAfterLow2"></b> </span> </p>
+              <p style="color: #f7adad;"> <span id="giniAfterMid2"></b> </span> </p>
+              <p style="color: #e34b4b;"> <span id="giniAfterHigh2"></b> </span> </p>
+            </div>
+          </div>
+        </div>
+        <div id="lorenzCurve"></div>
+      </div>
   </div>
   <div id="popup3" class="overlay">
-      <div class="popup" style="top: 70%; left: 12%;">
+      <div class="popup" style="top: 65%; left: 13%;">
           <h2>How does the legend work?</h2>
           <a class="close" href="#">&times;</a>
           <div class="content">
             <ul>
-              <li>test1</li>
-              <li>test2</li>
+              <li>The legend shows the level of transit accessibility and transit demand that each Block Group falls under</li>
+              <li><span style="background: #663d9c;">Purple</span> means transit is over-supplied compared to the low transit demand </li>
+              <li><span style="background: #b55353;">Red</span> means transit is under-spplied compared to the high transit demand </li>
+              <li><span style="background: #fffacf; color: black;">Ivory</span> means transit supply and demand are well matched </li>
+              <li>Click each box to highlight neighborhoods in the category; or click each circle on the axis to highlight by row/column </li>
             </ul>
           </div>
+      </div>
+      <div id="filter-wrapper">
+        <div></div>
+        <div id="legend-wrapper"></div>
       </div>
   </div>
 
@@ -728,7 +791,7 @@
       minZoom: 3,
   });
 
-  const svg = d3.select('#legend-wrapper')
+  const svg = d3.selectAll('#legend-wrapper')
       .append("svg")
       .attr('id', 'legend')
       .attr("width", "100%")
@@ -1090,6 +1153,15 @@
 
       giniAfterHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
           .map((d)=>{return d['gini.high']})[0];
+
+      gapValueBefore2.innerHTML = gapValueBefore.innerHTML
+      gapValueAfter2.innerHTML = gapValueAfter.innerHTML
+      giniBeforeLow2.innerHTML = giniBeforeLow.innerHTML
+      giniAfterLow2.innerHTML = giniAfterLow.innerHTML
+      giniBeforeMid2.innerHTML = giniBeforeMid.innerHTML
+      giniAfterMid2.innerHTML = giniAfterMid.innerHTML
+      giniBeforeHigh2.innerHTML = giniBeforeHigh.innerHTML
+      giniAfterHigh2.innerHTML = giniAfterHigh.innerHTML
     }
 
     valueDisplay(access_field, demand_field)
@@ -1111,7 +1183,7 @@
     /////////// scatter plot ////////////
     const scatterColor = ['#ffffff','#707070']
 
-    const scatterPlot = d3.select('#scatterPlot').append("svg")
+    const scatterPlot = d3.selectAll('#scatterPlot').append("svg")
         .attr('id', 'scatterPlotSvg')
         .attr('width', plot_w + panel_margin.left + panel_margin.right)
         .attr('height', plot_h + panel_margin.top + panel_margin.bottom)
@@ -1305,7 +1377,7 @@
     /////////// lorenz curve ////////////
     let lorenzColor = color_3class.slice(0, 3)
 
-    let lorenzCurve = d3.select('#lorenzCurve').append("svg")
+    let lorenzCurve = d3.selectAll('#lorenzCurve').append("svg")
           // .style("top", intro_h + toggle_h*3 + plot_h + panel_margin.top + 15 + 35 + 'px')
           .attr('id', 'lorenzCurveSvg')
           .attr('width', plot_w + panel_margin.left + panel_margin.right)
