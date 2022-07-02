@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+  <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>Transit Equity</title>
+      <meta charset="UTF-8">
+      <title>Transit Equity</title>
   </head>
 
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -73,13 +74,13 @@
     justify-content: space-between;
   }
   #gapSummary {
-    height: 9%;
+    height: 11%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
   #scatterPlot {
-    height: 31%;
+    height: 33%;
   }
   #giniSummary {
     height: 20%;
@@ -89,9 +90,9 @@
     justify-content: space-around;
   }
   #lorenzCurve {
-    height: 32%;
+    height: 33%;
   }
-  #footNote {
+  /* #footNote {
     height: 8%;
     font-size: 12px;
     font-weight: 200;
@@ -99,7 +100,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
+  } */
   #gapTitle {
     align-items: center;
     font-size: 20px;
@@ -198,7 +199,6 @@
     color: white;
     z-index: 1;
   }
-
   #filter-wrapper {
     position: absolute;
     left: 20px;
@@ -209,6 +209,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-shadow: 2px 2px 4px #000000;
   }
   .session_demand {
     width: 205px;
@@ -232,10 +233,14 @@
   .sliderContainer {
     color: white;
   }
-
   #legend-wrapper{
     height:35%;
     width: 230px;
+  }
+  .legendInfo {
+    position: absolute;
+    bottom: 25px;
+    right: 60px;
   }
   .row {
     padding-left: 5px;
@@ -351,9 +356,9 @@
     padding:0 1em;
   }
   .fraction > .num {
-    border-bottom: 2px solid #808080;
-    padding:4px;
-    margin:10 10 8px 10;
+      border-bottom: 2px solid #808080;
+      padding:4px;
+      margin:10 10 8px 10;
   }
   .fraction > .dem{
       padding: 0;
@@ -369,7 +374,7 @@
     font-size: 24px;
     font-weight: 500;
     text-shadow: 2px 2px 4px #000000;
-    z-index: 1;
+      z-index: 1;
   }
   .mapTitleRight{
     position: absolute;
@@ -386,28 +391,99 @@
   sup {
     vertical-align: baseline;
   }
+  .button {
+    color: #fff;
+    text-decoration: none;
+    z-index: 6;
+    font-family: monospace;
+  }
+  .material-symbols-outlined {
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 48
+  }
+  .material-symbols-outlined:hover {
+    background: #ffd752;
+    color: #000000;
+    border-radius: 50%;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 6
+  }
+  .overlay:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  .popup {
+    top: 10%;
+    left: calc(58% + 180px);
+    padding: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 29%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    z-index: 6;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+  }
+  .popup .close:hover {
+    color: #ffd752;
+  }
+  .popup .content {
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    overflow: auto;
+    line-height: 1.5;
+  }
+  ul {
+    padding-left: 30px;
+  }
 
   </style>
 
   <body>
     <div id="navbar"></div>
     <div class="titleMain">
-      <a href="." style="text-decoration:none; color:white;">Atlanta Public Transit Equity Explorer</a>
+        <a href="." style="text-decoration:none; color:white;">Atlanta Public Transit Equity Explorer</a>
     </div>
     <div class="logo-wrapper">
       <a href="https://gatech.edu/"><img src="https://www.gatech.edu/sites/all/themes/gt/images/gt-logo-oneline-white.svg" alt="" width="150" height="30"></a>
       <a href="https://cspav.gatech.edu/" style="margin-left:10px; font-size:12px; text-decoration:none"><p class="logo-text">Center for Spatial Planning Analytics and Visualization</p></a>
     </div>
-    <div class="mapTitleLeft">
-      <p>Conventional Public Transit System </p> 
-    </div>
-    <div class="mapTitleRight">
-      <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p>
-    </div>
+    <div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
+    <div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
     <div id='plot-wrapper'>
       <div id='gapSummary'>
         <div id='gapTitle'>
-          <p> Transit Inequity: demand-supply gap<sup>*</sup></p>
+          <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a></p>
         </div>
         <div id='gapSmallText'>
           <p> Current </p>
@@ -421,7 +497,7 @@
       <div id='scatterPlot'></div>
       <div id='giniSummary'>
         <div id="giniTitle">
-          <p>Transit Inequality<sup>**</sup> by Level of Demand</p>
+          <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
         </div>
         <div id="giniSmallText">
           <p> Current </p>
@@ -446,10 +522,6 @@
         </div>
       </div>
       <div id='lorenzCurve'></div>
-      <div id="footNote">
-        <p> * The gap index ranges from 0 to 1; a value of 1 represents total inequity </p>
-        <p> ** The values are Gini indices where a high value means inequality; lorenz curves in the plot also show inequality based on how far it is from the line of equality </p>
-      </div>
     </div>
     <div id="map_bef"></div>
     <div id="map_aft"></div>
@@ -515,17 +587,116 @@
       </div>
       <div class="sliderContainer">
         <div class='sliderContentAbsolute'>
-          <p style="margin-bottom:7px;">Accessible within <span style="font-weight:600" id="sliderValue_abs"></span> minutes</p>
+          <p style="margin-bottom:7px;"> Accessible within <span style="font-weight:600" id="sliderValue_abs"> </span> minutes</p>
           <input id='myRange_abs' class="slider" type="range" min="30" max="75" value="45" step="3">
-          <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> 30 minutes<span style="float:right"> 75 minutes </span></p>
+          <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> 30 minutes <span style="float:right"> 75 minutes </span> </p>
         </div>
         <div class='sliderContentRelative'>
-          <p style="margin-bottom:7px;">Accessible within <span style="font-weight:600" id="sliderValue_rel"></span> X driving time</p>
+          <p style="margin-bottom:7px;"> Accessible within <span style="font-weight:600" id="sliderValue_rel"> </span> X driving time</p>
           <input id='myRange_rel' class="slider" type="range" min="1" max="3" value="2" step="0.2">
-          <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> Equal<span style="float:right"> 3 times</span></p>
+          <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> Equal <span style="float:right"> 3 times </span> </p>
         </div>
       </div>
-      <div id="legend-wrapper"></div>
+      <div id="legend-wrapper">
+        <div class="legendInfo">
+          <a class="button" href="#popup3"><span class="material-symbols-outlined">Help</span></a>
+        </div>
+      </div>
+    </div>
+    <div id="popup1" class="overlay">
+      <div class="popup">
+        <h2>How is the 'Transit Inequality' measured?</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <ul>
+              <li>The numeric values are Gap indices that summarize the overall gap between transit supply (i.e., accessibility) and demand, which is measured by:
+                <p class="cmath"> $$ \sum_{i=1}^n(\mid ServiceSupply_{i}^{percentile}\mid - \mid ServiceDemand_{i}^{percentile}\mid) \over n $$</p></li>
+              <li>The Gap index ranges from 0 to 1, where a value of 1 represents total inequity.</li>
+              <li>The scatterplot shows how the transit service supply is distributed with respect to the transit demand variable.</li>
+            </ul>
+          </div>
+      </div>
+      <div id='plot-wrapper'>
+        <div id='gapSummary'>
+          <div id='gapTitle'>
+            <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a></p>
+          </div>
+          <div id='gapSmallText'>
+            <p> Current </p>
+            <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
+          </div>
+          <div id='gapValue'>
+            <p> <span id="gapValueBefore2"></b> </span> </p>
+            <p> <span id="gapValueAfter2"></b> </span> </p>
+          </div>
+        </div>
+        <div id='scatterPlot'></div>
+        <div id='giniSummary'></div>
+        <div id="lorenzCurve" style="visibility:hidden"></div>
+      </div>
+    </div>
+    <div id="popup2" class="overlay">
+      <div class="popup" style="top: 50%;">
+          <h2>How is the 'Transit Inequality' measured?</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <ul>
+              <li>The numeric values are Gini indices which represent the degree of inequality among neighborhoods with low/mid/high transit demand, respectively. </li>
+              <li>A high value of Gini index means the distribution is far from equal. </li>
+              <li>The plot is showing Lorenz curves which also indicate the degree of inequality based on how far it is from the line of equality.</li>
+            </ul>
+          </div>
+      </div>
+      <div id='plot-wrapper'>
+        <div id='gapSummary'></div>
+        <div id='scatterPlot' style="visibility:hidden"></div>
+        <div id='giniSummary'>
+          <div id="giniTitle">
+            <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
+          </div>
+          <div id="giniSmallText">
+            <p> Current </p>
+            <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
+          </div>
+          <div id="giniValue-wrapper">
+            <div id="giniValue">
+              <p style="color: #fffde6;"> <span id="giniBeforeLow2"></b> </span> </p>
+              <p style="color: #f7adad;"> <span id="giniBeforeMid2"></b> </span> </p>
+              <p style="color: #e34b4b;"> <span id="giniBeforeHigh2"></b> </span> </p>
+            </div>
+            <div id="giniValue">
+              <p style="font-size: 13px; font-weight: 300; text-align: center;"> Low-demand neighborhoods </p>
+              <p style="font-size: 13px; font-weight: 300; text-align: center;"> Mid-demand neighborhoods </p>
+              <p style="font-size: 13px; font-weight: 300; text-align: center;"> High-demand neighborhoods </p>
+            </div>
+            <div id="giniValue">
+              <p style="color: #fffde6;"> <span id="giniAfterLow2"></b> </span> </p>
+              <p style="color: #f7adad;"> <span id="giniAfterMid2"></b> </span> </p>
+              <p style="color: #e34b4b;"> <span id="giniAfterHigh2"></b> </span> </p>
+            </div>
+          </div>
+        </div>
+        <div id="lorenzCurve"></div>
+      </div>
+    </div>
+    <div id="popup3" class="overlay">
+      <div class="popup" style="top: 65%; left: 13%;">
+        <h2>How does the legend work?</h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+          <ul>
+            <li>The legend shows the level of transit accessibility and transit demand that each Block Group falls under</li>
+            <li><span style="background: #663d9c;">Purple</span> means transit is over-supplied compared to the low transit demand </li>
+            <li><span style="background: #b55353;">Red</span> means transit is under-spplied compared to the high transit demand </li>
+            <li><span style="background: #fffacf; color: black;">Ivory</span> means transit supply corresponds to the transit demand </li>
+            <li>Click each of the nine boxes to highlight neighborhoods in each category; or click each circle on the axes to highlight by row/column </li>
+          </ul>
+        </div>
+      </div>
+      <div id="filter-wrapper">
+        <div></div>
+        <div id="legend-wrapper"></div>
+      </div>
     </div>
 
     <script>
@@ -546,6 +717,7 @@
       color_3class.forEach((item, i) => {
         color_3class_darker.push(d3.hsv(item).darker(4).formatHex())
       });
+
 
       const color_3class_14 = {
         'A1': color_3class[0],
@@ -605,7 +777,7 @@
         minZoom: 3,
       });
 
-      const svg = d3.select('#legend-wrapper')
+      const svg = d3.selectAll('#legend-wrapper')
         .append("svg")
         .attr('id', 'legend')
         .attr("width", "100%")
@@ -680,6 +852,7 @@
         .attr('fill', 'white')
         .attr('font-size', '14px')
         .text('(pop. without vehicles)');
+
 
       svg.append('text')
         .attr('x', line_start[0]+line_length+10)
@@ -767,12 +940,13 @@
               .style('stroke', 'white')
               .style('stroke-width', '1.5');
           }
-        });
+        })
 
       dotsLegendRowColumn
         .on('click', function(d) {
           let selectedDotId = d.id
           let label_biv = legendRowColumnVal[selectedDotId]
+
           rect_cho
             .style("fill", (d) => {
               if (!label_biv.includes(Object.keys(color_3class_14)[color_3class.indexOf(d)])) {
@@ -780,7 +954,7 @@
               } else {
                 return color_3class[color_3class.indexOf(d)]
               }
-            });
+          });
 
           map_bef.setPaintProperty(
             'bef_over',
@@ -856,7 +1030,7 @@
             } else {
               return color_3class[color_3class.indexOf(d)]
             }
-          });
+        });
 
         map_bef.setPaintProperty(
           'bef_over',
@@ -915,6 +1089,7 @@
         sliderValue_rel.innerHTML = 2;
       }
 
+
       let access_field = 'abs.com.mor.45min'
       let demand_field = 'dep'
 
@@ -962,7 +1137,16 @@
 
           giniAfterHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
               .map((d)=>{return d['gini.high']})[0];
-        };
+
+          gapValueBefore2.innerHTML = gapValueBefore.innerHTML
+          gapValueAfter2.innerHTML = gapValueAfter.innerHTML
+          giniBeforeLow2.innerHTML = giniBeforeLow.innerHTML
+          giniAfterLow2.innerHTML = giniAfterLow.innerHTML
+          giniBeforeMid2.innerHTML = giniBeforeMid.innerHTML
+          giniAfterMid2.innerHTML = giniAfterMid.innerHTML
+          giniBeforeHigh2.innerHTML = giniBeforeHigh.innerHTML
+          giniAfterHigh2.innerHTML = giniAfterHigh.innerHTML
+        }
 
         valueDisplay(access_field, demand_field)
 
@@ -977,11 +1161,11 @@
           }
           valueDisplay(access_field, demand_field)
         };
-      
+
         /////////// scatter plot ////////////
         const scatterColor = ['#ffffff','#707070']
 
-        const scatterPlot = d3.select('#scatterPlot').append("svg")
+        const scatterPlot = d3.selectAll('#scatterPlot').append("svg")
           .attr('id', 'scatterPlotSvg')
           .attr('width', plot_w + panel_margin.left + panel_margin.right)
           .attr('height', plot_h + panel_margin.top + panel_margin.bottom)
@@ -1135,7 +1319,8 @@
           }
           d3.selectAll('#scatterRedraw').remove()
           drawScatterPlot(access_field, demand_field)
-        }
+        };
+
 
         // functions for manipulating data for lorenz curve
         function MultiplyArrays(a, b) {
@@ -1144,7 +1329,7 @@
             c.push((a[i] || 0) * (b[i] || 0));
           }
           return c;
-        }
+        };
 
         function LorenzData(val_acc) {
           let val_acc_unique = {};
@@ -1166,12 +1351,12 @@
             y: val_freq_cum_pct[i]
           }));
           return lorenz_data;
-        }
+        };
 
         /////////// lorenz curve ////////////
         let lorenzColor = color_3class.slice(0, 3)
 
-        let lorenzCurve = d3.select('#lorenzCurve').append("svg")
+        let lorenzCurve = d3.selectAll('#lorenzCurve').append("svg")
           // .style("top", intro_h + toggle_h*3 + plot_h + panel_margin.top + 15 + 35 + 'px')
           .attr('id', 'lorenzCurveSvg')
           .attr('width', plot_w + panel_margin.left + panel_margin.right)
@@ -1447,7 +1632,7 @@
             .attr("text-anchor", "left")
             .attr("color", 'white')
             .text("Line of Equality");
-        };
+        }
 
         drawLorenz(access_field, demand_field)
 
@@ -1456,16 +1641,13 @@
           if (meas_filter == 'abs') {
             access_field = access_field + 'min'
           };
-
           let demand_field = demand_filter
           if (unit_filter == 'pct') {
             demand_field = demand_field + '.pct'
-          };
-
+          }
           d3.selectAll('#lorenzRedraw').remove()
           drawLorenz(access_field, demand_field)
-        };
-
+        }
 
         // map the base block group data
         map_bef.on('load', () => {
@@ -2028,7 +2210,6 @@
           });
         }) //map.on.load ends here
 
-            // map the base block group data
         map_aft.on('load', () => {
           // Add a custom vector tileset source
           map_aft.addSource('after_0629', {type: 'vector', url: "mapbox://lsj97.after_0629"});
