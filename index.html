@@ -1,2893 +1,465 @@
 <!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <title>Transit Equity</title>
-  </head>
+<html lang="en">
 
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Atlanta's Transit Equity</title>
 
-  <style>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
 
-  *{
-    font-family: 'Source Sans Pro', sans-serif;
-    margin: 0;
-  }
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: #424141;
-  }
-  #map_bef {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    cursor: pointer;
-  }
-  #map_aft {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    width: 100%;
-    z-index: 0;
-    cursor: pointer;
-  }
-  #navbar {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 90px;
-    background-color: black;
-    opacity: 0.25;
-    z-index: 1;
-  }
-  #plot-wrapper {
-    background: rgba(0,0,0,0.5);
-    position: absolute;
-    right: calc(42% - 170px);
-    top:100px;
-    bottom: 2%;
-    padding: 10px;
-    width: 340px;
-    z-index: 4;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  #gapSummary {
-    height: 11%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  #scatterPlot {
-    height: 33%;
-  }
-  #giniSummary {
-    height: 20%;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  #lorenzCurve {
-    height: 33%;
-  }
-  /* #footNote {
-    height: 8%;
-    font-size: 12px;
-    font-weight: 200;
-    color: #d1d1d1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  } */
-  #gapTitle {
-    align-items: center;
-    font-size: 20px;
-    font-weight: 300;
-    color: white;
-    text-align: center;
-    height: 40%;
-  }
-  #gapSmallText {
-    align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-size: 13px;
-    font-weight: 200;
-    color: white;
-    height: 20%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  #gapValue {
-    align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-size: 30px;
-    font-weight: 600;
-    color: white;
-    height: 40%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  #giniTitle {
-    align-items: center;
-    font-size: 20px;
-    font-weight: 300;
-    color: white;
-    text-align: center;
-    height: 20%;
-  }
-  #giniSmallText {
-    align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-size: 13px;
-    font-weight: 200;
-    color: white;
-    height: 15%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  #giniValue-wrapper {
-    height: 65%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  #giniValue {
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 30px;
-    font-weight: 600;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
+    <script async src="js/d3.js"></script>
 
-  .logo-wrapper {
-    position: absolute;
-    top: 30px;
-    right: 10px;
-    width: 310px;
-    height: 50px;
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    z-index: 1;
-  }
-  .logo-text {
-    color: white;
-    font-size: 12;
-    font-family: 'Heebo', san-serif;
-    font-weight: 600;
-    z-index: 1;
-  }
-  .titleMain{
-    position: absolute;
-    left: 30px;
-    top: 20px;
-    font-size: 36px;
-    font-weight: 800;
-    color: white;
-    z-index: 1;
-  }
-  #filter-wrapper {
-    position: absolute;
-    left: 20px;
-    top: 100px;
-    bottom: 2%;
-    font-weight: 500;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-shadow: 2px 2px 4px #000000;
-  }
-  .session_demand {
-    width: 205px;
-    color: white;
-    font-size: 16px;
-  }
-  .session_unit {
-    width: 150px;
-    color: white;
-    font-size: 16px;
-  }
-  .session_trip {
-    width: 165px;
-    color: white;
-    font-size: 16px;
-  }
-  .session_meas {
-    color: white;
-    font-size: 16px;
-  }
-  .sliderContainer {
-    color: white;
-  }
-  #legend-wrapper{
-    height:35%;
-    width: 230px;
-  }
-  .legendInfo {
-    position: absolute;
-    bottom: 25px;
-    right: 60px;
-  }
-  .row {
-    padding-left: 5px;
-    padding-top: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  input[type="radio"] {
-    display: none;
-  }
-  label {
-    position: relative;
-    cursor: pointer;
-    padding-right: 18px;
-    font-size: 14px;
-    font-weight: 300;
-  }
-  label:nth-child(1) {
-    padding-right: 1;
-  }
-  label::before {
-    content: "";
-    border: 1.5px solid white;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: -2px 10px;
-    margin-left: 0;
-    border-radius: 50%;
-  }
-  label#filter_rel::before {
-    content: "";
-    border: 1.5px solid white;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: 6px 10px;
-    margin-left: 0;
-    border-radius: 50%;
-  }
-  label::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    left: 1.8px;
-    top: 7px;
-    margin: -2px 10px;
-    margin-left: 0;
-    border-radius: 50%;
-    transition: all 0.4s;
-  }
-  label#filter_rel::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    left: 1.8px;
-    top: 27px;
-    margin: -2px 10px;
-    margin-left: 0;
-    border-radius: 50%;
-    transition: all 0.4s;
-  }
-  input[type="radio"]:checked + label::after {
-    background: #ffffff;
-  }
-  .sliderContentAbsolute {
-    position: absolute;
-    width: 230px;
-    font-size: 16px;
-    font-weight: 300;
-    color: white;
-  }
-  .sliderContentRelative {
-    position: absolute;
-    width: 230px;
-    font-size: 16px;
-    font-weight: 300;
-    color: white;
-  }
-  .slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 7px;
-    border-radius: 5px;
-    background: #9c9c9c;
-    outline: none;
-    opacity: 1;
-  }
-  .slider:hover {
-    opacity: 1;
-  }
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Override default look */
-    appearance: none;
-    width: 20px; /* Set a specific slider handle width */
-    height: 20px; /* Slider handle height */
-    border-radius: 50%;
-    background: #ffffff; /* Green background */
-    cursor: pointer; /* Cursor on hover */
-  }
-  .fraction{
-    top: 5px;
-    left: -23px;
-    display: inline-block;
-    text-align: center;
-    position:relative;
-    padding:0 1em;
-  }
-  .fraction > .num {
-      border-bottom: 2px solid #808080;
-      padding:4px;
-      margin:10 10 8px 10;
-  }
-  .fraction > .dem{
-      padding: 0;
-      margin: 0;
-  }
-  .mapTitleLeft{
-    position: absolute;
-    text-align: right;
-    right: calc(42% + 300px);
-    top: 100px;
-    height: 50px;
-    color: white;
-    font-size: 24px;
-    font-weight: 500;
-    text-shadow: 2px 2px 4px #000000;
-      z-index: 1;
-  }
-  .mapTitleRight{
-    position: absolute;
-    text-align: left;
-    left: calc(58% + 300px);
-    top: 100px;
-    height: 50px;
-    color: white;
-    font-size: 24px;
-    font-weight: 500;
-    text-shadow: 2px 2px 4px #000000;
-    z-index: 1;
-  }
-  sup {
-    vertical-align: baseline;
-  }
-  .button {
-    color: #fff;
-    text-decoration: none;
-    z-index: 6;
-    font-family: monospace;
-  }
-  .material-symbols-outlined {
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease-out;
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 300,
-    'GRAD' 0,
-    'opsz' 48
-  }
-  .material-symbols-outlined:hover {
-    background: #ffd752;
-    color: #000000;
-    border-radius: 50%;
-  }
-  .overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    transition: opacity 500ms;
-    visibility: hidden;
-    opacity: 0;
-    z-index: 6
-  }
-  .overlay:target {
-    visibility: visible;
-    opacity: 1;
-  }
-  .popup {
-    top: 10%;
-    left: calc(58% + 180px);
-    padding: 10px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 2px solid white;
-    border-radius: 10px;
-    width: 29%;
-    position: relative;
-    transition: all 5s ease-in-out;
-    z-index: 6;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-  .popup .close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    transition: all 200ms;
-    font-size: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    color: white;
-  }
-  .popup .close:hover {
-    color: #ffd752;
-  }
-  .popup .content {
-    margin-top: 10px;
-    margin-right: 10px;
-    margin-bottom: 20px;
-    overflow: auto;
-    line-height: 1.5;
-  }
-  ul {
-    padding-left: 30px;
-  }
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-  </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <body>
-    <div id="navbar"></div>
-    <div class="titleMain">
-        <a href="." style="text-decoration:none; color:white;">Atlanta Public Transit Equity Explorer</a>
-    </div>
-    <div class="logo-wrapper">
-      <a href="https://gatech.edu/"><img src="data/GTOneLine_White.svg" alt="" width="150" height="45"></a>
-      <a href="https://cspav.gatech.edu/" style="margin-left:10px; font-size:12px; text-decoration:none"><p class="logo-text">Center for Spatial Planning Analytics and Visualization</p></a>
-    </div>
-    <div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
-    <div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
-    <div id='plot-wrapper'>
-      <div id='gapSummary'>
-        <div id='gapTitle'>
-          <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a></p>
-        </div>
-        <div id='gapSmallText'>
-          <p> Current </p>
-          <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
-        </div>
-        <div id='gapValue'>
-          <p> <span id="gapValueBefore"></b> </span> </p>
-          <p> <span id="gapValueAfter"></b> </span> </p>
-        </div>
-      </div>
-      <div id='scatterPlot'></div>
-      <div id='giniSummary'>
-        <div id="giniTitle">
-          <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
-        </div>
-        <div id="giniSmallText">
-          <p> Current </p>
-          <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
-        </div>
-        <div id="giniValue-wrapper">
-          <div id="giniValue">
-            <p style="color: #fffde6;"> <span id="giniBeforeLow"></b> </span> </p>
-            <p style="color: #f7adad;"> <span id="giniBeforeMid"></b> </span> </p>
-            <p style="color: #e34b4b;"> <span id="giniBeforeHigh"></b> </span> </p>
-          </div>
-          <div id="giniValue">
-            <p style="font-size: 13px; font-weight: 300; text-align: center;"> Low-demand neighborhoods </p>
-            <p style="font-size: 13px; font-weight: 300; text-align: center;"> Mid-demand neighborhoods </p>
-            <p style="font-size: 13px; font-weight: 300; text-align: center;"> High-demand neighborhoods </p>
-          </div>
-          <div id="giniValue">
-            <p style="color: #fffde6;"> <span id="giniAfterLow"></b> </span> </p>
-            <p style="color: #f7adad;"> <span id="giniAfterMid"></b> </span> </p>
-            <p style="color: #e34b4b;"> <span id="giniAfterHigh"></b> </span> </p>
-          </div>
-        </div>
-      </div>
-      <div id='lorenzCurve'></div>
-    </div>
-    <div id="map_bef"></div>
-    <div id="map_aft"></div>
-    <div id="filter-wrapper">
-      <div class='session_demand'>
-        <div class="session_title">
-          <p>Transit demand type</p>
-        </div>
-        <div class='row' id='demand'>
-          <input id='dep' type='radio' name='toggle_dem' onclick="legend_dep()" value='dep' checked='checked'>
-          <label for='dep'>Population without vehicles</label>
-          <input id='min' type='radio' name='toggle_dem' onclick="legend_min()" value='min'>
-          <label for='min'>Minority population</label>
-          <input id='pov' type='radio' name='toggle_dem' onclick="legend_pov()" value='pov'>
-          <label for='pov'>Low-income population</label>
-          <input id='emp' type='radio' name='toggle_dem' onclick="legend_emp()" value='emp'>
-          <label for='emp'>Unemployed population</label>
-          <input id='dis' type='radio' name='toggle_dem' onclick="legend_dis()" value='dis'>
-          <label for='dis'>Disabled population</label>
-          <input id='eld' type='radio' name='toggle_dem' onclick="legend_eld()" value='eld'>
-          <label for='eld'>Elderly population</label>
-          <input id='chi' type='radio' name='toggle_dem' onclick="legend_chi()" value='chi'>
-          <label for='chi'>Children below 14</label>
-        </div>
-      </div>
-      <div class="session_unit">
-        <div class="session_title">
-          <p>Transit demand unit</p>
-        </div>
-        <div class='row' id='unit'>
-          <input id='act' type='radio' name='toggle_unit' onclick="unit_num()" value='act' checked='checked'>
-          <label for='act'>Number of people</label>
-          <input id='pct' type='radio' name='toggle_unit' onclick="unit_pct()" value='pct'>
-          <label for='pct'>Percentage (%)</label>
-        </div>
-      </div>
-      <div class="session_trip">
-        <div class="session_title">
-          <p>Trip type</p>
-        </div>
-        <div class='row' id='trip'>
-          <input id='com' type='radio' name='toggle_trip' value='com' checked='checked'>
-          <label for='com'>Commuting trip</label>
-          <input id='non' type='radio' name='toggle_trip' value='non'>
-          <label for='non'>Non-commuting trip</label>
-        </div>
-      </div>
-      <div class='session_meas'>
-        <div class="session_title">
-          <p>Accesibility Type</p>
-        </div>
-        <div class='row' id='filters_meas'>
-          <input id='abs' type='radio' name='toggle_meas' onclick="getSlider_abs()" value='abs' checked='checked'>
-          <label for='abs'>Travel Time by Public Transit</label>
-          <input id='rel' type='radio' name='toggle_meas' onclick="getSlider_rel()" value='rel'>
-          <label id= 'filter_rel' for='rel'>
-            <div class="fraction">
-              <p class="num">Travel Time by Public Transit</p>
-              <p class="dem">Travel Time by Driving</p>
-            </div>
-          </label>
-        </div>
-      </div>
-      <div class="sliderContainer">
-        <div class='sliderContentAbsolute'>
-          <p style="margin-bottom:7px;"> Accessible within <span style="font-weight:600" id="sliderValue_abs"> </span> minutes</p>
-          <input id='myRange_abs' class="slider" type="range" min="30" max="75" value="45" step="3">
-          <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> 30 minutes <span style="float:right"> 75 minutes </span> </p>
-        </div>
-        <div class='sliderContentRelative'>
-          <p style="margin-bottom:7px;"> Accessible within <span style="font-weight:600" id="sliderValue_rel"> </span> X driving time</p>
-          <input id='myRange_rel' class="slider" type="range" min="1" max="3" value="2" step="0.2">
-          <p style="text-align:left; margin-bottom: 0em; font-size: 13px; font-weight: 100;"> Equal <span style="float:right"> 3 times </span> </p>
-        </div>
-      </div>
-      <div id="legend-wrapper">
-        <div class="legendInfo">
-          <a class="button" href="#popup3"><span class="material-symbols-outlined">Help</span></a>
-        </div>
-      </div>
-    </div>
-    <div id="popup1" class="overlay">
-      <div class="popup">
-        <h2>How is the 'Transit Inequality' measured?</h2>
-          <a class="close" href="#">&times;</a>
-          <div class="content">
-            <ul>
-              <li>The numeric values are Gap indices that summarize the overall gap between transit supply (i.e., accessibility) and demand, which is measured by:
-                <p class="cmath"> $$ \sum_{i=1}^n(\mid ServiceSupply_{i}^{percentile}\mid - \mid ServiceDemand_{i}^{percentile}\mid) \over n $$</p></li>
-              <li>The Gap index ranges from 0 to 1, where a value of 1 represents total inequity.</li>
-              <li>The scatterplot shows how the transit service supply is distributed with respect to the transit demand variable.</li>
-            </ul>
-          </div>
-      </div>
-      <div id='plot-wrapper'>
-        <div id='gapSummary'>
-          <div id='gapTitle'>
-            <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a></p>
-          </div>
-          <div id='gapSmallText'>
-            <p> Current </p>
-            <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
-          </div>
-          <div id='gapValue'>
-            <p> <span id="gapValueBefore2"></b> </span> </p>
-            <p> <span id="gapValueAfter2"></b> </span> </p>
-          </div>
-        </div>
-        <div id='scatterPlot'></div>
-        <div id='giniSummary'></div>
-        <div id="lorenzCurve" style="visibility:hidden"></div>
-      </div>
-    </div>
-    <div id="popup2" class="overlay">
-      <div class="popup" style="top: 50%;">
-          <h2>How is the 'Transit Inequality' measured?</h2>
-          <a class="close" href="#">&times;</a>
-          <div class="content">
-            <ul>
-              <li>The numeric values are Gini indices which represent the degree of inequality among neighborhoods with low/mid/high transit demand, respectively. </li>
-              <li>A high value of Gini index means the distribution is far from equal. </li>
-              <li>The plot is showing Lorenz curves which also indicate the degree of inequality based on how far it is from the line of equality.</li>
-            </ul>
-          </div>
-      </div>
-      <div id='plot-wrapper'>
-        <div id='gapSummary'></div>
-        <div id='scatterPlot' style="visibility:hidden"></div>
-        <div id='giniSummary'>
-          <div id="giniTitle">
-            <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
-          </div>
-          <div id="giniSmallText">
-            <p> Current </p>
-            <p style="color: #dcfcb8; font-weight: 300;"> ODMTS </p>
-          </div>
-          <div id="giniValue-wrapper">
-            <div id="giniValue">
-              <p style="color: #fffde6;"> <span id="giniBeforeLow2"></b> </span> </p>
-              <p style="color: #f7adad;"> <span id="giniBeforeMid2"></b> </span> </p>
-              <p style="color: #e34b4b;"> <span id="giniBeforeHigh2"></b> </span> </p>
-            </div>
-            <div id="giniValue">
-              <p style="font-size: 13px; font-weight: 300; text-align: center;"> Low-demand neighborhoods </p>
-              <p style="font-size: 13px; font-weight: 300; text-align: center;"> Mid-demand neighborhoods </p>
-              <p style="font-size: 13px; font-weight: 300; text-align: center;"> High-demand neighborhoods </p>
-            </div>
-            <div id="giniValue">
-              <p style="color: #fffde6;"> <span id="giniAfterLow2"></b> </span> </p>
-              <p style="color: #f7adad;"> <span id="giniAfterMid2"></b> </span> </p>
-              <p style="color: #e34b4b;"> <span id="giniAfterHigh2"></b> </span> </p>
-            </div>
-          </div>
-        </div>
-        <div id="lorenzCurve"></div>
-      </div>
-    </div>
-    <div id="popup3" class="overlay">
-      <div class="popup" style="top: 65%; left: 13%;">
-        <h2>How does the legend work?</h2>
-        <a class="close" href="#">&times;</a>
-        <div class="content">
-          <ul>
-            <li>The legend shows the level of transit accessibility and transit demand that each Block Group falls under</li>
-            <li><span style="background: #663d9c;">Purple</span> means transit is over-supplied compared to the low transit demand </li>
-            <li><span style="background: #b55353;">Red</span> means transit is under-spplied compared to the high transit demand </li>
-            <li><span style="background: #fffacf; color: black;">Ivory</span> means transit supply corresponds to the transit demand </li>
-            <li>Click each of the nine boxes to highlight neighborhoods in each category; or click each circle on the axes to highlight by row/column </li>
-          </ul>
-        </div>
-      </div>
-      <div id="filter-wrapper">
+    <!-- Theme CSS - Includes Bootstrap -->
+    <link href="css/page.css" rel="stylesheet">
+    <link href="css/equity.css" rel="stylesheet">
+    <link href="css/accessibility.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="#">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <script defer src="js/scroller.js"></script>
+    <!-- <script async src="js/sections_sample.js"></script> -->
+    <script defer src="js/vis.js"></script>
+
+    <script defer src="js/accessibility.js"></script>
+    <script defer src="js/page.js"></script>
+    <script defer src="js/equity.js"></script>
+
+</head>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<script src="./lib/nice_select2/js/nice-select2.js"></script>
+<link rel="stylesheet" href="./lib/nice_select2/css/nice-select2.css" />
+
+<body>
+    <div class="loader">
         <div></div>
-        <div id="legend-wrapper"></div>
-      </div>
+    </div>
+    <div id="warning">
+        <i class="material-icons" style="font-size: 20vmin">warning</i>           
+        <h7>This website is not mobile-friendly. Please visit again on your PC.</h7>
+    </div>
+    <div id="graphic">
+        <section class="step masthead" id="masterhead">
+            <div class="logo-wrapper">
+                <a href="https://cspav.gatech.edu/" target="_blank"><img id="logoCSPAV" src="img/CSPAV_TechGold.jpg" alt="" width="280" height="50"></a>
+            </div>
+            <h1 class="mast-title">Atlanta's Transit Equity</h1>
+            <h1 class="mast-subtitle">Current benchmarks and future possibilities</h1>
+            <h3 class="mast-text">An interactive tool that compares On-demand Multimodal Transit System (ODMTS) and the conventional transit system in Atlanta in terms of 1) overall accessibility and 2) transit equity/equality</h3>
+        </section>
+
+        <section class="step">
+            <h1>On-Demand Multimodal Transit System</h1>
+            <h2>ODMTS connects residents in every corner of Atlanta to high-frequency rail/bus networks by serving their first/last miles via on-demand shuttles. <br> <br>
+                ODMTS is designed to contribute to improving both the transit accessibility and transit equity in the Atlanta area.</h2>
+            <a class="btn-light btn-xl" href="https://sam.isye.gatech.edu/projects/demand-multimodal-transit-systems/atlanta-pilot" target="_blank" style="color:black">Learn More</a>
+            <div id="odmtsfig-wrapper">
+            </div>
+        </section>
+
+        <section class="step"> 
+            <h1>Transit Accessibility</h1>
+            <h2>We measure transit accessibility by how many destinations (e.g., jobs or stores) can be reached from a neighborhood within a given threshold. The threshold can be defined in two ways:
+                    <br>
+                    <br>
+                    1)	The travel time by public transit
+                    <br>
+                    <br>
+                    2)	The ratio of the travel time by public transit to the travel time by driving
+            </h2>
+            <div id="accfig-wrapper">
+            </div>
+        </section>
+
+
+        <section class="step back">
+            <div class="mapWrapperAcc">
+                <div class="mapTitle"> <p>Transit Accessbility Map</p></div>
+                <div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
+                <div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
+                <div id="acc-wrapper">
+                    <div id="overallSummary">
+                        <div id="overallTitle">
+                            <p>Overall Accessibility</p>
+                        </div>
+                        <div id="overallSmallText">
+                            <p> Current </p>
+                            <p style="color: #dcfcb8; font-size: 1.6vmin; font-weight: 500;"> ODMTS </p>
+                        </div>
+                        <div id="overallValue">
+                            <p> <span id="overallAccBefore"></b> </span>%</p>
+                            <p> <span id="overallAccAfter"></b> </span>%</p>
+                        </div>
+                        <div class="overallDescript" id="overallContent">
+                            <p>of all residents can <b>commute to work</b> by transit within <b>45 minutes</b> during morning peak hour
+                        </div>
+                    </div>
+                </div>
+                <div id="mapBefAcc"></div>
+                <div id="mapAftAcc"></div>
+                <div id="filter-wrapper-Acc">
+                    <div class="sessionAcc_trip">
+                        <div class="session_title">
+                            <p>Trip type</p>
+                        </div>
+                        <div class='rowMap' id='filtersAcc_trip'>
+                            <input id='comAcc' type='radio' name='toggleAcc_trip' value='com' checked='checked'>
+                            <label for='comAcc'>Commuting trip</label>
+                            <input id='nonAcc' type='radio' name='toggleAcc_trip' value='non'>
+                            <label for='nonAcc'>Non-commuting trip</label>
+                        </div>
+                    </div>
+                    <div class='sessionAcc_meas'>
+                        <div class="session_title">
+                            <p>Accesibility Type</p>
+                        </div>
+                        <div class='rowMap' id='filtersAcc_meas'>
+                            <input id='absAcc' type='radio' name='toggleAcc_meas' onclick="getSliderAcc_abs()" value='abs' checked='checked'>
+                            <label for='absAcc'>Travel Time by Public Transit</label>
+                            <input id='relAcc' type='radio' name='toggleAcc_meas' onclick="getSliderAcc_rel()" value='rel'>
+                            <label for='relAcc' id= 'filter_rel'>
+                                <div class="fraction">
+                                    <p class="num">Travel Time by Public Transit</p>
+                                    <p class="dem">Travel Time by Driving</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="sliderContainer">
+                        <div class='sliderAccContentAbsolute'>
+                            <p style="margin-bottom:3px;"> Accessible within <span style="font-weight:600" id="sliderValueAcc_abs"> </span> minutes</p>
+                            <input id='myRangeAcc_abs' class="slider" type="range" min="30" max="75" value="45" step="3">
+                            <p style="text-align:left; margin-bottom: 0em; margin-top: 0.2em; font-size: 1.4vmin; font-weight: 100;"> 30 minutes <span style="float:right"> 75 minutes </span> </p>
+                        </div>
+                        <div class='sliderAccContentRelative'>
+                            <p style="margin-bottom:3px;"> Accessible within <span style="font-weight:600" id="sliderValueAcc_rel"> </span> X driving time</p>
+                            <input id='myRangeAcc_rel' class="slider" type="range" min="1" max="3" value="2" step="0.2">
+                            <p style="text-align:left; margin-bottom: 0em; margin-top: 0.2em; font-size: 1.4vmin; font-weight: 100;"> Equal <span style="float:right"> 3 times </span> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="legend-box"></div>
+                <div class="legend-wrapper">
+                    <div class="legendTitle" id="legendTitle">
+                        <p>Proportion of residents who can commute to work by transit within <b>45 minutes</b> during morning peak hour
+                        </p>
+                    </div>
+                    <div class="legendBoxes">
+                        <div class="legendBox", style="background-color:#213E9A"></div>
+                        <div class="legendBox", style="background-color:#3C1FA7"></div>
+                        <div class="legendBox", style="background-color:#3C1FA7"></div>
+                        <div class="legendBox", style="background-color:#C318B0"></div>
+                        <div class="legendBox", style="background-color:#D01367"></div>
+                        <div class="legendBox", style="background-color:#DE0F0E"></div>
+                        <div class="legendBox", style="background-color:#EC7007"></div>
+                        <div class="legendBox", style="background-color:#F9E200"></div>
+                    </div>
+                    <div class="legendText">
+                        <p>less then 5%</p>
+                        <p>5 - 10%</p>
+                        <p>10 - 20%</p>
+                        <p>20 - 30%</p>
+                        <p>30 - 40%</p>
+                        <p>40 - 60%</p>
+                        <p>60 - 80%</p>
+                        <p>more than 80%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step"> 
+            <h1>Transit Equity</h1>
+            <h2>Both equity and equality seek a fair distribution of public resources. <br> <br>
+                Equity recognizes that each group of people has different circumstances/demands and allocates the resources and opportunities accordingly. ‘Transit service gap’ is employed to capture the transit (in)equity by comparing the supply and demand of transit services at neighborhood level.
+            </h2>
+            <div id="equi-vis"></div>
+        </section>
+
+        <section class="step"> 
+            <h1>Transit Equality</h1>
+            <h2 id="EqualityDes">Equality means each group of people is given the same resources or opportunities. Transit (in)equality is measured by the Gini index and Lorenz curve which capture how far the distribution is from equality.
+            </h2>
+            <div id="equa-vis"></div>
+        </section>
+
+        <section class="step back">
+            <div class="mapWrapperEqu">
+                <div class="mapTitle"> <p>Transit Equity + Equality Map</p></div>
+                <div class="mapTitleLeft"> <p>Conventional Public Transit System </p> </div>
+                <div class="mapTitleRight"> <p style="color: #dcfcb8;">On-demand Multimodal Transit System</p> </div>
+                <div id='plot-wrapper'>
+                    <div id='gapSummary'>
+                        <div id='gapTitle'>
+                            <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a></p>
+                        </div>
+                        <div id='gapSmallText'>
+                            <p> Current </p>
+                            <p style="color: #dcfcb8; font-size: 1.6vmin; font-weight: 500;"> ODMTS </p>
+                        </div>
+                        <div id='gapValue'>
+                            <p> <span id="gapValueBefore"></b> </span> </p>
+                            <p> <span id="gapValueAfter"></b> </span> </p>
+                        </div>
+                    </div>
+                    <div id='scatterPlot'></div>
+                    <div id='giniSummary'>
+                        <div id="giniTitle">
+                            <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
+                        </div>
+                        <div id="giniSmallText">
+                            <p> Current </p>
+                            <p style="color: #dcfcb8; font-size: 1.6vmin; font-weight: 500;"> ODMTS </p>
+                        </div>
+                        <div id="giniValue-wrapper">
+                            <div id="giniValue">
+                                <p style="color: #fffde6; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniBeforeLow"></b> </span> </p>
+                                <p style="color: #f7adad; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniBeforeMid"></b> </span> </p>
+                                <p style="color: #e34b4b; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniBeforeHigh"></b> </span> </p>
+                            </div>
+                            <div id="giniValue">
+                                <p style="font-size: 13px; font-weight: 300; text-align: center; margin-top: -1vh !important; margin-bottom: 0vh !important;"> Low-demand neighborhoods </p>
+                                <p style="font-size: 13px; font-weight: 300; text-align: center; margin-top: 1vh !important; margin-bottom: 1vh !important;"> Mid-demand neighborhoods </p>
+                                <p style="font-size: 13px; font-weight: 300; text-align: center; margin-top: 0vh !important; margin-bottom: -1vh !important;"> High-demand neighborhoods </p>
+                            </div>
+                            <div id="giniValue">
+                                <p style="color: #fffde6; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniAfterLow"></b> </span> </p>
+                                <p style="color: #f7adad; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniAfterMid"></b> </span> </p>
+                                <p style="color: #e34b4b; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniAfterHigh"></b> </span> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='lorenzCurve'></div>
+                </div>
+                <div id="mapBefEqu"></div>
+                <div id="mapAftEqu"></div>
+                <div id="filter-wrapper-Equ">
+                    <div class='sessionEqu_demand'>
+                        <div class="session_title">
+                            <p>Transit demand type</p>
+                        </div>
+                        <div class="dropdown">
+                            <label-drop for="demand-type"></label-drop>
+                            <select name="demand-type" id="demandEqu" onchange="changeFunc()">
+                                <option value="dep">Population without vehicles</option>
+                                <option value="min">Minority population</option>
+                                <option value="pov">Low-income population</option>
+                                <option value="emp">Unemployed population</option>
+                                <option value="dis">Disabled population</option>
+                                <option value="eld">Elderly population</option>
+                                <option value="chi">Children below 14</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sessionEqu_unit">
+                        <div class="session_title">
+                            <p>Transit demand unit</p>
+                        </div>
+                        <div class='rowMap' id='unitEqu'>
+                            <input id='act' type='radio' name='toggle_unit' onclick="unit_num()" value='act' checked='checked'>
+                            <label for='act'>Number of people</label>
+                            <input id='pct' type='radio' name='toggle_unit' onclick="unit_pct()" value='pct'>
+                            <label for='pct'>Percentage (%)</label>
+                        </div>
+                    </div>
+                    <div class="sessionEqu_trip">
+                        <div class="session_title">
+                            <p>Trip type</p>
+                        </div>
+                        <div class='rowMap' id='tripEqu'>
+                            <input id='com' type='radio' name='toggle_trip' value='com' checked='checked'>
+                            <label for='com'>Commuting trip</label>
+                            <input id='non' type='radio' name='toggle_trip' value='non'>
+                            <label for='non'>Non-commuting trip</label>
+                        </div>
+                    </div>
+                    <div class='sessionEqu_meas'>
+                        <div class="session_title">
+                            <p>Accesibility Type</p>
+                        </div>
+                        <div class='rowMap' id='filtersEqu_meas'>
+                            <input id='abs' type='radio' name='toggle_meas' onclick="getSliderEqu_abs()" value='abs' checked='checked'>
+                            <label for='abs'>Travel Time by Public Transit</label>
+                            <input id='rel' type='radio' name='toggle_meas' onclick="getSliderEqu_rel()" value='rel'>
+                            <label id= 'filter_rel' for='rel'>
+                                <div class="fraction">
+                                    <p class="num">Travel Time by Public Transit</p>
+                                    <p class="dem">Travel Time by Driving</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="sliderContainerEqu">
+                        <div class='sliderEquContentAbsolute'>
+                            <p style="margin-bottom:3px;"> Accessible within <span style="font-weight:600" id="sliderValueEqu_abs"> </span> minutes</p>
+                            <input id='myRangeEqu_abs' class="slider" type="range" min="30" max="75" value="45" step="3">
+                            <p style="text-align:left; margin-bottom: 0em; margin-top: 0.2em; font-size: calc(1rem - 0.15vw); font-weight: 100;"> 30 minutes <span style="float:right"> 75 minutes </span> </p>
+                        </div>
+                        <div class='sliderEquContentRelative'>
+                            <p style="margin-bottom:3px;"> Accessible within <span style="font-weight:600" id="sliderValueEqu_rel"> </span> X driving time</p>
+                            <input id='myRangeEqu_rel' class="slider" type="range" min="1" max="3" value="2" step="0.2">
+                            <p style="text-align:left; margin-bottom: 0em; margin-top: 0.2em; font-size: calc(1rem - 0.15vw); font-weight: 100;"> Equal <span style="float:right"> 3 times </span> </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="legend-wrapper">
+                </div>
+                <div class="legendInfo">
+                    <a class="button" href="#popup3"><span class="material-symbols-outlined">Help</span></a>
+                </div>
+                <div id="popup1" class="overlay">
+                    <div class="popup">
+                        <a class="close" href="#mapWrapperEqu">&times;</a>
+                        <div class="content">
+                            <ul>
+                            <li>The numeric values are Gap indices that summarize the overall gap between transit supply (i.e., accessibility) and demand, which is measured by:
+                                    <p class="cmath"> $$ \sum_{i=1}^n(\mid ServiceSupply_{i}^{percentile}\mid - \mid ServiceDemand_{i}^{percentile}\mid) \over n $$</p></li>
+                            <li>The Gap index ranges from 0 to 1, where a value of 1 represents total inequity.</li>
+                            <li>The scatterplot shows how the transit service supply is distributed with respect to the transit demand variable.</li>
+                            </ul>
+                    </div>
+                    </div>
+                    <div id='plot-wrapper'>
+                        <div id='gapSummary'>
+                            <div id='gapTitle'>
+                                <p> Transit Inequity: demand-supply gap <a class="button" href="#popup1"><span class="material-symbols-outlined">Help</span></a></p>
+                            </div>
+                            <div id='gapSmallText'>
+                                <p> Current </p>
+                                <p style="color: #dcfcb8; font-size: 1.6vmin; font-weight: 300;"> ODMTS </p>
+                            </div>
+                            <div id='gapValue'>
+                                <p> <span id="gapValueBefore2"></b> </span> </p>
+                                <p> <span id="gapValueAfter2"></b> </span> </p>
+                            </div>
+                        </div>
+                        <div id='scatterPlot'></div>
+                        <div id='giniSummary'></div>
+                        <div id="lorenzCurve" style="visibility:hidden"></div>
+                    </div>
+                </div>
+                <div id="popup2" class="overlay">
+                    <div class="popup" style="top: 50%;">
+                        <a class="close" href="#mapWrapperEqu">&times;</a>
+                        <div class="content">
+                            <ul>
+                            <li>The numeric values are Gini indices which represent the degree of inequality among neighborhoods with low/mid/high transit demand, respectively. </li>
+                            <li>A high value of Gini index means the distribution is far from equal. </li>
+                            <li>The plot is showing Lorenz curves which also indicate the degree of inequality based on how far it is from the line of equality.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id='plot-wrapper'>
+                        <div id='gapSummary'></div>
+                        <div id='scatterPlot' style="visibility:hidden"></div>
+                        <div id='giniSummary'>
+                            <div id="giniTitle">
+                                <p>Transit Inequality by Level of Demand <a class="button" href="#popup2"><span class="material-symbols-outlined">Help</span></a></p>
+                            </div>
+                            <div id="giniSmallText">
+                                <p> Current </p>
+                                <p style="color: #dcfcb8; font-size: 1.6vmin; font-weight: 300;"> ODMTS </p>
+                            </div>
+                            <div id="giniValue-wrapper">
+                                <div id="giniValue">
+                                    <p style="color: #fffde6; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniBeforeLow2"></b> </span> </p>
+                                    <p style="color: #f7adad; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniBeforeMid2"></b> </span> </p>
+                                    <p style="color: #e34b4b; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniBeforeHigh2"></b> </span> </p>
+                                </div>
+                                <div id="giniValue">
+                                    <p style="font-size: 1.4vmin; font-weight: 300; text-align: center; margin-top: -1vh !important; margin-bottom: 0vh !important;"> Low-demand neighborhoods </p>
+                                    <p style="font-size: 1.4vmin; font-weight: 300; text-align: center; margin-top: 1vh !important; margin-bottom: 1vh !important;"> Mid-demand neighborhoods </p>
+                                    <p style="font-size: 1.4vmin; font-weight: 300; text-align: center; margin-top: 0vh !important; margin-bottom: -1vh !important;"> High-demand neighborhoods </p>
+                                </div>
+                                <div id="giniValue">
+                                    <p style="color: #fffde6; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniAfterLow2"></b> </span> </p>
+                                    <p style="color: #f7adad; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniAfterMid2"></b> </span> </p>
+                                    <p style="color: #e34b4b; margin-top: 0px !important; margin-bottom: 0px !important;"> <span id="giniAfterHigh2"></b> </span> </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="lorenzCurve"></div>
+                    </div>
+                </div>
+                <div id="popup3" class="overlay">
+                    <div class="popup" style="top: 47%; left: 18%;">
+                        <a class="close" href="#mapWrapperEqu">&times;</a>
+                        <div class="content">
+                            <ul>
+                            <li>The legend shows the level of transit accessibility and transit demand that each Block Group falls under</li>
+                            <li><span style="background: #663d9c;">Purple</span> means transit is over-supplied compared to the low transit demand </li>
+                            <li><span style="background: #b55353;">Red</span> means transit is under-spplied compared to the high transit demand </li>
+                            <li><span style="background: #fffacf; color: black;">Ivory</span> means transit supply corresponds to the transit demand </li>
+                            <li>Click each of the nine boxes to highlight neighborhoods in each category; or click each circle on the axes to highlight by row/column </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="filter-wrapper-Equ"></div>
+                    <div id="legend-wrapper"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step back"> 
+            <div id="wrapper-end">
+                <div id="content-description">
+                    <h4>Description</h4>
+                    <p><h5>The first- and last-mile trip accessibility in public transit trip is one of the most crucial factors affecting whether an individual will choose public transit or not. It is a particularly important issue that needs to be solved in a city like Atlanta, GA, where public transit is not the most favored mode of transportation.</h5></p>
+                    <p><h5>Researchers at Georgia Institute of Technology have developed the On-Demand Multimodal Transit System (ODMTS) that serves first- and last-mile trips via on-demand shuttles. ODMTS is currently at a pilot test stage based on multiple neighborhoods in Atlanta in collaboration with the Metropolitan Atlanta Rapid Transit Authority (MARTA). ODMTS is expected to significantly improve public transit accessibility and, in the long run, reduce auto-dependency in the Atlanta region.</h5></p>
+                    <p><h5>This project showcases the performance of ODMTS in terms of (1) transit accessibility and (2) transit equity+equality, by comparing it with the existing conventional transit system.</h5></p>
+                </div>
+                <div id="content-team">
+                    <h4>Team</h4>
+                    <ul>
+                        <li class="team-member">Subhrajit Guhathakurta, <a class="member-info">Professor</a></li>
+                        <li class="team-member">Pascal Van Hentenryck, <a class="member-info">Professor</a></li>
+                        <li class="team-member"><a href="https://ujhwang.github.io" target="_blank">Uijeong Hwang</a>, <a class="member-info">Ph.D. Student</a></li>
+                        <li class="team-member">Seung Jae Lieu, <a class="member-info">Master Student</a></li>
+                        <li class="team-member">Kevin Dalmeijer, <a class="member-info">Senior Research Associate</a></li>
+                        <li class="team-member">Hongzhao Guan, <a class="member-info">Ph.D. Student</a></li>
+                    </ul>
+                </div>
+                <div id ="TeamLogo">
+                    <h4>In collaboration with</h4>
+                    <div id ="TeamLogoList">
+                        <a href="https://www.itsmarta.com/" target="_blank"><img src="img/MARTA.png" alt="" width="250" height="80" style="width: 100; height: auto;"></a>
+                        <a href="https://sam.isye.gatech.edu//" target="_blank"><img src="img/SAM.png" alt="" width="100" height="100" style="width: 100; height: auto;"></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script>
-
-      let clicked = 0
-      let demandUnit = 'num'
-      let xAxisNameLegend = 'pop. without vehicles'
-      let prefix = 'Number of '
-      let xAxisNameScatter = 'Population without Vehicles'
-
-      // default (Absolute measure) - only the slider_abs shown
-      document.getElementsByClassName("sliderContentRelative")[0].style.visibility = "hidden";
-
-      // const color_3class = ["#ffffff", "#8896bf", "#193583", "#89a08c", "#FFEAEA", "#8a85ad", "#1d4a22", "#8b8f7a", "#ffd8d8"]
-      const color_3class = ["#fffacf", "#e69191", "#b55353", "#a780d9", "#fffbcf", "#e69291", "#663d9c", "#a781d9", "#fffccf"]
-
-      const color_3class_darker = []
-      color_3class.forEach((item, i) => {
-        color_3class_darker.push(d3.hsv(item).darker(4).formatHex())
-      });
-
-
-      const color_3class_14 = {
-        'A1': color_3class[0],
-        'A2': color_3class[1],
-        'A3': color_3class[2],
-        'B1': color_3class[3],
-        'B2': color_3class[4],
-        'B3': color_3class[5],
-        'C1': color_3class[6],
-        'C2': color_3class[7],
-        'C3': color_3class[8],
-      };
-
-      window.onresize = function () {
-        setWindowSize();
-      }
-
-      function setWindowSize() {
-        width = (window.innerWidth - 1) /2;
-        d3.select("#map_bef").style("width", width*1.15 + "px")
-        d3.select("#map_aft").style("width", width*0.85 + "px")
-      }
-
-      setWindowSize();
-
-      // set the slider value for absolute measure
-      let slider_abs = document.getElementById("myRange_abs");
-      let sliderValue_abs = document.getElementById("sliderValue_abs");
-      sliderValue_abs.innerHTML = slider_abs.value; // Display the default slider value
-      let slider_filter_abs = slider_abs.value;
-
-      // set the slider value for relative measure
-      let slider_rel = document.getElementById("myRange_rel");
-      let sliderValue_rel = document.getElementById("sliderValue_rel");
-      sliderValue_rel.innerHTML = slider_rel.value; // Display the default slider value
-      let slider_filter_rel = slider_rel.value;
-
-      // variabel for the highlghting function
-      let hoveredStateId = null;
-
-      // Create the map with token !토큰이 달라지면 폴리곤 및 다른 정보가 사라짐
-      mapboxgl.accessToken = 'pk.eyJ1IjoidWh3YW5nMyIsImEiOiJja3d0bGh4cG8wemxtMm5xcTJ1anc4ajlxIn0.GPUcPfwoUXy6pItqRUvifw';
-
-      const map_bef = new mapboxgl.Map({
-        container: 'map_bef', // container ID // style URL //dark-v10 // style URL //dark-v10
-        style: 'mapbox://styles/uhwang3/ckwufpsse0va014pe2lwbyr8b',
-        center: [-84.53132, 33.842556], // starting position [lng, lat]
-        zoom: 9, // starting zoom
-        minZoom: 3
-      });
-
-      const map_aft = new mapboxgl.Map({
-        container: 'map_aft', // container ID // style URL //dark-v10 // style URL //dark-v10
-        style: 'mapbox://styles/uhwang3/ckwufpsse0va014pe2lwbyr8b',
-        center: [-84.53132, 33.842556], // starting position [lng, lat]
-        zoom: 9, // starting zoom
-        minZoom: 3,
-      });
-
-      const svg = d3.selectAll('#legend-wrapper')
-        .append("svg")
-        .attr('id', 'legend')
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .style("z-index", 1);
-
-      divHeight = document.getElementById('legend-wrapper').clientHeight;
-      margin = {left: 45, bottom: 60};
-      rect_width = 35;
-      legend_w = rect_width * 3;
-      legend_x = margin.left + legend_w/2; //the center for rotation
-      legend_y = divHeight - margin.bottom - legend_w/2; //the center for rotation
-
-      // create bivariate color scheme
-      legend = svg.selectAll("#legend")
-        .data(color_3class)
-        .enter()
-        .append("g")
-        .attr("id", "lab");
-
-      legend.append("rect")
-        .attr("x", function(d, i) {
-            return rect_width*(i%3) + margin.left;
-        })
-        .attr("y", function(d, i) {
-            return legend_y - rect_width*(i-(i%3))/3;
-        })
-        .attr("width", rect_width - 1.5)
-        .attr("height", rect_width - 1.5)
-        .style("fill", function(d){return d});
-
-      arrowPoints = [[0, 0], [0, 10], [10, 5]];
-      line_length = 125
-      line_start = [margin.left-15, divHeight-margin.bottom-15]; //the numbers are tested to be bottom of legend.
-      line_end = [margin.left-15, divHeight-margin.bottom-15-line_length];
-
-      legend.append('defs')
-        .append('marker')
-        .attr('id', 'arrow')
-        .attr('viewBox', [0, 0, 10, 10])
-        .attr('refX', 5)
-        .attr('refY', 5)
-        .attr('markerWidth', 10)
-        .attr('markerHeight', 10)
-        .attr('orient', 'auto')
-        .append('path')
-        .attr('d', d3.line()(arrowPoints))
-        .attr('stroke', 'white')
-        .attr('fill', 'white');
-
-      svg.append('text')
-        .attr('x', line_start[0])
-        .attr('y', line_start[1])
-        .attr('transform', 'translate(-15, -55) rotate(270,' + line_start[0] + ',' + line_start[1] + ')')
-        .attr('fill', 'white')
-        .attr('font-size', '14px')
-        .style("text-anchor", "middle")
-        .text('Accessibility');
-
-      const legend_x_text = svg.append('text')
-        .attr('x', line_start[0]+65)
-        .attr('y', line_start[1]+35)
-        .style("text-anchor", "middle")
-        .attr('fill', 'white')
-        .attr('font-size', '14px')
-        .text('Transit demand');
-
-      const legend_x_text_sub = svg.append('text')
-        .attr('x', line_start[0]+65)
-        .attr('y', line_start[1]+55)
-        .style("text-anchor", "middle")
-        .attr('fill', 'white')
-        .attr('font-size', '14px')
-        .text('(pop. without vehicles)');
-
-
-      svg.append('text')
-        .attr('x', line_start[0]+line_length+10)
-        .attr('y', line_start[1]+13)
-        .attr('fill', 'white')
-        .attr('font-size', '13px')
-        .attr('font-weight', '300')
-        .text('High');
-
-      svg.append('text')
-        .attr('x', line_start[0]-28)
-        .attr('y', line_start[1]+4)
-        .attr('fill', 'white')
-        .attr('font-size', '13px')
-        .attr('font-weight', '300')
-        .text('Low')
-        .attr('transform', 'translate(0, 10) rotate(-45,' + line_start[0] + ',' + line_start[1] + ')');
-
-      svg.append('text')
-        .attr('x', line_end[0]-10)
-        .attr('y', line_end[1]-3)
-        .attr('fill', 'white')
-        .attr('font-weight', '300')
-        .attr('font-size', '13px')
-        .text('High')
-
-      svg.append('path')
-        .attr('d', d3.line()([line_start, line_end]))
-        .attr('stroke', 'white')
-        .attr('marker-end', 'url(#arrow)')
-        .attr('fill', 'white')
-        .attr('transform', 'translate(0, 10) rotate(0,' + line_start[0] + ',' + line_start[1] + ')');
-
-      svg.append('path')
-        .attr('d', d3.line()([line_start, line_end]))
-        .attr('stroke', 'white')
-        .attr('marker-end', 'url(#arrow)')
-        .attr('fill', 'white')
-        .attr('transform', 'translate(0, 10) rotate(90,' + line_start[0] + ',' + line_start[1] + ')');
-
-      const legendRowColumn = [
-        {'id':'demLow', 'x':line_start[0]+12+(rect_width+1.5)*(1/2+0), 'y':line_start[1]+10, 'color':color_3class[0]},
-        {'id':'demMid', 'x':line_start[0]+12+(rect_width+1.5)*(1/2+1), 'y':line_start[1]+10, 'color':color_3class[1]},
-        {'id':'demHigh', 'x':line_start[0]+12+(rect_width+1.5)*(1/2+2), 'y':line_start[1]+10, 'color':color_3class[2]},
-        {'id':'accLow', 'x':line_start[0], 'y':line_start[1]-(rect_width+1.5)*(1/2+0), 'color':color_3class[0]},
-        {'id':'accMid', 'x':line_start[0], 'y':line_start[1]-(rect_width+1.5)*(1/2+1), 'color':color_3class[3]},
-        {'id':'accHigh', 'x':line_start[0], 'y':line_start[1]-(rect_width+1.5)*(1/2+2), 'color':color_3class[6]}
-      ]
-
-      const legendRowColumnVal = {
-        'demLow':['A1','B1','C1'], 'demMid':['A2','B2','C2'], 'demHigh':['A3','B3','C3'],
-        'accLow':['A1','A2','A3'], 'accMid':['B1','B2','B3'], 'accHigh':['C1','C2','C3']
-      };
-
-      legendDotClicked = 0
-
-      dotsLegendRowColumn = svg.selectAll('#legend')
-        .data(legendRowColumn)
-        .enter()
-        .append("circle")
-        .attr("cx", (d) => d.x)
-        .attr("cy", (d) => d.y)
-        .attr("r", 7)
-        .style("fill", (d) => d.color)
-        .style('stroke', 'white')
-        .style('stroke-width', '1.5')
-        .on('click', function() {
-          d3.select(this)
-            .attr("r", 11)
-            .style("stroke", 'black')
-            .style('stroke-width', '4');
-        })
-        .on('mouseover', function() {
-          if (legendDotClicked == 0) {
-            d3.select(this)
-              .attr("r", 11)
-              .style("stroke", 'black')
-              .style('stroke-width', '4')
-          }
-        })
-        .on('mouseout', function() {
-          if (legendDotClicked == 0) {
-            d3.select(this)
-              .attr("r", 7)
-              .style('stroke', 'white')
-              .style('stroke-width', '1.5');
-          }
-        })
-
-      dotsLegendRowColumn
-        .on('click', function(d) {
-          let selectedDotId = d.id
-          let label_biv = legendRowColumnVal[selectedDotId]
-
-          rect_cho
-            .style("fill", (d) => {
-              if (!label_biv.includes(Object.keys(color_3class_14)[color_3class.indexOf(d)])) {
-                return color_3class_darker[color_3class.indexOf(d)]
-              } else {
-                return color_3class[color_3class.indexOf(d)]
-              }
-          });
-
-          map_bef.setPaintProperty(
-            'bef_over',
-            'fill-color', [
-              'match',
-                ['concat',
-                  ['get', supply_label],
-                  ['get', demand_label],
-                ],
-                  label_biv[0], color_3class_14[label_biv[0]],
-                  label_biv[1], color_3class_14[label_biv[1]],
-                  label_biv[2], color_3class_14[label_biv[2]],
-                  'black'
-            ]
-          );
-          map_aft.setPaintProperty(
-            'aft_over',
-            'fill-color', [
-              'match',
-                ['concat',
-                  ['get', supply_label],
-                  ['get', demand_label],
-                ],
-                  label_biv[0], color_3class_14[label_biv[0]],
-                  label_biv[1], color_3class_14[label_biv[1]],
-                  label_biv[2], color_3class_14[label_biv[2]],
-                  'black'
-            ]
-          );
-          legendDotClicked = 1;
-        }
-      );
-
-      // print the specified color due to the clicked label
-      for (let i = 1; i < 4; i++) {
-        legend['_groups']['0'][i-1]['__data__'] = 'A'+i;
-      }
-      for (let i = 1; i < 4; i++) {
-        legend['_groups']['0'][i+2]['__data__'] = 'B'+i;
-      }
-      for (let i = 1; i < 4; i++) {
-        legend['_groups']['0'][i+5]['__data__'] = 'C'+i;
-      }
-      rect_cho = legend.selectAll('rect')
-      rect_elements = rect_cho.nodes();
-
-      legendRectClicked = 0
-
-      rect_cho
-        .on('mouseover', function() {
-          if (legendRectClicked == 0) {
-            d3.select(this)
-              .style('stroke', 'black')
-              .style('stroke-width', '3px')
-              .style('stroke-linecap', 'round')
-              .style('opacity', 1);
+        $(window).on('load',function(){
+            if(window.location.hash) {
+                $(".loader").fadeOut(1200);
             }
-        })
-        .on('mouseout', function() {
-          if (legendRectClicked == 0) {
-            d3.select(this)
-              .style('stroke', 'none');
-          }
-        });
-
-      legend.on('click', function(d) {
-        label_biv = d
-
-        rect_cho
-          .style("fill", (d) => {
-            if (Object.keys(color_3class_14)[color_3class.indexOf(d)] != label_biv) {
-              return color_3class_darker[color_3class.indexOf(d)]
-            } else {
-              return color_3class[color_3class.indexOf(d)]
-            }
-        });
-
-        map_bef.setPaintProperty(
-          'bef_over',
-          'fill-color', [
-            'match',
-              ['concat',
-                ['get', supply_label],
-                ['get', demand_label],
-              ],
-                label_biv, color_3class_14[label_biv],
-                'black'
-          ]
-        )
-        map_aft.setPaintProperty(
-          'aft_over',
-          'fill-color', [
-            'match',
-              ['concat',
-                ['get', supply_label],
-                ['get', demand_label],
-              ],
-                label_biv, color_3class_14[label_biv],
-                'black'
-          ]
-        )
-        legendRectClicked = 1
-      });
-
-      let meas_filter = 'abs';
-      let demand_filter = 'dep';
-      let time_filter = '45';
-      let unit_filter = 'act';
-      let trip_filter = 'com';
-      let supply_label = 'abs_com_45';
-      let demand_label = 'dep_act';
-      let label_biv = ""
-      let color_cho = ""
-
-      // show the absolute slider while hiding the relative one - by clicking the radio button
-      function getSlider_abs(){
-        document.getElementsByClassName("sliderContentAbsolute")[0].style.visibility = "visible";
-        document.getElementsByClassName("sliderContentAbsolute")[0].style.zIndex = "1";
-        document.getElementsByClassName("sliderContentRelative")[0].style.visibility = "hidden";
-        document.getElementById("myRange_abs").value = 45;
-        time_filter = 45;
-        sliderValue_abs.innerHTML = 45;
-      }
-      // show the relative slider while hiding the absolute one - by clicking the radio button
-      function getSlider_rel(){
-        document.getElementsByClassName("sliderContentAbsolute")[0].style.visibility = "hidden";
-        document.getElementsByClassName("sliderContentRelative")[0].style.visibility = "visible";
-        document.getElementsByClassName("sliderContentRelative")[0].style.zIndex = "1";
-        document.getElementById("myRange_rel").value = 2;
-        // reset the value and slidervalue
-        time_filter = 2;
-        sliderValue_rel.innerHTML = 2;
-      }
-
-
-      let access_field = 'abs.com.mor.45min'
-      let demand_field = 'dep'
-
-      let panel_width = 350;
-      let panel_margin = {top: 20, right: 20, bottom: 40, left: 50};
-      let plot_w = panel_width - panel_margin.left - panel_margin.right;
-      let plot_h = (window.innerHeight*0.8*0.32 - panel_margin.top - panel_margin.bottom);
-      let summary_h = 100;
-
-      Promise.all([
-        d3.dsv(",", "data/access_equity_06-20-2022.csv", function (d) {
-          return d3.autoType(d)}),
-        d3.dsv(",", "data/gap_gini_summary_06_20_2022.csv", function (d) {
-          return d3.autoType(d)})
-      ])
-        .then(function(data) {
-          ready(data[0], data[1])
-        })
-
-      function ready(access_equity_csv, gap_gini_csv) {
-
-        // display gap & gini value
-        function valueDisplay(access_field, demand_field) {
-
-          gapValueBefore.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-              .map((d)=>{return d.gap})[0].toFixed(2);
-
-          gapValueAfter.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-              .map((d)=>{return d.gap})[0].toFixed(2);
-
-          giniBeforeLow.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-              .map((d)=>{return d['gini.low']})[0];
-
-          giniAfterLow.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-              .map((d)=>{return d['gini.low']})[0];
-
-          giniBeforeMid.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-              .map((d)=>{return d['gini.mid']})[0];
-
-          giniAfterMid.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-              .map((d)=>{return d['gini.mid']})[0];
-
-          giniBeforeHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.before' && d['demand.type']== demand_field})
-              .map((d)=>{return d['gini.high']})[0];
-
-          giniAfterHigh.innerHTML = gap_gini_csv.filter((d)=>{return d['access.field'] == access_field + '.after' && d['demand.type']== demand_field})
-              .map((d)=>{return d['gini.high']})[0];
-
-          gapValueBefore2.innerHTML = gapValueBefore.innerHTML
-          gapValueAfter2.innerHTML = gapValueAfter.innerHTML
-          giniBeforeLow2.innerHTML = giniBeforeLow.innerHTML
-          giniAfterLow2.innerHTML = giniAfterLow.innerHTML
-          giniBeforeMid2.innerHTML = giniBeforeMid.innerHTML
-          giniAfterMid2.innerHTML = giniAfterMid.innerHTML
-          giniBeforeHigh2.innerHTML = giniBeforeHigh.innerHTML
-          giniAfterHigh2.innerHTML = giniAfterHigh.innerHTML
-        }
-
-        valueDisplay(access_field, demand_field)
-
-        function valueUpdate() {
-          let access_field = meas_filter + '.com.mor.' + time_filter;
-          if (meas_filter == 'abs') {
-            access_field = access_field + 'min'
-          };
-          let demand_field = demand_filter
-          if (unit_filter == 'pct') {
-            demand_field = demand_field + '.pct'
-          }
-          valueDisplay(access_field, demand_field)
-        };
-
-        /////////// scatter plot ////////////
-        const scatterColor = ['#ffffff','#707070']
-
-        const scatterPlot = d3.selectAll('#scatterPlot').append("svg")
-          .attr('id', 'scatterPlotSvg')
-          .attr('width', plot_w + panel_margin.left + panel_margin.right)
-          .attr('height', plot_h + panel_margin.top + panel_margin.bottom)
-          .append("g")
-          .attr('id', 'scatterPlotSvgG')
-          .attr("transform", "translate(" + panel_margin.left + "," + panel_margin.top + ")");
-
-        // Data for scatter plot
-        function drawScatterPlot(access_field, demand_field) {
-
-          let val_acc_before = access_equity_csv.map (function(d) {return d[access_field + '.before']})
-          let val_acc_after = access_equity_csv.map (function(d) {return d[access_field + '.after']})
-          let val_demand = access_equity_csv.map (function(d) {return d[demand_field]})
-
-          let scatter_data = val_demand.map((e, i) => ({
-            demand: e,
-            access_before: val_acc_before[i],
-            access_after: val_acc_after[i]
-          }))
-
-          x_demand = d3.scaleLinear()
-            .domain([0,d3.max(scatter_data, function(d){return d.demand})])
-            .range([0,plot_w]);
-
-          y_access = d3.scaleLinear()
-            .domain([0, 1])
-            .range([plot_h, 0]);
-
-          // ADD AXIS
-          scatterPlot.append("g")
-            .attr('id', 'scatterRedraw')
-            .attr("transform", "translate(0," + plot_h + ")")
-            .call(d3.axisBottom(x_demand).ticks(5))
-            .style("color", "white")
-            .attr('font-weight', '100');
-
-          scatterPlot.append("g")
-            .attr('id', 'scatterRedraw')
-            .call(d3.axisLeft(y_access).tickValues([0, 0.25, 0.5, 0.75, 1]).tickFormat(d=> d*100+"%"))
-            .style("color", "white")
-            .attr('font-weight', '100');
-
-          const scatterPlotXAxis = scatterPlot.append("g")
-            .attr('id', 'scatterRedraw')
-            .append('text')
-            .attr("transform", "translate(" + plot_w/2 + " ," + (plot_h + 35) + ")")
-            .text(prefix + xAxisNameScatter)
-            .attr("text-anchor", "middle")
-            .style("fill", "white")
-            .attr('font-weight', '300')
-            .attr('font-size', '13px');
-
-          scatterPlot.append("g")
-            .attr('id', 'scatterRedraw')
-            .append('text')
-            .attr("transform", "rotate(-90)")
-            .attr("x", -plot_h/2)
-            .attr("y", -36)
-            .text("Transit Accessibility")
-            .attr("text-anchor", "middle")
-            .style("fill", "white")
-            .attr('font-weight', '300')
-            .attr('font-size', '13px');
-
-          // ADD DOTS -- Before
-          scatterPlot.append("g")
-            .attr('id', 'scatterRedraw')
-            .selectAll("rect")
-            .data(scatter_data)
-            .enter()
-            .append("rect")
-            .attr("x", function(d) {return x_demand(d.demand); })
-            .attr("y", function(d) {return y_access(d.access_before); })
-            .attr("height", 1.5)
-            .attr("width", 1.5)
-            .style("fill", scatterColor[1]);
-
-          // ADD DOTS -- After
-          scatterPlot.append("g")
-            .attr('id', 'scatterRedraw')
-            .selectAll("rect")
-            .data(scatter_data)
-            .enter()
-            .append("rect")
-            .attr("x", function(d) {return x_demand(d.demand); })
-            .attr("y", function(d) {return y_access(d.access_after); })
-            .attr("height", 1.5)
-            .attr("width", 1.5)
-            .style("fill", scatterColor[0]);
-
-          // // plot title
-          // scatterPlot.append("text")
-          //     .attr('id', 'scatterRedraw')
-          //     .attr("x", -panel_margin.left + 10)
-          //     .attr("y", -15)
-          //     .attr("fill", "white")
-          //     .attr("font-size", "14px")
-          //     .attr('font-weight', '300')
-          //     .attr("text-anchor", "center")
-          //     .text("Transit Demand & Accessibility by Neighborhood");
-
-          // add legend
-          scatterPlotLegend = scatterPlot.append("g")
-            .attr("id", "plotLegend");
-
-          scatterPlotLegend.append("circle")
-            .attr('id', 'scatterRedraw')
-            .attr("cx", plot_w*8/10)
-            .attr("cy", plot_h/10)
-            .attr('r', 4)
-            .attr("fill", scatterColor[0])
-
-          scatterPlotLegend.append("circle")
-            .attr('id', 'scatterRedraw')
-            .attr("cx", plot_w*8/10)
-            .attr("cy", plot_h*2/10)
-            .attr('r', 4)
-            .attr("fill", scatterColor[1])
-
-          scatterPlotLegend.append("text")
-            .attr('id', 'scatterRedraw')
-            .attr("x", plot_w*8/10 + 10)
-            .attr("y", plot_h/10 + 4)
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .text("ODMTS");
-
-          scatterPlotLegend.append("text")
-            .attr('id', 'scatterRedraw')
-            .attr("x", plot_w*8/10 + 10)
-            .attr("y", plot_h*2/10 + 4)
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .text("Current");
-        }
-
-        drawScatterPlot(access_field, demand_field)
-
-        function redrawScatterPlot() {
-          let access_field = meas_filter + '.com.mor.' + time_filter;
-          if (meas_filter == 'abs') {
-            access_field = access_field + 'min'
-          };
-          let demand_field = demand_filter
-          if (unit_filter == 'pct') {
-            demand_field = demand_field + '.pct'
-          }
-          d3.selectAll('#scatterRedraw').remove()
-          drawScatterPlot(access_field, demand_field)
-        };
-
-
-        // functions for manipulating data for lorenz curve
-        function MultiplyArrays(a, b) {
-          c = [];
-          for (i = 0; i < Math.max(a.length, b.length); i++) {
-            c.push((a[i] || 0) * (b[i] || 0));
-          }
-          return c;
-        };
-
-        function LorenzData(val_acc) {
-          let val_acc_unique = {};
-          val_acc.forEach(element => {val_acc_unique[element] = (val_acc_unique[element] || 0) + 1;});
-
-          let val = [];
-          Object.keys(val_acc_unique).forEach(str => {val.push(Number(str))});
-          let freq = Object.values(val_acc_unique);
-          let freq_cum = freq.map((sum => value => sum += value)(0));
-
-          let val_freq = MultiplyArrays(val, freq);
-          let val_freq_cum = val_freq.map((sum => value => sum += value)(0));
-
-          let freq_cum_pct = freq_cum.map(x => Math.round(x / freq_cum[freq_cum.length - 1] * 10000)/10000);
-          let val_freq_cum_pct = val_freq_cum.map(x => Math.round(x / val_freq_cum[val_freq_cum.length - 1] * 10000)/10000);
-
-          let lorenz_data = freq_cum_pct.map((e, i) => ({
-            x: e,
-            y: val_freq_cum_pct[i]
-          }));
-          return lorenz_data;
-        };
-
-        /////////// lorenz curve ////////////
-        let lorenzColor = color_3class.slice(0, 3)
-
-        let lorenzCurve = d3.selectAll('#lorenzCurve').append("svg")
-          // .style("top", intro_h + toggle_h*3 + plot_h + panel_margin.top + 15 + 35 + 'px')
-          .attr('id', 'lorenzCurveSvg')
-          .attr('width', plot_w + panel_margin.left + panel_margin.right)
-          .attr('height', plot_h + panel_margin.top + panel_margin.bottom)
-          .append("g")
-          .attr("transform", "translate(" + panel_margin.left + "," + panel_margin.top + ")");
-
-        x_lorenz = d3.scaleLinear()
-          .domain([0,1])
-          .range([0,plot_w]);
-
-        y_lorenz = d3.scaleLinear()
-          .domain([0, 1])
-          .range([plot_h, 0]);
-
-        // data for lorenz curve
-        function drawLorenz(access_field, demand_field) {
-          let val_acc_before_low = access_equity_csv.filter((d) => {return(d[demand_field + '_pctl'] <= 0.33)})
-          .map ((d) => {return d[access_field + '.before']}).sort();
-          let val_acc_before_mid = access_equity_csv.filter((d) => {return(d[demand_field + '_pctl'] > 0.33 && d[demand_field + '_pctl'] <= 0.67)})
-          .map ((d) => {return d[access_field + '.before']}).sort();
-          let val_acc_before_high = access_equity_csv.filter((d) => {return(d[demand_field + '_pctl'] > 0.67)})
-          .map ((d) => {return d[access_field + '.before']}).sort();
-          let val_acc_after_low = access_equity_csv.filter((d) => {return(d[demand_field + '_pctl'] <= 0.33)})
-          .map ((d) => {return d[access_field + '.after']}).sort();
-          let val_acc_after_mid = access_equity_csv.filter((d) => {return(d[demand_field + '_pctl'] > 0.33 && d[demand_field + '_pctl'] <= 0.67)})
-          .map ((d) => {return d[access_field + '.after']}).sort();
-          let val_acc_after_high = access_equity_csv.filter((d) => {return(d[demand_field + '_pctl'] > 0.67)})
-          .map ((d) => {return d[access_field + '.after']}).sort();
-
-          let lorenz_before_low = LorenzData(val_acc_before_low);
-          let lorenz_before_mid = LorenzData(val_acc_before_mid);
-          let lorenz_before_high = LorenzData(val_acc_before_high);
-          let lorenz_after_low = LorenzData(val_acc_after_low);
-          let lorenz_after_mid = LorenzData(val_acc_after_mid);
-          let lorenz_after_high = LorenzData(val_acc_after_high);
-
-          // ADD AXIS
-          lorenzCurve.append("g")
-            .attr('id', 'lorenzRedraw')
-            .attr("transform", "translate(0," + plot_h + ")")
-            .call(d3.axisBottom(x_lorenz).tickValues([0, 0.25, 0.5, 0.75, 1]).tickFormat(d=> d*100+"%"))
-            .style("color", "white")
-            .attr('font-weight', '100');
-
-          lorenzCurve.append("g")
-            .attr('id', 'lorenzRedraw')
-            .call(d3.axisLeft(y_lorenz).tickValues([0, 0.25, 0.5, 0.75, 1]).tickFormat(d=> d*100+"%"))
-            .style("color", "white")
-            .attr('font-weight', '100');
-
-          lorenzCurve.append("g")
-            .attr('id', 'lorenzRedraw')
-            .append('text')
-            .attr("transform", "translate(" + plot_w/2 + " ," + (plot_h + 35) + ")")
-            .text("Cumulative Rank of Accessibility")
-            .attr("text-anchor", "middle")
-            .style("fill", "white")
-            .attr('font-weight', '300')
-            .attr('font-size', '13px');
-
-          lorenzCurve.append("g")
-            .attr('id', 'lorenzRedraw')
-            .append('text')
-            .attr("transform", "rotate(-90)")
-            .attr("x", -plot_h/2)
-            .attr("y", -36)
-            .text("Cumulative Accessibility")
-            .attr("text-anchor", "middle")
-            .style("fill", "white")
-            .attr('font-weight', '300')
-            .attr('font-size', '13px');
-
-          // add line of equality
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0, 'y':0}, {'x': 1, 'y':1}])
-            .attr("fill", "none")
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .style("stroke-dasharray", ("1.5, 1.5"))
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          // ADD lorenz curves
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum(lorenz_before_low)
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[0])
-            .attr("stroke-width", 1)
-            .style("stroke-dasharray", ("4, 4"))
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum(lorenz_before_mid)
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[1])
-            .attr("stroke-width", 1.5)
-            .style("stroke-dasharray", ("4, 4"))
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum(lorenz_before_high)
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[2])
-            .attr("stroke-width", 2)
-            .style("stroke-dasharray", ("4, 4"))
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum(lorenz_after_low)
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[0])
-            .attr("stroke-width", 1)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum(lorenz_after_mid)
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[1])
-            .attr("stroke-width", 1.5)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum(lorenz_after_high)
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[2])
-            .attr("stroke-width", 2)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          // // plot title
-          // lorenzCurve.append("text")
-          //     .attr('id', 'lorenzRedraw')
-          //     .attr("x", -panel_margin.left + 10)
-          //     .attr("y", -20)
-          //     .attr("fill", "white")
-          //     .attr("font-size", "14px")
-          //     .attr("text-anchor", "center")
-          //     .text("Transit Inequality by Transit Demand Groups");
-
-          // add legend
-          lorenzCurveLegend = lorenzCurve.append("g")
-            .attr("id", "plotLegend");
-
-          lorenzCurveLegend.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0.05, 'y':1}, {'x': 0.2, 'y':1}])
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[0])
-            .attr("stroke-width", 1*1.5)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurveLegend.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0.05, 'y':0.90}, {'x': 0.2, 'y':0.90}])
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[1])
-            .attr("stroke-width", 1.5*1.5)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0.05, 'y':0.8}, {'x': 0.2, 'y':0.8}])
-            .attr("fill", "none")
-            .attr("stroke", lorenzColor[2])
-            .attr("stroke-width", 2*1.5)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0.05, 'y':0.7}, {'x': 0.12, 'y':0.7}])
-            .attr("fill", "none")
-            .attr("stroke", '#bfbfbf')
-            .attr("stroke-width", 1.5)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0.12, 'y':0.7}, {'x': 0.2, 'y':0.7}])
-            .attr("fill", "none")
-            .attr("stroke", '#bfbfbf')
-            .attr("stroke-width", 1.5)
-            .style("stroke-dasharray", ("3, 2"))
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurve.append("path")
-            .attr('id', 'lorenzRedraw')
-            .datum([{'x':0.115, 'y':0.66}, {'x': 0.125, 'y':0.74}])
-            .attr("fill", "none")
-            .attr("stroke", '#bfbfbf')
-            .attr("stroke-width", 1.5)
-            .attr('d', d3.line()
-              .x(function(d) {return x_lorenz(d.x)})
-              .y(function(d) {return y_lorenz(d.y)}));
-
-          lorenzCurveLegend.append("text")
-            .attr('id', 'lorenzRedraw')
-            .attr("x", x_lorenz(0.2+0.03))
-            .attr("y", y_lorenz(1-0.02))
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .text("Low-demand NBHDs");
-
-          lorenzCurveLegend.append("text")
-            .attr('id', 'lorenzRedraw')
-            .attr("x", x_lorenz(0.2+0.03))
-            .attr("y", y_lorenz(0.90-0.02))
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .text("Mid-demand NBHDs");
-
-          lorenzCurveLegend.append("text")
-            .attr('id', 'lorenzRedraw')
-            .attr("x", x_lorenz(0.2+0.03))
-            .attr("y", y_lorenz(0.8-0.02))
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .text("High-demand NBHDs");
-
-          lorenzCurveLegend.append("text")
-            .attr('id', 'lorenzRedraw')
-            .attr("x", x_lorenz(0.2+0.03))
-            .attr("y", y_lorenz(0.7-0.02))
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .text("ODMTS / Current");
-
-          let angle = Math.atan(plot_h/plot_w)*180/Math.PI
-
-          lorenzCurveLegend.append("text")
-            .attr('id', 'lorenzRedraw')
-            .attr('transform', 'translate('+ x_lorenz(0.25) + ',' + y_lorenz(0.25+0.03) + ')rotate(-' + angle + ')')
-            .attr("fill", "white")
-            .attr("font-size", "12px")
-            .attr("font-weight", "200")
-            .attr("text-anchor", "left")
-            .attr("color", 'white')
-            .text("Line of Equality");
-        }
-
-        drawLorenz(access_field, demand_field)
-
-        function redrawLorenz() {
-          let access_field = meas_filter + '.com.mor.' + time_filter;
-          if (meas_filter == 'abs') {
-            access_field = access_field + 'min'
-          };
-          let demand_field = demand_filter
-          if (unit_filter == 'pct') {
-            demand_field = demand_field + '.pct'
-          }
-          d3.selectAll('#lorenzRedraw').remove()
-          drawLorenz(access_field, demand_field)
-        }
-
-        // map the base block group data
-        map_bef.on('load', () => {
-
-          // Add a custom vector tileset source
-          map_bef.addSource('before_0629', {type: 'vector', url: "mapbox://lsj97.before_0629"});
-
-          map_bef.addLayer(
-            {
-              'id': 'bef_base',
-              'type': 'fill',
-              'source': 'before_0629',
-              'source-layer': 'before_0629',
-              'paint': {
-                'fill-color': [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      'A1', color_3class_14['A1'],
-                      'A2', color_3class_14['A2'],
-                      'A3', color_3class_14['A3'],
-                      'B1', color_3class_14['B1'],
-                      'B2', color_3class_14['B2'],
-                      'B3', color_3class_14['B3'],
-                      'C1', color_3class_14['C1'],
-                      'C2', color_3class_14['C2'],
-                      'C3', color_3class_14['C3'],
-                      'black'
-                ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
-              }
-            },
-          );
-
-          map_bef.addLayer(
-            {
-              'id': 'bef_over',
-              'type': 'fill',
-              'source': 'before_0629',
-              'source-layer': 'before_0629',
-              'paint': {
-                'fill-color': [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      'A1', color_3class_14['A1'],
-                      'A2', color_3class_14['A2'],
-                      'A3', color_3class_14['A3'],
-                      'B1', color_3class_14['B1'],
-                      'B2', color_3class_14['B2'],
-                      'B3', color_3class_14['B3'],
-                      'C1', color_3class_14['C1'],
-                      'C2', color_3class_14['C2'],
-                      'C3', color_3class_14['C3'],
-                      'black'
-                ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
-              }
-            },
-          );
-
-          map_bef.addLayer(
-            {
-              'id': 'bef_hover',
-              'type': 'fill',
-              'source': 'before_0629',
-              'source-layer': 'before_0629',
-              'paint': {
-                'fill-outline-color': '#000000',
-                'fill-color': '#000000',
-                'fill-opacity': [
-                  'case',
-                    ['boolean',
-                      ['feature-state', 'hover'], false
-                    ],
-                      0.5,
-                      0
-                ]
-              },
-            },
-          );
-
-          // demand type
-          document.getElementById('demand').addEventListener('change', (event) => {
-            const demand_target = event.target.value;
-
-            demand_filter = demand_target;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_bef.setPaintProperty(
-              'bef_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_bef.setPaintProperty(
-              'bef_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          // measure type
-          document.getElementById('filters_meas').addEventListener('change', (event_meas) => {
-            const meas_target = event_meas.target.value;
-
-            meas_filter = meas_target;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_bef.setPaintProperty(
-              'bef_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_bef.setPaintProperty(
-              'bef_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          //  unit type
-          document.getElementById('unit').addEventListener('change', (event_unit) => {
-            const unit_target = event_unit.target.value;
-
-            unit_filter = unit_target;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_bef.setPaintProperty(
-              'bef_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_bef.setPaintProperty(
-              'bef_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          // trip type
-          document.getElementById('trip').addEventListener('change', (event_trip) => {
-            const trip_target = event_trip.target.value;
-
-            trip_filter = trip_target;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            map_bef.setPaintProperty(
-              'bef_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ],
-            );
-            map_bef.setPaintProperty(
-              'bef_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          // slider
-          slider_abs.addEventListener('input', (abs) => {
-            sliderValue_abs.innerHTML = abs.target.value;
-            slider_filter_abs = abs.target.value;
-            time_filter = slider_filter_abs;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_bef.setPaintProperty(
-              'bef_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_bef.setPaintProperty(
-              'bef_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          slider_rel.addEventListener('input', (rel) => {
-            sliderValue_rel.innerHTML = rel.target.value;
-            slider_filter_rel = rel.target.value;
-            time_filter = slider_filter_rel;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_bef.setPaintProperty(
-              'bef_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_bef.setPaintProperty(
-              'bef_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          d3.select('body').on('click', function(){
-            if ((clicked % 2) === 1) {
-              map_bef.setPaintProperty(
-                'bef_over',
-                'fill-color', [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      'A1', color_3class_14['A1'],
-                      'A2', color_3class_14['A2'],
-                      'A3', color_3class_14['A3'],
-                      'B1', color_3class_14['B1'],
-                      'B2', color_3class_14['B2'],
-                      'B3', color_3class_14['B3'],
-                      'C1', color_3class_14['C1'],
-                      'C2', color_3class_14['C2'],
-                      'C3', color_3class_14['C3'],
-                      'black'
-                ],
-              );
-              map_aft.setPaintProperty(
-                'aft_over',
-                'fill-color', [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      'A1', color_3class_14['A1'],
-                      'A2', color_3class_14['A2'],
-                      'A3', color_3class_14['A3'],
-                      'B1', color_3class_14['B1'],
-                      'B2', color_3class_14['B2'],
-                      'B3', color_3class_14['B3'],
-                      'C1', color_3class_14['C1'],
-                      'C2', color_3class_14['C2'],
-                      'C3', color_3class_14['C3'],
-                      'black'
-                ],
-              );
-
-              rect_cho
-                .style('stroke', 'none');
-              rect_cho
-                .style("fill", (d) => d);
-
-              dotsLegendRowColumn
-                .attr('r', 7)
-                .style('stroke', 'white')
-                .style('stroke-width', '1.5');
-
-              legendRectClicked = 0;
-              legendDotClicked = 0;
-            };
-            clicked = clicked + 1;
-          });
-
-          // highlighting group
-          map_bef.on('mousemove', 'bef_hover', (e) => {
-
-            let geo_id =  e.features[0].properties['geo.id']
-
-            if (e.features.length > 0) {
-              if (hoveredStateId !== null) {
-                map_bef.setFeatureState(
-                {
-                  source: 'before_0629',
-                  sourceLayer: 'before_0629',
-                  id: hoveredStateId
-                },
-                {
-                  hover: false
-                }
-                );
-              }
-              hoveredStateId = e.features[0].id;
-              map_bef.setFeatureState(
-                {
-                  source: 'before_0629',
-                  sourceLayer: 'before_0629',
-                  id: hoveredStateId
-                },
-                {
-                  hover: true
-                }
-              );
-            };
-          });
-
-          map_bef.on('mouseleave', 'bef_hover', () => {
-            if (hoveredStateId !== null) {
-              map_bef.setFeatureState(
-                {
-                  source: 'before_0629',
-                  sourceLayer: 'before_0629',
-                  id: hoveredStateId
-                },
-                {
-                  hover: false
-                }
-              );
-            }
-              hoveredStateId = null;
-          });
-
-          map_bef.on('click', 'bef_base', (es) => {
-            color_cho = es.features['0']['properties'][supply_label] + es.features['0']['properties'][demand_label]
-
-            if ((clicked % 2) === 0) {
-              map_bef.setPaintProperty(
-                'bef_over',
-                'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    color_cho, color_3class_14[color_cho],
-                    'black'
-                ]
-              )
-              map_aft.setPaintProperty(
-                'aft_over',
-                'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    color_cho, color_3class_14[color_cho],
-                    'black'
-                ]
-              )
-            }
-
-            rect_cho
-              .style("fill", (d) => {
-                if (Object.keys(color_3class_14)[color_3class.indexOf(d)] != color_cho) {
-                  return color_3class_darker[color_3class.indexOf(d)]
-                } else {
-                return color_3class[color_3class.indexOf(d)]
-                }
-              })
-
-          });
-        }) //map.on.load ends here
-
-        map_aft.on('load', () => {
-          // Add a custom vector tileset source
-          map_aft.addSource('after_0629', {type: 'vector', url: "mapbox://lsj97.after_0629"});
-
-          map_aft.addLayer(
-            {
-              'id': 'aft_base',
-              'type': 'fill',
-              'source': 'after_0629',
-              'source-layer': 'after_0629',
-              'paint': {
-                'fill-color': [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      'A1', color_3class_14['A1'],
-                      'A2', color_3class_14['A2'],
-                      'A3', color_3class_14['A3'],
-                      'B1', color_3class_14['B1'],
-                      'B2', color_3class_14['B2'],
-                      'B3', color_3class_14['B3'],
-                      'C1', color_3class_14['C1'],
-                      'C2', color_3class_14['C2'],
-                      'C3', color_3class_14['C3'],
-                      'black'
-                ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
-              }
-            },
-          );
-          map_aft.addLayer(
-            {
-              'id': 'aft_over',
-              'type': 'fill',
-              'source': 'after_0629',
-              'source-layer': 'after_0629',
-              'paint': {
-                'fill-color': [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                ],
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'rgba(0,0,0,0.1)'
-              }
-            },
-          );
-          map_aft.addLayer(
-            {
-              'id': 'aft_hover',
-              'type': 'fill',
-              'source': 'after_0629',
-              'source-layer': 'after_0629',
-              'paint': {
-                'fill-outline-color': '#000000',
-                'fill-color': '#000000',
-                'fill-opacity': [
-                  'case',
-                    ['boolean',
-                      ['feature-state', 'hover'], false
-                    ],
-                      0.5,
-                      0
-                ]
-              },
-            },
-          );
-
-          document.getElementById('demand').addEventListener('change', (event) => {
-            const demand_target = event.target.value;
-
-            demand_filter = demand_target;
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_aft.setPaintProperty(
-              'aft_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            )
-            map_aft.setPaintProperty(
-              'aft_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            )
-          });
-
-          // measure type
-          document.getElementById('filters_meas').addEventListener('change', (event_meas) => {
-            const meas_target = event_meas.target.value;
-
-            meas_filter = meas_target;
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_aft.setPaintProperty(
-              'aft_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_aft.setPaintProperty(
-              'aft_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          // unit type
-          document.getElementById('unit').addEventListener('change', (event_unit) => {
-            const unit_target = event_unit.target.value;
-
-            unit_filter = unit_target;
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_aft.setPaintProperty(
-              'aft_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_aft.setPaintProperty(
-              'aft_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-              //   trip type
-          document.getElementById('trip').addEventListener('change', (event_trip) => {
-            const trip_target = event_trip.target.value;
-
-            trip_filter = trip_target;
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            map_aft.setPaintProperty(
-              'aft_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_aft.setPaintProperty(
-              'aft_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-                  ],
-            );
-          });
-
-          // slider
-          slider_abs.addEventListener('input', (abs) => {
-            sliderValue_abs.innerHTML = abs.target.value;
-            slider_filter_abs = abs.target.value;
-            time_filter = slider_filter_abs;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_aft.setPaintProperty(
-              'aft_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_aft.setPaintProperty(
-              'aft_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          slider_rel.addEventListener('input', (rel) => {
-            sliderValue_rel.innerHTML = rel.target.value;
-            slider_filter_rel = rel.target.value;
-            time_filter = slider_filter_rel;
-
-            supply_label = meas_filter + '_' + trip_filter + '_' + time_filter;
-            demand_label = demand_filter + '_' + unit_filter;
-
-            redrawScatterPlot();
-            redrawLorenz();
-            valueUpdate();
-
-            map_aft.setPaintProperty(
-              'aft_base',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-            map_aft.setPaintProperty(
-              'aft_over',
-              'fill-color', [
-                'match',
-                  ['concat',
-                    ['get', supply_label],
-                    ['get', demand_label],
-                  ],
-                    'A1', color_3class_14['A1'],
-                    'A2', color_3class_14['A2'],
-                    'A3', color_3class_14['A3'],
-                    'B1', color_3class_14['B1'],
-                    'B2', color_3class_14['B2'],
-                    'B3', color_3class_14['B3'],
-                    'C1', color_3class_14['C1'],
-                    'C2', color_3class_14['C2'],
-                    'C3', color_3class_14['C3'],
-                    'black'
-              ],
-            );
-          });
-
-          //highlighting
-          map_aft.on('mousemove', 'aft_hover', (e) => {
-            let geo_id =  e.features[0].properties['geo.id']
-
-            if (e.features.length > 0) {
-              if (hoveredStateId !== null) {
-                map_aft.setFeatureState(
-                  {
-                    source: 'after_0629',
-                    sourceLayer: 'after_0629',
-                    id: hoveredStateId
-                  },
-                  {
-                    hover: false
-                  }
-                );
-              }
-              hoveredStateId = e.features[0].id;
-              map_aft.setFeatureState(
-                {
-                  source: 'after_0629',
-                  sourceLayer: 'after_0629',
-                  id: hoveredStateId
-                },
-                {
-                  hover: true
-                }
-              );
-            };
-          });
-
-          map_aft.on('mouseleave', 'aft_hover', () => {
-            if (hoveredStateId !== null) {
-              map_aft.setFeatureState(
-                {
-                  source: 'after_0629',
-                  sourceLayer: 'after_0629',
-                  id: hoveredStateId
-                },
-                {
-                  hover: false
-                }
-              );
-            };
-            hoveredStateId = null;
-          });
-
-          map_aft.on('click', 'aft_base', (er) => {
-
-            color_cho = er.features['0']['properties'][supply_label] + er.features['0']['properties'][demand_label]
-
-            if ((clicked % 2) === 0) {
-              map_bef.setPaintProperty(
-                'bef_over',
-                'fill-color', [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      color_cho, color_3class_14[color_cho],
-                      'black'
-                ]
-              )
-              map_aft.setPaintProperty(
-                'aft_over',
-                'fill-color', [
-                  'match',
-                    ['concat',
-                      ['get', supply_label],
-                      ['get', demand_label],
-                    ],
-                      color_cho, color_3class_14[color_cho],
-                      'black'
-                ]
-              )
-            };
-            rect_cho
-              .style("fill", (d) => {
-                if (Object.keys(color_3class_14)[color_3class.indexOf(d)] != color_cho) {
-                  return color_3class_darker[color_3class.indexOf(d)]
-                } else {
-                  return color_3class[color_3class.indexOf(d)]
-                }
-              })
-          })
-        });
-
-        // add additional maps (atlanta boundary & main road)
-        map_bef.on('load', () => {
-          map_bef.addSource('atl_boundary',  {type: 'vector', url: "mapbox://uhwang3.atl_boundary" });
-
-          map_bef.addSource('main_road_3counties',  {type: 'vector', url: "mapbox://uhwang3.cl0q27y7p3mcw20qgismthmry-4a3tz" });
-
-          map_bef.addLayer(
-            {
-              'id': 'main_road_3counties',
-              'type': 'line',
-              'source': 'main_road_3counties',
-              'source-layer': 'main_road_3counties',
-              'paint': {
-                'line-color': 'rgba(40,40,40,0.7)',
-                'line-width': 1.2
-              }
-            },
-          );
-
-          map_bef.addLayer(
-            {
-              'id': 'atl_boundary',
-              'type': 'line',
-              'source': 'atl_boundary',
-              'source-layer': 'atl_boundary',
-              'paint': {
-                'line-color': 'rgba(255,255,255,1)',
-                'line-width': 1.4
-              }
-            },
-          );
-        });
-
-        map_aft.on('load', () => {
-          map_aft.addSource('atl_boundary',  {type: 'vector', url: "mapbox://uhwang3.atl_boundary" });
-
-          map_aft.addSource('main_road_3counties',  {type: 'vector', url: "mapbox://uhwang3.cl0q27y7p3mcw20qgismthmry-4a3tz" });
-
-          map_aft.addLayer(
-            {
-              'id': 'main_road_3counties',
-              'type': 'line',
-              'source': 'main_road_3counties',
-              'source-layer': 'main_road_3counties',
-              'paint': {
-                'line-color': 'rgba(40,40,40,0.7)',
-                'line-width': 1.2
-              }
-            },
-          );
-
-          map_aft.addLayer(
-            {
-              'id': 'atl_boundary',
-              'type': 'line',
-              'source': 'atl_boundary',
-              'source-layer': 'atl_boundary',
-              'paint': {
-                'line-color': 'rgba(255,255,255,1)',
-                'line-width': 1.4
-              }
-            },
-          );
-        });
-
-        map_aft.addControl(
-          new MapboxGeocoder({
-            accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl,
-          }),
-          'bottom-right'
-        );
-
-      };
-
-      function coordinate() {
-
-        disable = false;
-
-        map_bef.on('move', function() {
-          if (!disable) {
-            center = map_bef.getCenter();
-            zoom = map_bef.getZoom();
-            pitch = map_bef.getPitch();
-            bearing = map_bef.getBearing();
-
-            disable = true;
-            map_aft.setCenter(center);
-            map_aft.setZoom(zoom);
-            map_aft.setPitch(pitch);
-            map_aft.setBearing(bearing);
-            disable = false;
-          };
-        });
-
-        map_aft.on('move', function() {
-          if (!disable) {
-            center = map_aft.getCenter();
-            zoom = map_aft.getZoom();
-            pitch = map_aft.getPitch();
-            bearing = map_aft.getBearing();
-
-            disable = true;
-            map_bef.setCenter(center);
-            map_bef.setZoom(zoom);
-            map_bef.setPitch(pitch);
-            map_bef.setBearing(bearing);
-            disable = false;
-          };
-        });
-      };
-
-      coordinate();
-
-      function xAxisLegendChange(xAxisNameLegend, demandUnit) {
-        if (demandUnit=='pct') {unit = '% of '} else {unit = ''}
-        legend_x_text_sub
-          .text('(' + unit + xAxisNameLegend + ')');
-      };
-
-      function xAxisScatterChange(xAxisNameScatter, demandUnit) {
-        if (demandUnit=='pct') {prefix = 'Proportion of '} else {prefix = 'Number of '};
-      };
-
-      function legend_dep() {
-        xAxisNameLegend = 'pop. without vehicles'
-        xAxisNameScatter = 'Population without Vehicles'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function legend_min() {
-        xAxisNameLegend = 'Minority pop.'
-        xAxisNameScatter = 'Minority Population'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function legend_pov() {
-        xAxisNameLegend = 'Low-income pop.'
-        xAxisNameScatter = 'Low-income Population'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function legend_emp() {
-        xAxisNameLegend = 'Unemployed pop.'
-        xAxisNameScatter = 'Unemployed Population'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function legend_eld() {
-        xAxisNameLegend = 'Elderly pop.'
-        xAxisNameScatter = 'Elderly (70-) Population'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function legend_dis() {
-        xAxisNameLegend = 'Disabled pop.'
-        xAxisNameScatter = 'Disabled Population'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function legend_chi() {
-        xAxisNameLegend = 'Children'
-        xAxisNameScatter = 'Children below 14'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function unit_num() {
-        demandUnit = 'num'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
-      function unit_pct() {
-        demandUnit = 'pct'
-        xAxisLegendChange(xAxisNameLegend, demandUnit)
-        xAxisScatterChange(xAxisNameScatter, demandUnit)
-      };
-
+        });  
     </script>
 
-  </body>
+</body>
 
 </html>

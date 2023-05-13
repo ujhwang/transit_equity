@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 900 768" style="enable-background:new 0 0 900 768;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#415D86;stroke-width:2;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#415D86;stroke-width:2;stroke-miterlimit:10;stroke-dasharray:6.345,6.345;}
+	.st2{fill:#415D86;}
+	.st3{fill:none;}
+	.st4{fill:none;stroke:#415D86;stroke-width:2;stroke-miterlimit:10;stroke-dasharray:5.2988,5.2988;}
+	.st5{fill:none;stroke:#415D86;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#415D86;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st7{fill:#FFFFFF;}
+	.st8{font-family:'ArialRoundedMTBold';}
+	.st9{font-size:19.5052px;}
+	.st10{font-size:16.7188px;}
+	.st11{fill:none;stroke:#83868A;stroke-miterlimit:10;}
+	.st12{fill:none;stroke:#13E271;stroke-width:0.75;stroke-miterlimit:10;}
+</style>
+<g>
+	<g>
+		<line class="st0" x1="207.67" y1="260.34" x2="207.67" y2="263.34"/>
+		<line class="st1" x1="207.67" y1="269.68" x2="207.67" y2="304.58"/>
+		<line class="st0" x1="207.67" y1="307.75" x2="207.67" y2="310.75"/>
+		<g>
+			<path class="st2" d="M200.95,301.18c0.33-0.21,0.76-0.11,0.97,0.21l5.75,9.03l5.75-9.03c0.21-0.33,0.64-0.42,0.97-0.21
+				c0.33,0.21,0.42,0.64,0.21,0.97l-6.34,9.96c-0.13,0.2-0.35,0.32-0.59,0.32s-0.46-0.12-0.59-0.32l-6.34-9.96
+				c-0.07-0.12-0.11-0.25-0.11-0.38C200.63,301.54,200.74,301.32,200.95,301.18z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<path class="st3" d="M207.67,260.34"/>
+</g>
+<g>
+	<path class="st3" d="M207.67,234.31"/>
+</g>
+<g>
+	<g>
+		<line class="st0" x1="207.67" y1="191.22" x2="207.67" y2="194.22"/>
+		<line class="st4" x1="207.67" y1="199.52" x2="207.67" y2="228.66"/>
+		<line class="st0" x1="207.67" y1="231.31" x2="207.67" y2="234.31"/>
+	</g>
+</g>
+<polyline class="st5" points="523.42,381.6 523.42,328.46 253.83,329.15 "/>
+<path class="st0" d="M523.42,381.6"/>
+<path class="st0" d="M523.42,394.61"/>
+<path class="st0" d="M523.42,394.61"/>
+<path class="st0" d="M523.42,411.26"/>
+<polyline class="st5" points="196.01,544.75 196.01,480.32 523.42,480.32 523.42,481.01 523.42,411.26 "/>
+<path class="st0" d="M196.01,544.75"/>
+<g>
+	<g>
+		<polyline class="st6" points="488.44,632.21 196.01,632.88 196.01,576.76 		"/>
+		<g>
+			<polygon class="st2" points="485.87,623.49 501,632.18 485.91,640.94 			"/>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 480.5 402.1094)" class="st7 st8 st9">Transfer</text>
+<text transform="matrix(1 0 0 1 173.9897 335.2329)" class="st7 st8 st9">Pick-up</text>
+<text transform="matrix(1 0 0 1 337.228 349.1655)" class="st7 st8 st10">Shuttle</text>
+<text transform="matrix(1 0 0 1 145.4596 253.0317)" class="st7 st8 st10">Shuttle Routing</text>
+<text transform="matrix(1 0 0 1 305.2964 502.4219)" class="st7 st8 st10">Public Transit</text>
+<text transform="matrix(1 0 0 1 337.228 652.8896)" class="st7 st8 st10">Shuttle</text>
+<text transform="matrix(1 0 0 1 154.4849 566.5098)" class="st7 st8 st9">Transfer</text>
+<text transform="matrix(1 0 0 1 94.3887 154.1411)"><tspan x="0" y="0" class="st7 st8 st9">Type a destionation and </tspan><tspan x="9.77" y="23.41" class="st7 st8 st9">confirm a pick-up spot</tspan></text>
+<g>
+	<g>
+		<path class="st11" d="M347.35,451.19c-12.69,0-25.38,0-38.08,0v13.54h43.11v-5.53C352.38,459.2,354.33,451.19,347.35,451.19z"/>
+		<rect x="314.98" y="455" class="st11" width="9.43" height="4.2"/>
+		<path class="st11" d="M308.27,455"/>
+		<path class="st11" d="M308.27,459.2"/>
+		<polyline class="st11" points="309.27,455 312.99,455 312.99,459.2 309.27,459.2 		"/>
+		<rect x="327.67" y="455" class="st11" width="9.43" height="4.2"/>
+		<polyline class="st11" points="339.55,464.73 339.55,454.45 344.44,454.45 344.44,464.73 		"/>
+		<polyline class="st11" points="347.35,451.19 347.35,459.2 352.38,459.2 		"/>
+		<line class="st11" x1="319.7" y1="448.31" x2="329.9" y2="448.31"/>
+		<circle class="st11" cx="313.08" cy="467.06" r="1.9"/>
+		<circle class="st11" cx="320.69" cy="467.06" r="1.9"/>
+		<circle class="st11" cx="338.46" cy="467.06" r="1.9"/>
+		<circle class="st11" cx="346.08" cy="467.06" r="1.9"/>
+		<line class="st11" x1="353.22" y1="469.65" x2="308" y2="469.65"/>
+	</g>
+</g>
+<g>
+	<g>
+		<polyline class="st11" points="374.07,468.06 371.02,468.06 371.02,449.19 408.21,449.19 411,457.55 411,466.85 411,468.06 
+			406,468.06 		"/>
+		<line class="st11" x1="400.26" y1="468.06" x2="379.87" y2="468.06"/>
+		<path class="st11" d="M408.99,451.51h-9.2v7.11c0,0,3.77,3.58,11.21,3.58"/>
+		<rect x="373.15" y="451.51" class="st11" width="10.88" height="7.11"/>
+		<line class="st11" x1="378.6" y1="451.51" x2="378.6" y2="458.62"/>
+		<rect x="386.17" y="451.51" class="st11" width="10.88" height="7.11"/>
+		<line class="st11" x1="391.61" y1="451.51" x2="391.61" y2="458.62"/>
+		<circle class="st11" cx="377.06" cy="468.25" r="3.25"/>
+		<circle class="st11" cx="403.1" cy="468.25" r="3.25"/>
+		<polyline class="st11" points="399.84,462.72 400.51,463.39 401.5,462.41 		"/>
+	</g>
+</g>
+<g>
+	<path class="st12" d="M382.13,317.56c0.88,0,1.44,0,1.58,0c1.31,0,2.3-1.72,2.3-1.72s0-5.82,0-7.14c0-1.31-0.64-0.98-0.64-0.98
+		h-2.64l-5.17-8.43h-33.09l-2.75,8.64c0,0-0.33,5.69,0,7.66c0.33,1.97,2.75,1.97,2.75,1.97h2"/>
+	<path class="st12" d="M354.28,317.56c6.08,0,13.85,0,19.88,0"/>
+	<line class="st12" x1="341.7" y1="307.93" x2="382.72" y2="307.93"/>
+	<line class="st12" x1="351.62" y1="299.29" x2="351.62" y2="307.93"/>
+	<line class="st12" x1="361.55" y1="299.29" x2="361.55" y2="307.93"/>
+	<line class="st12" x1="371.48" y1="299.29" x2="371.48" y2="307.93"/>
+	<line class="st12" x1="361.55" y1="317.56" x2="361.55" y2="310.84"/>
+	<line class="st12" x1="371.48" y1="317.56" x2="371.48" y2="310.84"/>
+	<path class="st12" d="M346.3,317.23c0-2.36,1.91-4.27,4.27-4.27c2.36,0,4.27,1.91,4.27,4.27c0,2.36-1.91,4.27-4.27,4.27
+		C348.21,321.5,346.3,319.59,346.3,317.23"/>
+	<circle class="st12" cx="378.12" cy="317.23" r="4.27"/>
+</g>
+<g>
+	<path class="st12" d="M382.13,623.56c0.88,0,1.44,0,1.58,0c1.31,0,2.3-1.72,2.3-1.72s0-5.82,0-7.14s-0.64-0.98-0.64-0.98h-2.64
+		l-5.17-8.43h-33.09l-2.75,8.64c0,0-0.33,5.69,0,7.66c0.33,1.97,2.75,1.97,2.75,1.97h2"/>
+	<path class="st12" d="M354.28,623.56c6.08,0,13.85,0,19.88,0"/>
+	<line class="st12" x1="341.7" y1="613.93" x2="382.72" y2="613.93"/>
+	<line class="st12" x1="351.62" y1="605.29" x2="351.62" y2="613.93"/>
+	<line class="st12" x1="361.55" y1="605.29" x2="361.55" y2="613.93"/>
+	<line class="st12" x1="371.48" y1="605.29" x2="371.48" y2="613.93"/>
+	<line class="st12" x1="361.55" y1="623.56" x2="361.55" y2="616.84"/>
+	<line class="st12" x1="371.48" y1="623.56" x2="371.48" y2="616.84"/>
+	<path class="st12" d="M346.3,623.23c0-2.36,1.91-4.27,4.27-4.27c2.36,0,4.27,1.91,4.27,4.27c0,2.36-1.91,4.27-4.27,4.27
+		C348.21,627.5,346.3,625.59,346.3,623.23"/>
+	<circle class="st12" cx="378.12" cy="623.23" r="4.27"/>
+</g>
+<g>
+	<path class="st7" d="M516.5,594.69c-3.01,0-5.45,2.45-5.45,5.45s2.45,5.45,5.45,5.45s5.45-2.45,5.45-5.45
+		C521.95,597.14,519.51,594.69,516.5,594.69z"/>
+	<path class="st7" d="M516.5,584.81c-8.55,0-15.5,6.95-15.5,15.5c0,1.41,0.19,2.8,0.56,4.15c0.15,0.53,0.32,1.05,0.52,1.55
+		l0.47,1.06l13.95,25.79l13.98-25.83l0.45-1.03c0.18-0.45,0.36-0.99,0.51-1.54c0.37-1.34,0.56-2.74,0.56-4.15
+		C532,591.76,525.05,584.81,516.5,584.81z M516.5,608.12c-4.4,0-7.97-3.57-7.97-7.97c0-4.4,3.57-7.97,7.97-7.97s7.97,3.57,7.97,7.97
+		C524.47,604.55,520.9,608.12,516.5,608.12z"/>
+</g>
+</svg>
